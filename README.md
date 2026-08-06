@@ -50,20 +50,36 @@ GitHub legt dabei automatisch eine Datei `CNAME` im Repository an. Nicht lösche
 - [ ] Support-URL in App Store Connect bei der Version eintragen
 - [ ] Beide Seiten aus der App heraus verlinken (Profil → Einstellungen)
 
-## Noch mit Emre abzugleichen
+## Stand der technischen Angaben
 
-Die folgenden Angaben stehen in der Datenschutzerklärung und müssen zur tatsächlichen Umsetzung passen:
+Von Emre bestätigt und in `datenschutz.html` eingearbeitet:
 
-| Angabe | Eingesetzt |
+| Angabe | Wert |
 |---|---|
-| Löschung nach Kontolöschung, inkl. Backups | 30 Tage |
-| Aufbewahrung von Meldungen | 12 Monate |
-| Aufbewahrung der Serverprotokolle | 30 Tage |
-| Voreinstellung Sichtbarkeit neuer Einheiten | nur ich |
-| Aus Apple Health gelesen | Schlafdaten, Herzfrequenz |
-| Nach Apple Health geschrieben | abgeschlossene Trainingseinheiten |
+| Supabase-Region | eu-central-1, Frankfurt – keine Verarbeitung in den USA |
+| Row Level Security | auf allen sechs Tabellen aktiv |
+| Löschung des Kontos | sofort und vollständig per CASCADE, aktuell keine Backups |
+| Serverprotokolle | 1 Tag im Free Plan, 7 Tage im Pro Plan |
+| HealthKit lesend | bodyMass (Körpergewicht) |
+| HealthKit schreibend | HKWorkoutType, activeEnergyBurned |
+| Standard-Sichtbarkeit | `friends` |
 
-Wenn davon etwas abweicht, in `datenschutz.html` anpassen.
+### Offen
+
+**Mailversand.** Läuft noch über den Supabase-Standardversand. Sobald ein eigener
+Anbieter feststeht (Resend, Postmark, Brevo – jeweils mit AVV und EU-Rechenzentrum),
+muss Abschnitt 12 ergänzt werden.
+
+**Bei Wechsel auf einen bezahlten Supabase-Plan** ändern sich zwei Angaben:
+Es greifen tägliche Backups mit sieben Tagen Aufbewahrung, und die Log-Aufbewahrung
+steigt auf sieben Tage. Beides ist in der Erklärung bereits mit „spätestens sieben
+Tage" abgedeckt.
+
+**Health-Daten müssen auf dem Gerät bleiben.** Die Erklärung sagt zu, dass aus Apple
+Health gelesene Werte nicht an den Server gehen. Das stimmt aktuell, weil die
+Lesefunktion nicht aufgerufen wird. Sobald sie aktiviert wird, landen die Werte über
+die Synchronisation von `bodyData` automatisch auf dem Server – dann muss entweder
+getrennt oder die Erklärung geändert werden.
 
 ## Fehlt noch
 
