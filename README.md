@@ -52,34 +52,44 @@ GitHub legt dabei automatisch eine Datei `CNAME` im Repository an. Nicht lösche
 
 ## Stand der technischen Angaben
 
-Von Emre bestätigt und in `datenschutz.html` eingearbeitet:
+In `datenschutz.html` eingearbeitet:
 
 | Angabe | Wert |
 |---|---|
-| Supabase-Region | eu-central-1, Frankfurt – keine Verarbeitung in den USA |
-| Row Level Security | auf allen sechs Tabellen aktiv |
-| Löschung des Kontos | sofort und vollständig per CASCADE, aktuell keine Backups |
-| Serverprotokolle | 1 Tag im Free Plan, 7 Tage im Pro Plan |
-| HealthKit lesend | bodyMass (Körpergewicht) |
-| HealthKit schreibend | HKWorkoutType, activeEnergyBurned |
-| Standard-Sichtbarkeit | `friends` |
+| Supabase-Region | eu-central-1, Frankfurt |
+| Row Level Security | auf allen Tabellen aktiv |
+| Löschung des Kontos | sofort und vollständig per CASCADE |
+| Serverprotokolle | max. 7 Tage |
+| HealthKit lesend | Schlaf inkl. Phasen, Herzfrequenz, HRV, Ruhepuls, Schritte, Aktivenergie, Körpergewicht, Puls während des Trainings (Watch) |
+| HealthKit schreibend | Trainingseinheiten, aktive Kalorien |
+| Health-Daten auf dem Server | keine – Verarbeitung ausschließlich lokal |
+| Sichtbarkeit | zwei Stufen: privat / geteilt |
+| Soziale Daten | Kommentare, Reaktionen, Folgeanfragen, In-App-Benachrichtigungen, Meldungen, Blockierungen |
+| Geschlecht | für Hyrox-Zusatzgewichte, nur für den Nutzer sichtbar |
+
+### Muss in der App dazu passen
+
+**Sichtbarkeit auf zwei Stufen umbauen.** Der Text kennt nur noch *privat* und *geteilt*.
+Solange die App drei Optionen anzeigt, stimmen Text und Produkt nicht überein.
+
+**Benachrichtigungen löschen.** Der Text sagt zu, dass gelesene In-App-Benachrichtigungen
+nach 90 Tagen entfernt werden. Das braucht einen Job oder eine Löschregel.
+
+**Health-Daten müssen lokal bleiben.** Die Erklärung sagt ausdrücklich zu, dass kein aus
+Apple Health gelesener Wert den Server erreicht. Sobald ein Wert mitsynchronisiert wird,
+ist die Aussage falsch.
 
 ### Offen
 
-**Mailversand.** Läuft noch über den Supabase-Standardversand. Sobald ein eigener
-Anbieter feststeht (Resend, Postmark, Brevo – jeweils mit AVV und EU-Rechenzentrum),
-muss Abschnitt 12 ergänzt werden.
+**Mailversand.** Läuft über den Supabase-Standardversand. Sobald ein eigener Anbieter
+feststeht, muss Abschnitt 12 ergänzt werden.
 
-**Bei Wechsel auf einen bezahlten Supabase-Plan** ändern sich zwei Angaben:
-Es greifen tägliche Backups mit sieben Tagen Aufbewahrung, und die Log-Aufbewahrung
-steigt auf sieben Tage. Beides ist in der Erklärung bereits mit „spätestens sieben
-Tage" abgedeckt.
+**Push über Server.** Der Text beschreibt Benachrichtigungen als rein lokal bzw. in-app.
+Sobald echte Push-Nachrichten dazukommen, müssen der Apple Push Notification service als
+Empfänger und der Gerätetoken ergänzt werden.
 
-**Health-Daten müssen auf dem Gerät bleiben.** Die Erklärung sagt zu, dass aus Apple
-Health gelesene Werte nicht an den Server gehen. Das stimmt aktuell, weil die
-Lesefunktion nicht aufgerufen wird. Sobald sie aktiviert wird, landen die Werte über
-die Synchronisation von `bodyData` automatisch auf dem Server – dann muss entweder
-getrennt oder die Erklärung geändert werden.
+**Ausdauer- und Hyrox-Daten.** Falls Distanz, Zeit und Pace erfasst werden, gehören sie
+in die Aufzählung in Abschnitt 4.
 
 ## Fehlt noch
 

@@ -23,9 +23,10 @@
     <h2>Kurz gesagt</h2>
     <ul>
       <li>Deine Trainingsdaten sind Gesundheitsdaten. Wir verarbeiten sie nur mit deiner ausdrücklichen Einwilligung.</li>
-      <li>Du entscheidest bei jeder einzelnen Einheit, wer sie sehen darf – nur du, deine Freunde oder alle.</li>
+      <li>Du entscheidest bei jeder einzelnen Einheit, ob sie privat bleibt oder in deinem Feed erscheint.</li>
       <li>Dein Konto samt aller Daten löschst du direkt in der App – sofort und endgültig.</li>
       <li class="nein">Keine Werbung, kein Tracking, keine Weitergabe an Datenbroker.</li>
+      <li>Werte aus Apple Health verlassen dein Gerät nicht.</li>
       <li class="nein">Gesundheitsdaten werden niemals für Werbung verwendet.</li>
     </ul>
   </div>
@@ -77,6 +78,7 @@
   <h2>Überblick</h2>
   <p>fin zeichnet dein Krafttraining auf und wertet es aus. Dabei verarbeiten wir Daten, die nach Art. 9 DSGVO als besondere Kategorien personenbezogener Daten gelten – insbesondere deine Trainings- und Körperdaten.</p>
   <p>Für diese Daten holen wir eine ausdrückliche, gesonderte Einwilligung ein. Ohne sie ist die Kernfunktion der App nicht nutzbar.</p>
+  <p>Werte, die wir aus Apple Health lesen, werden ausschließlich auf deinem Gerät verarbeitet und niemals an unsere Server übertragen. Näheres in Abschnitt 6.</p>
   <div class="merk">
     <p>Wir setzen keine Werbung ein, betreiben kein Tracking zu Werbezwecken und verkaufen keine Daten. Es sind keine Analyse- oder Werbe-SDKs von Dritten eingebunden.</p>
   </div>
@@ -93,6 +95,10 @@
 
   <h3>Bestätigung der E-Mail-Adresse</h3>
   <p>Nach der Registrierung senden wir dir eine E-Mail mit einem Bestätigungslink. Bis zur Bestätigung ist das Konto nicht vollständig nutzbar. Das schützt davor, dass jemand fremde Adressen registriert. Rechtsgrundlage: Art. 6 Abs. 1 lit. b und lit. f DSGVO.</p>
+
+  <h3>Geschlecht</h3>
+  <p>Für Wettkampfformate wie Hyrox sind die vorgegebenen Zusatzgewichte nach Geschlecht gestaffelt. Damit dir die richtigen Werte angezeigt werden, fragen wir diese Angabe ab. Sie ist ausschließlich für dich sichtbar und wird nicht im Feed oder auf Share-Karten angezeigt.</p>
+  <p>Rechtsgrundlage: Art. 6 Abs. 1 lit. b DSGVO. Die Angabe ist freiwillig; ohne sie zeigen wir die Standardwerte an.</p>
 
   <h3>Profilbild und Bio</h3>
   <p>Beides ist freiwillig und für andere sichtbar, die dein Profil aufrufen oder dir folgen. Rechtsgrundlage ist Art. 6 Abs. 1 lit. a DSGVO – die Einwilligung erteilst du durch das Hochladen. Du kannst beides jederzeit in der App ändern oder entfernen.</p>
@@ -123,17 +129,37 @@
 
 <section id="s6">
   <h2>Apple Health</h2>
-  <p>Wenn du die Verbindung zu Apple Health aktivierst, verarbeiten wir:</p>
-  <ul class="punkte">
-    <li><b>Lesend:</b> Körpergewicht – damit du es nicht doppelt pflegen musst</li>
-    <li><b>Schreibend:</b> abgeschlossene Trainingseinheiten und die dabei verbrauchten aktiven Kalorien – damit sie in deiner Aktivitätsübersicht erscheinen und dort normal mitzählen</li>
-  </ul>
+  <p>Wenn du die Verbindung zu Apple Health aktivierst, verarbeiten wir die folgenden Datentypen. Du erteilst jede Freigabe einzeln.</p>
+
+  <h3>Wir lesen</h3>
+  <table>
+    <thead><tr><th>Datentyp</th><th>Wofür</th></tr></thead>
+    <tbody>
+      <tr><td>Schlafdauer und Schlafphasen</td><td rowspan="4">Berechnung deiner Trainingsbereitschaft auf der Startseite</td></tr>
+      <tr><td>Herzfrequenz</td></tr>
+      <tr><td>Herzfrequenzvariabilität</td></tr>
+      <tr><td>Ruhepuls</td></tr>
+      <tr><td>Schritte</td><td rowspan="2">Einordnung deiner Tagesaktivität</td></tr>
+      <tr><td>Aktivenergie</td></tr>
+      <tr><td>Körpergewicht</td><td>Übernahme in deinen Gewichtsverlauf, damit du ihn nicht doppelt pflegen musst</td></tr>
+      <tr><td>Herzfrequenz während des Trainings (Apple&nbsp;Watch)</td><td>Anzeige und Auswertung der laufenden Einheit</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Wir schreiben</h3>
+  <table>
+    <thead><tr><th>Datentyp</th><th>Wofür</th></tr></thead>
+    <tbody>
+      <tr><td>Abgeschlossene Trainingseinheiten</td><td rowspan="2">Damit deine Einheiten in der Health-App erscheinen und dort normal mitzählen</td></tr>
+      <tr><td>Aktive Kalorien</td></tr>
+    </tbody>
+  </table>
   <p>Der Zugriff erfolgt ausschließlich nach deiner ausdrücklichen Freigabe im Berechtigungsdialog von iOS. Du kannst jede Freigabe einzeln erteilen und jederzeit unter <em>Einstellungen → Datenschutz &amp; Sicherheit → Health</em> wieder entziehen. Rechtsgrundlage ist Art. 9 Abs. 2 lit. a DSGVO.</p>
   <div class="merk">
-    <p>Wir verwenden Health-Daten ausschließlich innerhalb der App zur Darstellung und Auswertung deines Trainings. Eine Nutzung für Werbung, Marketing oder Data Mining findet nicht statt. Health-Daten werden nicht in iCloud gespeichert.</p>
+    <p><b>Diese Werte verlassen dein Gerät nicht.</b> fin lädt keinen einzigen aus Apple Health gelesenen Wert auf unsere Server. Die Berechnung der Trainingsbereitschaft findet lokal statt; gespeichert wird auf dem Server allenfalls das Ergebnis als Teil deines Verlaufseintrags.</p>
   </div>
-  <p>Aus Apple Health gelesene Werte verarbeiten wir ausschließlich auf deinem Gerät. Sie werden nicht an unsere Server übertragen.</p>
-  <p>Wenn wir den Berechtigungsumfang später erweitern – etwa um Schlafdaten oder Herzfrequenz – fragen wir dich erneut ausdrücklich um Zustimmung.</p>
+  <p>Wir verwenden Health-Daten ausschließlich innerhalb der App zur Darstellung und Auswertung deines Trainings. Eine Nutzung für Werbung, Marketing oder Data Mining findet nicht statt – dies ist zusätzlich durch Apples App Review Guideline 5.1.3 untersagt. Health-Daten werden nicht in iCloud gespeichert.</p>
+  <p>Wenn wir den Berechtigungsumfang später erweitern, fragen wir dich erneut ausdrücklich um Zustimmung.</p>
 </section>
 
 <section id="s7">
@@ -144,27 +170,40 @@
   <p>Andere finden dich über deinen Nutzernamen und können dir folgen. Verarbeitet werden Nutzername, Profilbild, Bio und die Folge-Beziehungen. Rechtsgrundlage: Art. 6 Abs. 1 lit. b DSGVO.</p>
 
   <h3>Aktivitätsstrom</h3>
-  <p>Personen, die dir folgen, sehen abgeschlossene Trainingseinheiten mit Bezeichnung, Dauer, Anzahl der Sätze und Übungen sowie den enthaltenen Übungsnamen – abhängig davon, welche Sichtbarkeit du gewählt hast.</p>
+  <p>Personen, die dir folgen, sehen abgeschlossene Trainingseinheiten mit Bezeichnung, Dauer, Anzahl der Sätze und Übungen sowie den enthaltenen Übungsnamen – sofern du die Einheit geteilt hast.</p>
 
   <h3>Sichtbarkeit pro Einheit</h3>
   <table>
     <thead><tr><th>Einstellung</th><th>Sichtbar für</th></tr></thead>
     <tbody>
-      <tr><td>Nur ich</td><td>ausschließlich dich</td></tr>
-      <tr><td>Freunde</td><td>Personen, die dir folgen und denen du folgst</td></tr>
-      <tr><td>Öffentlich</td><td>alle Nutzerinnen und Nutzer von fin</td></tr>
+      <tr><td>Privat</td><td>ausschließlich dich</td></tr>
+      <tr><td>Geteilt</td><td>Personen, die dir folgen</td></tr>
     </tbody>
   </table>
-  <p>Da Trainingsdaten Gesundheitsdaten sind, ist ihre Veröffentlichung gegenüber Dritten eine gesonderte Verarbeitung. Durch die Auswahl der Sichtbarkeit willigst du ausdrücklich darin ein – Rechtsgrundlage: Art. 9 Abs. 2 lit. a DSGVO. Die Voreinstellung für neue Einheiten ist <b>Freunde</b> – sie erscheinen also im Aktivitätsstrom der Personen, die dir folgen, aber nicht öffentlich. Du kannst die Sichtbarkeit jederzeit nachträglich ändern.</p>
+  <p>Da Trainingsdaten Gesundheitsdaten sind, ist ihre Weitergabe an Dritte eine gesonderte Verarbeitung. Indem du eine Einheit teilst, willigst du ausdrücklich darin ein – Rechtsgrundlage: Art. 9 Abs. 2 lit. a DSGVO. Du kannst eine geteilte Einheit jederzeit wieder auf privat stellen; sie verschwindet dann aus dem Feed.</p>
   <div class="merk">
-    <p>Einmal öffentlich sichtbare Inhalte können von Dritten kopiert oder gespeichert worden sein. Auf solche Kopien haben wir keinen Einfluss.</p>
+    <p>Was einmal im Feed sichtbar war, kann von anderen kopiert oder gespeichert worden sein. Auf solche Kopien haben wir keinen Einfluss.</p>
   </div>
+
+  <h3>Kommentare und Reaktionen</h3>
+  <p><b>Verarbeitete Daten:</b> Text deiner Kommentare, gesetzte Reaktionen, Zeitpunkt sowie die Zuordnung zu deinem Konto und zur jeweiligen Einheit.</p>
+  <p>Kommentare und Reaktionen sind für alle sichtbar, die die betreffende Einheit sehen können. Sie werden mit deinem Nutzernamen und Profilbild angezeigt. Rechtsgrundlage: Art. 6 Abs. 1 lit. b DSGVO.</p>
+  <p>Du kannst eigene Kommentare jederzeit löschen. Wird die zugehörige Einheit gelöscht oder auf privat gestellt, verschwinden auch die Kommentare dazu.</p>
+
+  <h3>Folgeanfragen</h3>
+  <p>Wenn du jemandem folgen möchtest, wird eine Anfrage gespeichert und der angefragten Person angezeigt – mit deinem Nutzernamen, deinem Profilbild und dem Zeitpunkt. Angenommene, abgelehnte und offene Anfragen speichern wir, bis die Beziehung endet oder eines der beiden Konten gelöscht wird. Rechtsgrundlage: Art. 6 Abs. 1 lit. b DSGVO.</p>
+
+  <h3>Benachrichtigungen in der App</h3>
+  <p>Wir speichern Hinweise darauf, dass dir jemand folgt, deine Einheit kommentiert oder darauf reagiert hat, damit wir sie dir in der App anzeigen können. Verarbeitet werden dabei die auslösende Person, der Anlass, der Bezug zur Einheit und der Zeitpunkt.</p>
+  <p>Rechtsgrundlage: Art. 6 Abs. 1 lit. b DSGVO. Gelesene Benachrichtigungen löschen wir nach 90 Tagen.</p>
 
   <h3>Trainingspartner</h3>
   <p>Du kannst andere als Trainingspartner zu einer Einheit hinzufügen. Dabei wird die Verknüpfung zwischen den Konten gespeichert und in der Einheit angezeigt. Rechtsgrundlage: Art. 6 Abs. 1 lit. b, hinsichtlich der Gesundheitsbezüge Art. 9 Abs. 2 lit. a DSGVO.</p>
 
   <h3>Melden und Blockieren</h3>
-  <p>Du kannst Inhalte und Konten melden sowie einzelne Konten blockieren. Bei einer Meldung verarbeiten wir die Kennung des gemeldeten Kontos, den gemeldeten Inhalt, deine Kennung und den Zeitpunkt. Rechtsgrundlage: Art. 6 Abs. 1 lit. f DSGVO sowie Art. 6 Abs. 1 lit. c DSGVO zur Erfüllung von Pflichten aus dem Digital Services Act. Löschst du dein Konto, werden die von dir abgegebenen Meldungen mit gelöscht. Der Verweis auf eine gemeldete Aktivität wird entfernt, sobald diese nicht mehr existiert.</p>
+  <p>Du kannst Einheiten, Kommentare und Konten melden sowie einzelne Konten blockieren. Bei einer Meldung verarbeiten wir die Kennung des gemeldeten Kontos, den gemeldeten Inhalt, deine Kennung, den angegebenen Grund und den Zeitpunkt. Eine Blockierung speichern wir als Beziehung zwischen beiden Konten; blockierte Personen sehen deine Inhalte nicht mehr und können dir nicht folgen.</p>
+  <p>Rechtsgrundlage: Art. 6 Abs. 1 lit. f DSGVO – berechtigtes Interesse an einer missbrauchsfreien Plattform – sowie Art. 6 Abs. 1 lit. c DSGVO zur Erfüllung von Pflichten aus dem Digital Services Act.</p>
+  <p>Löschst du dein Konto, werden die von dir abgegebenen Meldungen und Blockierungen mit gelöscht. Der Verweis auf einen gemeldeten Inhalt wird entfernt, sobald dieser nicht mehr existiert.</p>
 </section>
 
 <section id="s8">
@@ -175,7 +214,7 @@
 
 <section id="s9">
   <h2>Benachrichtigungen</h2>
-  <p>Trainingserinnerungen werden lokal auf deinem Gerät geplant und ausgelöst. Dafür werden keine Daten an uns oder an Apple übermittelt.</p>
+  <p>Trainingserinnerungen werden lokal auf deinem Gerät geplant und ausgelöst. Dafür werden keine Daten an uns oder an Apple übermittelt. Hinweise zu sozialen Ereignissen – etwa neue Follower oder Kommentare – zeigen wir ausschließlich innerhalb der App an, siehe Abschnitt 7.</p>
   <p>Rechtsgrundlage ist Art. 6 Abs. 1 lit. a DSGVO – die Einwilligung erteilst du über den iOS-Systemdialog. Du kannst sie jederzeit unter <em>Einstellungen → Mitteilungen</em> widerrufen. Benachrichtigungen setzen wir nicht zu Werbezwecken ein.</p>
 </section>
 
@@ -210,7 +249,7 @@
 <section id="s13">
   <h2>Konto löschen</h2>
   <p>Du kannst dein Konto jederzeit direkt in der App löschen: <em>Profil → Einstellungen → Konto löschen</em>.</p>
-  <p>Dabei werden entfernt: Kontodaten, Nutzername, Profilbild und Bio, sämtliche Trainingsdaten und Trainingspläne, Körpergewichtsdaten, Folge-Beziehungen sowie deine Einträge im Aktivitätsstrom.</p>
+  <p>Dabei werden entfernt: Kontodaten, Nutzername, Profilbild, Bio und Geschlechtsangabe, sämtliche Trainingsdaten und Trainingspläne, Körpergewichtsdaten, Folge-Beziehungen und offene Folgeanfragen, deine Einträge im Aktivitätsstrom, deine Kommentare und Reaktionen, deine Benachrichtigungen sowie von dir abgegebene Meldungen und Blockierungen.</p>
   <p>Die Löschung erfolgt unmittelbar und vollständig: Alle zugehörigen Datensätze werden in derselben Transaktion mitgelöscht, es bleibt kein Rest in einer anderen Tabelle zurück. Sicherungskopien werden, soweit vorhanden, spätestens nach sieben Tagen überschrieben. Ausgenommen sind Daten, die wir aufgrund gesetzlicher Aufbewahrungspflichten weiter vorhalten müssen; diese sperren wir für alle anderen Zwecke. Alternativ genügt eine formlose Nachricht an <a href="mailto:gymmittim@gmail.com">gymmittim@gmail.com</a>.</p>
 </section>
 
