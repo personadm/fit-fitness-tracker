@@ -64,7 +64,8 @@ In `datenschutz.html` eingearbeitet:
 | HealthKit schreibend | Trainingseinheiten, aktive Kalorien |
 | Health-Daten auf dem Server | keine – Verarbeitung ausschließlich lokal |
 | Sichtbarkeit | zwei Stufen: privat / geteilt |
-| Soziale Daten | Kommentare, Reaktionen, Folgeanfragen, In-App-Benachrichtigungen, Meldungen, Blockierungen |
+| Soziale Daten | Kommentare, Reaktionen, Folgeanfragen, Meldungen, Blockierungen |
+| Push-Benachrichtigungen | über Apple Push Notification service, Gerätekennung am Konto gespeichert |
 | Geschlecht | für Hyrox-Zusatzgewichte, nur für den Nutzer sichtbar |
 
 ### Muss in der App dazu passen
@@ -75,6 +76,9 @@ Solange die App drei Optionen anzeigt, stimmen Text und Produkt nicht überein.
 **Benachrichtigungen löschen.** Der Text sagt zu, dass gelesene In-App-Benachrichtigungen
 nach 90 Tagen entfernt werden. Das braucht einen Job oder eine Löschregel.
 
+**Gerätekennung löschen.** Der Text sagt zu, dass die Push-Kennung beim Abmelden und beim
+Löschen des Kontos entfernt wird. Beides muss im Code tatsächlich passieren.
+
 **Health-Daten müssen lokal bleiben.** Die Erklärung sagt ausdrücklich zu, dass kein aus
 Apple Health gelesener Wert den Server erreicht. Sobald ein Wert mitsynchronisiert wird,
 ist die Aussage falsch.
@@ -83,10 +87,6 @@ ist die Aussage falsch.
 
 **Mailversand.** Läuft über den Supabase-Standardversand. Sobald ein eigener Anbieter
 feststeht, muss Abschnitt 12 ergänzt werden.
-
-**Push über Server.** Der Text beschreibt Benachrichtigungen als rein lokal bzw. in-app.
-Sobald echte Push-Nachrichten dazukommen, müssen der Apple Push Notification service als
-Empfänger und der Gerätetoken ergänzt werden.
 
 **Ausdauer- und Hyrox-Daten.** Falls Distanz, Zeit und Pace erfasst werden, gehören sie
 in die Aufzählung in Abschnitt 4.
