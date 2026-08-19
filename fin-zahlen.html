@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>fin · Zahlen</title>
+<style>
+:root{
+  --paper:#F2F0EF; --card:#FBFAFA; --ink:#111213; --muted:#6E6A69;
+  --red:#A81C1E; --gruen:#2F6B45; --line:#E3DFDE; --blau:#1B4F8C;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);
+ font:400 15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif;
+ -webkit-font-smoothing:antialiased}
+.wrap{max-width:960px;margin:0 auto;padding:0 20px 80px}
+
+header{padding:36px 0 6px;display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.marke{font-style:italic;font-weight:800;letter-spacing:-.02em;font-size:19px}
+.marke span{font-style:normal;font-weight:600;letter-spacing:.14em;
+ text-transform:uppercase;font-size:10px;color:var(--muted);margin-left:8px}
+h1{font-style:italic;font-weight:800;letter-spacing:-.03em;text-transform:uppercase;
+ font-size:clamp(28px,7vw,40px);line-height:1;margin:14px 0 0}
+.stand{color:var(--muted);font-size:13px;margin:8px 0 0}
+
+h2{font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+ color:var(--muted);margin:34px 0 12px}
+
+/* Kennzahlen */
+.kacheln{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.kachel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 18px}
+.kachel .lbl{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.kachel .zahl{font-size:29px;font-weight:800;font-style:italic;letter-spacing:-.02em;margin-top:5px}
+.kachel .zusatz{font-size:12px;color:var(--muted);margin-top:2px}
+.kachel.stark{border-color:var(--red)}
+.kachel.stark .zahl{color:var(--red)}
+
+/* Trichter */
+.trichter{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px}
+.stufe{display:flex;align-items:center;gap:14px;padding:9px 0}
+.stufe + .stufe{border-top:1px solid var(--line)}
+.stufe .name{flex:0 0 150px;font-size:13.5px}
+.stufe .balken{flex:1;height:26px;background:#EAE6E5;border-radius:7px;overflow:hidden;position:relative}
+.stufe .fuell{height:100%;background:var(--red);border-radius:7px;transition:width .5s ease}
+.stufe .wert{flex:0 0 130px;text-align:right;font-size:13.5px;font-variant-numeric:tabular-nums}
+.stufe .quote{color:var(--muted);font-size:12px}
+
+/* Tabelle */
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+th{text-align:left;font-size:10px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;
+ color:var(--muted);padding:0 10px 8px 0;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:9px 10px 9px 0;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums}
+td.txt{font-variant-numeric:normal}
+tr:hover td{background:#F7F4F3}
+.loesch{color:var(--muted);cursor:pointer;font-size:16px;line-height:1;border:0;background:none;padding:2px 6px}
+.loesch:hover{color:var(--red)}
+
+/* Formular */
+.form{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 20px}
+.felder{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px}
+label{display:block;font-size:10px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;
+ color:var(--muted);margin-bottom:5px}
+input,select{width:100%;padding:9px 11px;border:1px solid var(--line);border-radius:9px;
+ font:inherit;font-size:14px;background:#fff;color:var(--ink)}
+input:focus,select:focus{outline:2px solid var(--red);outline-offset:-1px;border-color:transparent}
+.btn{margin-top:14px;background:var(--red);color:#fff;border:0;border-radius:999px;
+ padding:11px 26px;font:inherit;font-weight:700;font-size:14px;cursor:pointer}
+.btn.grau{background:none;border:1px solid var(--line);color:var(--muted);font-weight:400;font-size:12.5px;padding:8px 16px}
+
+/* Diagramm */
+.chart{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px}
+svg{display:block;width:100%;height:auto}
+.legende{display:flex;gap:16px;flex-wrap:wrap;margin-top:10px;font-size:12px;color:var(--muted)}
+.legende i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+
+/* Rechner */
+.rechner{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px}
+.regler{display:flex;align-items:center;gap:14px;margin-bottom:14px}
+.regler label{flex:0 0 155px;margin:0;text-transform:none;letter-spacing:0;font-size:13.5px;
+ font-weight:400;color:var(--muted)}
+.regler input[type=range]{flex:1;padding:0;border:0;background:none}
+.regler .out{flex:0 0 86px;text-align:right;font-weight:600;font-size:14px;font-variant-numeric:tabular-nums}
+.ergebnis{margin-top:16px;padding-top:16px;border-top:1px solid var(--line);
+ display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:14px}
+.ergebnis div span{display:block;font-size:10px;font-weight:700;letter-spacing:.13em;
+ text-transform:uppercase;color:var(--muted)}
+.ergebnis div b{font-size:22px;font-weight:800;font-style:italic;letter-spacing:-.02em}
+
+.hinweis{font-size:12.5px;color:var(--muted);line-height:1.65;margin-top:10px}
+.leer{color:var(--muted);font-size:13.5px;padding:22px 0;text-align:center}
+footer{margin-top:44px;padding-top:20px;border-top:1px solid var(--line);
+ font-size:12px;color:var(--muted);display:flex;gap:14px;flex-wrap:wrap}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div>
+    <div class="marke">fin <span>Zahlen</span></div>
+    <h1>Was<br>ankommt</h1>
+    <p class="stand" id="stand"></p>
+  </div>
+</header>
+
+<h2>Gesamt</h2>
+<div class="kacheln" id="kacheln"></div>
+
+<h2>Trichter</h2>
+<div class="trichter" id="trichter"></div>
+
+<h2>Verlauf</h2>
+<div class="chart">
+  <svg id="chart" viewBox="0 0 900 300" preserveAspectRatio="none"></svg>
+  <div class="legende">
+    <span><i style="background:#6E6A69"></i>Reichweite ÷ 100</span>
+    <span><i style="background:#1B4F8C"></i>Klicks</span>
+    <span><i style="background:#A81C1E"></i>Downloads</span>
+    <span><i style="background:#2F6B45"></i>Abos</span>
+  </div>
+</div>
+
+<h2>Eintrag hinzufügen</h2>
+<div class="form">
+  <div class="felder">
+    <div><label>Datum</label><input type="date" id="fDatum"></div>
+    <div><label>Kanal</label>
+      <select id="fKanal">
+        <option>Instagram Story</option>
+        <option>Instagram Post</option>
+        <option>TikTok</option>
+        <option>Erwähnung extern</option>
+        <option>Organisch</option>
+        <option>Sonstiges</option>
+      </select></div>
+    <div><label>Reichweite</label><input type="number" id="fReich" min="0" placeholder="0"></div>
+    <div><label>Link-Klicks</label><input type="number" id="fKlicks" min="0" placeholder="0"></div>
+    <div><label>Downloads</label><input type="number" id="fDown" min="0" placeholder="0"></div>
+    <div><label>Tests gestartet</label><input type="number" id="fTests" min="0" placeholder="0"></div>
+    <div><label>Abos</label><input type="number" id="fAbos" min="0" placeholder="0"></div>
+    <div><label>Notiz</label><input type="text" id="fNotiz" placeholder="optional"></div>
+  </div>
+  <button class="btn" onclick="hinzufuegen()">Speichern</button>
+</div>
+
+<h2>Einträge</h2>
+<div id="tabelle"></div>
+
+<h2>Was brauche ich für X Abos?</h2>
+<div class="rechner">
+  <div class="regler">
+    <label>Ziel: zahlende Nutzer</label>
+    <input type="range" id="rZiel" min="10" max="3000" step="10" value="500">
+    <span class="out" id="oZiel">500</span>
+  </div>
+  <div class="regler">
+    <label>Klick → Download</label>
+    <input type="range" id="rQ1" min="1" max="100" step="1" value="30">
+    <span class="out" id="oQ1">30 %</span>
+  </div>
+  <div class="regler">
+    <label>Download → Test</label>
+    <input type="range" id="rQ2" min="1" max="100" step="1" value="40">
+    <span class="out" id="oQ2">40 %</span>
+  </div>
+  <div class="regler">
+    <label>Test → Abo</label>
+    <input type="range" id="rQ3" min="1" max="100" step="1" value="35">
+    <span class="out" id="oQ3">35 %</span>
+  </div>
+  <div class="ergebnis">
+    <div><span>Klicks nötig</span><b id="eKlicks">—</b></div>
+    <div><span>Reichweite nötig</span><b id="eReich">—</b></div>
+    <div><span>Story-Serien</span><b id="eStories">—</b></div>
+    <div><span>Umsatz im Jahr</span><b id="eUmsatz">—</b></div>
+  </div>
+  <p class="hinweis" id="rHinweis"></p>
+</div>
+
+<footer>
+  <span>Nur für den internen Gebrauch. Daten liegen im Browser dieses Geräts.</span>
+  <button class="btn grau" onclick="exportieren()">Als Datei sichern</button>
+  <button class="btn grau" onclick="document.getElementById('imp').click()">Datei laden</button>
+  <input type="file" id="imp" accept=".json" style="display:none" onchange="importieren(event)">
+  <button class="btn grau" onclick="allesLoeschen()">Alles löschen</button>
+</footer>
+
+</div>
+
+<script>
+/* ================= Daten ================= */
+const KEY = 'fin_zahlen_v1';
+let daten = [];
+
+function laden(){
+  try { daten = JSON.parse(localStorage.getItem(KEY)) || []; }
+  catch(e){ daten = []; }
+  daten.sort((a,b)=> a.datum.localeCompare(b.datum));
+}
+function sichern(){ localStorage.setItem(KEY, JSON.stringify(daten)); }
+
+/* ================= Eingabe ================= */
+function hinzufuegen(){
+  const g = id => document.getElementById(id);
+  const datum = g('fDatum').value;
+  if(!datum) return alert('Bitte ein Datum wählen.');
+  daten.push({
+    datum,
+    kanal:  g('fKanal').value,
+    reich:  +g('fReich').value  || 0,
+    klicks: +g('fKlicks').value || 0,
+    down:   +g('fDown').value   || 0,
+    tests:  +g('fTests').value  || 0,
+    abos:   +g('fAbos').value   || 0,
+    notiz:  g('fNotiz').value.trim()
+  });
+  daten.sort((a,b)=> a.datum.localeCompare(b.datum));
+  sichern();
+  ['fReich','fKlicks','fDown','fTests','fAbos','fNotiz'].forEach(i=> g(i).value='');
+  zeichneAlles();
+}
+
+function loeschen(i){
+  if(!confirm('Diesen Eintrag löschen?')) return;
+  daten.splice(i,1); sichern(); zeichneAlles();
+}
+
+function allesLoeschen(){
+  if(!confirm('Wirklich alle Einträge löschen? Das lässt sich nicht rückgängig machen.')) return;
+  daten = []; sichern(); zeichneAlles();
+}
+
+/* ================= Sichern und Laden ================= */
+function exportieren(){
+  const blob = new Blob([JSON.stringify(daten,null,2)],{type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'fin-zahlen-' + new Date().toISOString().slice(0,10) + '.json';
+  a.click();
+}
+function importieren(e){
+  const f = e.target.files[0]; if(!f) return;
+  const r = new FileReader();
+  r.onload = ev => {
+    try{
+      const neu = JSON.parse(ev.target.result);
+      if(!Array.isArray(neu)) throw 0;
+      if(confirm('Vorhandene Einträge ersetzen? Abbrechen fügt hinzu.')) daten = neu;
+      else daten = daten.concat(neu);
+      daten.sort((a,b)=> a.datum.localeCompare(b.datum));
+      sichern(); zeichneAlles();
+    }catch(err){ alert('Datei konnte nicht gelesen werden.'); }
+  };
+  r.readAsText(f);
+}
+
+/* ================= Hilfen ================= */
+const s = k => daten.reduce((a,d)=> a + (d[k]||0), 0);
+const nf = n => n.toLocaleString('de-DE');
+const pf = (a,b) => b ? (a/b*100).toFixed(1).replace('.',',') + ' %' : '—';
+
+/* ================= Kacheln ================= */
+function kacheln(){
+  const el = document.getElementById('kacheln');
+  const abos = s('abos'), down = s('down');
+  // Umsatz: konservativ, Mix aus Monats- und Jahresabo
+  const jahresumsatz = abos * 24;   // ~24 € netto pro Abonnent und Jahr
+  const k = [
+    ['Reichweite', nf(s('reich')), 'aus ' + daten.length + ' Einträgen'],
+    ['Link-Klicks', nf(s('klicks')), pf(s('klicks'), s('reich')) + ' der Reichweite'],
+    ['Downloads',   nf(down), pf(down, s('klicks')) + ' der Klicks'],
+    ['Tests',       nf(s('tests')), pf(s('tests'), down) + ' der Downloads'],
+    ['Abonnenten',  nf(abos), pf(abos, s('tests')) + ' der Tests', true],
+    ['Umsatz p. a.', nf(jahresumsatz) + ' €', 'grob, nach Apple-Abzug'],
+  ];
+  el.innerHTML = k.map(([l,z,zu,stark]) =>
+    `<div class="kachel${stark?' stark':''}">
+       <div class="lbl">${l}</div><div class="zahl">${z}</div><div class="zusatz">${zu}</div>
+     </div>`).join('');
+}
+
+/* ================= Trichter ================= */
+function trichter(){
+  const el = document.getElementById('trichter');
+  const st = [
+    ['Reichweite',  s('reich'),  null],
+    ['Link-Klicks', s('klicks'), s('reich')],
+    ['Downloads',   s('down'),   s('klicks')],
+    ['Tests',       s('tests'),  s('down')],
+    ['Abonnenten',  s('abos'),   s('tests')],
+  ];
+  const max = st[0][1] || 1;
+  el.innerHTML = st.map(([n,w,vor]) => {
+    const breite = Math.max((w/max)*100, w>0 ? 1.5 : 0);
+    return `<div class="stufe">
+      <div class="name">${n}</div>
+      <div class="balken"><div class="fuell" style="width:${breite}%"></div></div>
+      <div class="wert">${nf(w)}${vor!==null?` <span class="quote">${pf(w,vor)}</span>`:''}</div>
+    </div>`;
+  }).join('');
+}
+
+/* ================= Tabelle ================= */
+function tabelle(){
+  const el = document.getElementById('tabelle');
+  if(!daten.length){ el.innerHTML = '<p class="leer">Noch keine Einträge.</p>'; return; }
+  el.innerHTML = `<table><thead><tr>
+      <th>Datum</th><th>Kanal</th><th>Reichweite</th><th>Klicks</th>
+      <th>Downloads</th><th>Tests</th><th>Abos</th><th>Notiz</th><th></th>
+    </tr></thead><tbody>` +
+    daten.slice().reverse().map((d,ri) => {
+      const i = daten.length - 1 - ri;
+      return `<tr>
+        <td class="txt">${d.datum.split('-').reverse().join('.')}</td>
+        <td class="txt">${d.kanal}</td>
+        <td>${nf(d.reich)}</td><td>${nf(d.klicks)}</td>
+        <td>${nf(d.down)}</td><td>${nf(d.tests)}</td><td>${nf(d.abos)}</td>
+        <td class="txt">${d.notiz||''}</td>
+        <td><button class="loesch" onclick="loeschen(${i})" title="Löschen">×</button></td>
+      </tr>`;
+    }).join('') + '</tbody></table>';
+}
+
+/* ================= Diagramm ================= */
+function chart(){
+  const svg = document.getElementById('chart');
+  if(daten.length < 2){
+    svg.innerHTML = '<text x="450" y="150" text-anchor="middle" fill="#6E6A69" font-size="15" font-family="sans-serif">Mindestens zwei Einträge nötig</text>';
+    return;
+  }
+  const W=900, H=300, ML=52, MR=14, MT=16, MB=34;
+  const reihen = [
+    { k:'reich',  f:'#6E6A69', teiler:100 },
+    { k:'klicks', f:'#1B4F8C', teiler:1 },
+    { k:'down',   f:'#A81C1E', teiler:1 },
+    { k:'abos',   f:'#2F6B45', teiler:1 },
+  ];
+  // kumuliert
+  const kum = {};
+  reihen.forEach(r => { let sum=0; kum[r.k] = daten.map(d => (sum += d[r.k]||0) / r.teiler); });
+  const max = Math.max(1, ...reihen.flatMap(r => kum[r.k]));
+  const x = i => ML + i*(W-ML-MR)/Math.max(1,daten.length-1);
+  const y = v => MT + (1 - v/max)*(H-MT-MB);
+
+  let out = '';
+  // Gitter
+  for(let g=0; g<=4; g++){
+    const v = max*g/4, yy = y(v);
+    out += `<line x1="${ML}" y1="${yy}" x2="${W-MR}" y2="${yy}" stroke="#E3DFDE" stroke-width="1"/>`;
+    out += `<text x="${ML-8}" y="${yy+4}" text-anchor="end" fill="#9A9594" font-size="11" font-family="sans-serif">${Math.round(v).toLocaleString('de-DE')}</text>`;
+  }
+  // Linien
+  reihen.forEach(r => {
+    const p = kum[r.k].map((v,i)=> `${x(i).toFixed(1)},${y(v).toFixed(1)}`).join(' ');
+    out += `<polyline points="${p}" fill="none" stroke="${r.f}" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/>`;
+    kum[r.k].forEach((v,i)=> { out += `<circle cx="${x(i).toFixed(1)}" cy="${y(v).toFixed(1)}" r="3" fill="${r.f}"/>`; });
+  });
+  // Datumsachse: erster, mittlerer, letzter
+  [0, Math.floor((daten.length-1)/2), daten.length-1].forEach(i => {
+    const t = daten[i].datum.slice(8,10)+'.'+daten[i].datum.slice(5,7)+'.';
+    out += `<text x="${x(i)}" y="${H-12}" text-anchor="middle" fill="#9A9594" font-size="11" font-family="sans-serif">${t}</text>`;
+  });
+  svg.innerHTML = out;
+}
+
+/* ================= Rechner ================= */
+function rechner(){
+  const g = id => document.getElementById(id);
+  const ziel = +g('rZiel').value;
+  const q1 = +g('rQ1').value/100, q2 = +g('rQ2').value/100, q3 = +g('rQ3').value/100;
+
+  g('oZiel').textContent = nf(ziel);
+  g('oQ1').textContent = g('rQ1').value + ' %';
+  g('oQ2').textContent = g('rQ2').value + ' %';
+  g('oQ3').textContent = g('rQ3').value + ' %';
+
+  const tests   = ziel / q3;
+  const downs   = tests / q2;
+  const klicks  = downs / q1;
+  // eigene Klickrate aus den Daten, sonst 1,5 %
+  const eigeneKR = s('reich') ? s('klicks')/s('reich') : 0.015;
+  const reich   = klicks / Math.max(eigeneKR, 0.001);
+  const stories = klicks / 1000;
+
+  g('eKlicks').textContent  = nf(Math.round(klicks));
+  g('eReich').textContent   = nf(Math.round(reich));
+  g('eStories').textContent = stories.toFixed(1).replace('.',',');
+  g('eUmsatz').textContent  = nf(Math.round(ziel*24)) + ' €';
+
+  g('rHinweis').textContent =
+    'Reichweite gerechnet mit ' + (eigeneKR*100).toFixed(2).replace('.',',') + ' % Klickrate' +
+    (s('reich') ? ' (aus deinen Einträgen).' : ' (Schätzwert, noch keine eigenen Daten).') +
+    ' Story-Serien zu je 1.000 Klicks. Umsatz mit rund 24 € netto pro Abonnent und Jahr.';
+}
+
+/* ================= Start ================= */
+function zeichneAlles(){
+  kacheln(); trichter(); tabelle(); chart(); rechner();
+  const el = document.getElementById('stand');
+  el.textContent = daten.length
+    ? daten.length + ' Einträge · ' + daten[0].datum.split('-').reverse().join('.') +
+      ' bis ' + daten[daten.length-1].datum.split('-').reverse().join('.')
+    : 'Noch keine Einträge — trag unten den ersten ein.';
+}
+
+['rZiel','rQ1','rQ2','rQ3'].forEach(i =>
+  document.getElementById(i).addEventListener('input', rechner));
+
+document.getElementById('fDatum').value = new Date().toISOString().slice(0,10);
+laden();
+zeichneAlles();
+</script>
+</body>
+</html>
