@@ -151,8 +151,18 @@ footer{margin-top:44px;padding-top:20px;border-top:1px solid var(--line);
 <div class="rechner">
   <div class="regler">
     <label>Ziel: zahlende Nutzer</label>
-    <input type="range" id="rZiel" min="10" max="3000" step="10" value="500">
-    <span class="out" id="oZiel">500</span>
+    <input type="range" id="rZiel" min="100" max="20000" step="100" value="10000">
+    <span class="out" id="oZiel">10.000</span>
+  </div>
+  <div class="regler">
+    <label>Klicks pro Monat</label>
+    <input type="range" id="rTempo" min="500" max="60000" step="500" value="8000">
+    <span class="out" id="oTempo">8.000</span>
+  </div>
+  <div class="regler">
+    <label>Behalten nach 12 Monaten</label>
+    <input type="range" id="rHalt" min="10" max="90" step="5" value="35">
+    <span class="out" id="oHalt">35 %</span>
   </div>
   <div class="regler">
     <label>Klick → Download</label>
@@ -172,8 +182,14 @@ footer{margin-top:44px;padding-top:20px;border-top:1px solid var(--line);
   <div class="ergebnis">
     <div><span>Klicks nötig</span><b id="eKlicks">—</b></div>
     <div><span>Reichweite nötig</span><b id="eReich">—</b></div>
-    <div><span>Story-Serien</span><b id="eStories">—</b></div>
     <div><span>Umsatz im Jahr</span><b id="eUmsatz">—</b></div>
+    <div><span>Ziel erreicht in</span><b id="eZeit">—</b></div>
+  </div>
+  <div class="ergebnis" style="border-top:0;padding-top:0;margin-top:8px">
+    <div><span>Neu pro Monat</span><b id="eNeu">—</b></div>
+    <div><span>Verlust pro Monat</span><b id="eWeg">—</b></div>
+    <div><span>Netto pro Monat</span><b id="eNetto">—</b></div>
+    <div><span>Obergrenze</span><b id="eDecke">—</b></div>
   </div>
   <p class="hinweis" id="rHinweis"></p>
 </div>
@@ -367,31 +383,65 @@ function chart(){
 /* ================= Rechner ================= */
 function rechner(){
   const g = id => document.getElementById(id);
-  const ziel = +g('rZiel').value;
+  const ziel  = +g('rZiel').value;
+  const tempo = +g('rTempo').value;
+  const halt  = +g('rHalt').value/100;
   const q1 = +g('rQ1').value/100, q2 = +g('rQ2').value/100, q3 = +g('rQ3').value/100;
 
-  g('oZiel').textContent = nf(ziel);
+  g('oZiel').textContent  = nf(ziel);
+  g('oTempo').textContent = nf(tempo);
+  g('oHalt').textContent  = g('rHalt').value + ' %';
   g('oQ1').textContent = g('rQ1').value + ' %';
   g('oQ2').textContent = g('rQ2').value + ' %';
   g('oQ3').textContent = g('rQ3').value + ' %';
 
-  const tests   = ziel / q3;
-  const downs   = tests / q2;
-  const klicks  = downs / q1;
-  // eigene Klickrate aus den Daten, sonst 1,5 %
+  const proKlick = q1 * q2 * q3;               // Abos je Klick
+  const klicks   = ziel / proKlick;
   const eigeneKR = s('reich') ? s('klicks')/s('reich') : 0.015;
-  const reich   = klicks / Math.max(eigeneKR, 0.001);
-  const stories = klicks / 1000;
+  const reich    = klicks / Math.max(eigeneKR, 0.001);
 
-  g('eKlicks').textContent  = nf(Math.round(klicks));
-  g('eReich').textContent   = nf(Math.round(reich));
-  g('eStories').textContent = stories.toFixed(1).replace('.',',');
-  g('eUmsatz').textContent  = nf(Math.round(ziel*24)) + ' €';
+  g('eKlicks').textContent = nf(Math.round(klicks));
+  g('eReich').textContent  = nf(Math.round(reich));
+  g('eUmsatz').textContent = nf(Math.round(ziel*24)) + ' €';
 
-  g('rHinweis').textContent =
-    'Reichweite gerechnet mit ' + (eigeneKR*100).toFixed(2).replace('.',',') + ' % Klickrate' +
-    (s('reich') ? ' (aus deinen Einträgen).' : ' (Schätzwert, noch keine eigenen Daten).') +
-    ' Story-Serien zu je 1.000 Klicks. Umsatz mit rund 24 € netto pro Abonnent und Jahr.';
+  // Monatliche Bewegung mit Abwanderung
+  const neuProMonat = tempo * proKlick;
+  const abwMonat    = 1 - Math.pow(halt, 1/12);   // monatliche Abwanderungsrate
+  const decke       = neuProMonat / abwMonat;      // Gleichgewicht
+
+  g('eNeu').textContent = nf(Math.round(neuProMonat));
+
+  // Simulation bis Ziel oder 120 Monate
+  let bestand = s('abos') || 0, monate = 0;
+  while(bestand < ziel && monate < 120){
+    bestand = bestand * (1 - abwMonat) + neuProMonat;
+    monate++;
+  }
+
+  g('eWeg').textContent   = nf(Math.round(bestand * abwMonat));
+  g('eNetto').textContent = nf(Math.round(neuProMonat - bestand*abwMonat));
+  g('eDecke').textContent = nf(Math.round(decke));
+
+  if(decke < ziel){
+    g('eZeit').textContent = 'nie';
+    g('eZeit').style.color = '#A81C1E';
+  } else {
+    g('eZeit').style.color = '';
+    g('eZeit').textContent = monate >= 120 ? '> 10 Jahre'
+      : monate < 12 ? monate + ' Mon.'
+      : (monate/12).toFixed(1).replace('.',',') + ' Jahre';
+  }
+
+  let txt = 'Reichweite gerechnet mit ' + (eigeneKR*100).toFixed(2).replace('.',',') + ' % Klickrate' +
+    (s('reich') ? ' (aus deinen Einträgen). ' : ' (Schätzwert, noch keine eigenen Daten). ') +
+    'Aus 1.000 Klicks werden rund ' + (proKlick*1000).toFixed(0) + ' Abonnenten. ' +
+    'Umsatz mit rund 24 € netto pro Abonnent und Jahr.';
+  if(decke < ziel){
+    txt += ' — Bei diesem Tempo und dieser Bindung pendelt sich der Bestand bei rund ' +
+      nf(Math.round(decke)) + ' Abonnenten ein. Das Ziel ist so nicht erreichbar: ' +
+      'entweder mehr Klicks pro Monat oder bessere Bindung.';
+  }
+  g('rHinweis').textContent = txt;
 }
 
 /* ================= Start ================= */
@@ -404,7 +454,7 @@ function zeichneAlles(){
     : 'Noch keine Einträge — trag unten den ersten ein.';
 }
 
-['rZiel','rQ1','rQ2','rQ3'].forEach(i =>
+['rZiel','rTempo','rHalt','rQ1','rQ2','rQ3'].forEach(i =>
   document.getElementById(i).addEventListener('input', rechner));
 
 document.getElementById('fDatum').value = new Date().toISOString().slice(0,10);
