@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>fin – Training Tracker</title>
+<meta name="description" content="fin is a training tracker for strength training. Privacy policy, imprint and support.">
+<meta name="robots" content="index, follow">
+<link rel="stylesheet" href="style.css">
+<style>
+.eintraege{margin:2.5rem 0 0;display:grid;gap:.6rem}
+.eintrag{
+  display:flex;justify-content:space-between;align-items:center;gap:1rem;
+  padding:1.15rem 1.3rem;border-radius:1rem;text-decoration:none;
+  background:var(--card);border:1px solid var(--line);color:var(--ink);
+  transition:border-color .15s ease,transform .15s ease;
+}
+.eintrag:hover{border-color:var(--red);transform:translateY(-1px)}
+.eintrag b{display:block;font-size:1rem}
+.eintrag small{color:var(--muted);font-size:.85rem}
+.eintrag::after{content:"\2192";color:var(--red);font-size:1.1rem}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+<header>
+  <div class="marke">fin <span>Training Tracker</span></div>
+  <h1>See in black<br>and white whether<br>it&rsquo;s going up</h1>
+  <p class="stand">A training tracker for strength training &middot; iPhone</p>
+
+  <div class="eintraege">
+    <a class="eintrag" href="privacy.html">
+      <span><b>Privacy Policy</b><small>What we process and how you delete it</small></span>
+    </a>
+    <a class="eintrag" href="support-en.html">
+      <span><b>Support</b><small>Help, contact and common questions</small></span>
+    </a>
+    <a class="eintrag" href="terms.html">
+      <span><b>Terms of Use</b><small>Account, subscription, content and conduct</small></span>
+    </a>
+    <a class="eintrag" href="imprint.html">
+      <span><b>Imprint</b><small>Provider information under &sect; 5 DDG</small></span>
+    </a>
+    <a class="eintrag" href="index.html">
+      <span><b>Deutsch</b><small>Diese Seite auf Deutsch</small></span>
+    </a>
+  </div>
+</header>
+
+<footer style="margin-top:3rem">
+  <p>fin is a product of gymmittim &middot; Tim Bodon, Ahaus</p>
+</footer>
+
+</div>
+
+</body>
+</html>
