@@ -35,7 +35,7 @@
       <li class="nein">No ads, no tracking, no passing data on to data brokers.</li>
       <li>Sleep, resting heart rate, heart rate variability, steps and the routes of your sessions from Apple Health or Health Connect stay on your device.</li>
       <li>fin takes over runs, rides and swims from other apps automatically. You can switch this off. They only appear in the feed if you share them yourself.</li>
-      <li>You can switch off notifications at any time in your device&rsquo;s settings.</li>
+      <li>You can switch off notifications at any time in your device&rsquo;s settings. We only send offers from fin as push notifications if you switch this on yourself in the app.</li>
       <li>You buy fin Pro through the App Store or Google Play. We do not see your payment details.</li>
       <li class="nein">Health data is never used for advertising.</li>
     </ul>
@@ -100,9 +100,10 @@
     <p>We do not show ads, we do not track for advertising purposes, and we do not
     sell data. In your profile we link to partners (see
     <a href="#partner">&ldquo;Partner links&rdquo;</a>). We do not embed any
-    advertising SDKs or third-party analytics services. On Android, fin contains two
+    advertising SDKs or third-party analytics services. On Android, fin contains three
     components from Google that themselves send technical information to Google:
-    ML Kit for the barcode scanner and text recognition, and Google Play Billing.
+    ML Kit for the barcode scanner and text recognition, Google Play Billing, and
+    Firebase Cloud Messaging for push notifications.
     Details are under <a href="#s12">&ldquo;Recipients&rdquo;</a>. How often the
     purchase page leads to a purchase is something we evaluate ourselves (see
     <a href="#s9b">Section 13</a>).</p>
@@ -667,51 +668,81 @@
   iOS or Android (on Android from Android 13).</p>
 
   <h3>Notifications on Android</h3>
-  <p>On Android, all of fin&rsquo;s notifications are so far created on your device:
+  <p>On Android, many of fin&rsquo;s notifications are created on your device:
   reminders about training, supplements and your subscription, the chime at the end of
   the rest timer, the display of your ongoing workout (exercise, set and clock), and
   the daily companion, which shows you on the lock screen throughout the day what is
-  coming up. No data is transmitted to us or to third parties for this. From
-  Android 13 you grant permission via the system dialog.</p>
-  <p>Each kind has its own channel. You switch them off individually or entirely in
-  the Android settings under <em>Apps &rarr; fin &rarr; Notifications</em>.</p>
-  <p>On Android, fin does not yet send alerts about social events, as described below,
-  as push notifications; you see them in the app (see <a href="#s7">Section 10</a>).
-  Before this changes, we will update this section.</p>
+  coming up. No data is transmitted to us or to third parties for this. Alerts about
+  social events and the other messages sent by our server reach you on Android as push
+  notifications via Google&rsquo;s Firebase Cloud Messaging (see below).</p>
+  <p>From Android 13 you grant permission via the system dialog; up to Android 12 the
+  system does not ask, and notifications are allowed until you switch them off. Each
+  kind has its own channel: <em>General</em> (announcements, rewards and notes from
+  fin), <em>Social</em>, <em>Cheers</em>, <em>Reminders</em>, <em>Rest timer</em>,
+  <em>Workout</em> and <em>Daily companion</em>. You switch them off individually or
+  entirely in the Android settings under <em>Apps &rarr; fin &rarr; Notifications</em>.</p>
 
   <h3>Alerts about social events</h3>
   <p>For alerts about social events &ndash; new followers, follow requests, likes,
-  comments and cheers during an ongoing workout &ndash; fin uses Apple&rsquo;s push
-  service on iPhone.</p>
+  comments and cheers during an ongoing workout &ndash; fin uses a push service:
+  Apple&rsquo;s on iPhone, Google&rsquo;s Firebase Cloud Messaging on Android. Notes
+  about your referral reward and, if you have agreed, news and offers from fin (see
+  below) arrive the same way.</p>
   <dl class="feld">
-    <dt>Data</dt><dd>A device token that your device receives from the operating
-      system and that we store together with your account; the content of the
-      respective message</dd>
+    <dt>Data</dt><dd>A device token that your device receives from the push service
+      (on Android, the Firebase Cloud Messaging token) and that we store together with
+      your account; the content of the respective message</dd>
     <dt>Purpose</dt><dd>Delivering the notification to your device</dd>
-    <dt>Basis</dt><dd>Art. 6(1)(a) GDPR &ndash; consent via the iOS system dialog</dd>
+    <dt>Basis</dt><dd>Art. 6(1)(a) GDPR &ndash; consent via the system dialog of iOS or
+      Android (on Android from Android 13)</dd>
     <dt>Retention</dt><dd>The token is deleted as soon as you sign out or delete your
-      account</dd>
+      account, and also if the push service rejects it as invalid</dd>
   </dl>
   <p>The message contains the name of the person who triggered it and, where
-  applicable, the name of the workout concerned. To deliver it we transmit the token
-  and the message to the <b>Apple Push Notification service</b> (Apple Inc., One Apple
-  Park Way, Cupertino, CA 95014, USA). Where data is transferred to the USA, this is
-  based on the European Commission&rsquo;s standard contractual clauses under
+  applicable, the name of the workout concerned. On iPhone, we transmit the token and
+  the message for delivery to the <b>Apple Push Notification service</b> (Apple Inc.,
+  One Apple Park Way, Cupertino, CA 95014, USA). Where data is transferred to the USA,
+  this is based on the European Commission&rsquo;s standard contractual clauses under
   Art. 46(2)(c) GDPR or on an adequacy decision under the EU-US Data Privacy Framework.</p>
+
+  <h3>Push on Android: Firebase Cloud Messaging</h3>
+  <p>On Android, we transmit the token and the message for delivery to <b>Firebase
+  Cloud Messaging</b>, a service of Google (Google Ireland Limited, Gordon House,
+  Barrow Street, Dublin 4, Ireland). Along with the message go the kind of message and,
+  where applicable, the internal identifier of the session or rest day request
+  concerned, so that tapping
+  it opens the right place in the app.</p>
+  <p>The token is only created once notifications are allowed for fin and you are
+  signed in. Firebase then creates a random installation identifier on your device,
+  registers it with Google and receives in return the device token that we store with
+  your account. Where Google transfers data to the USA, this is based on an adequacy
+  decision under the EU-US Data Privacy Framework or on the European Commission&rsquo;s
+  standard contractual clauses under Art. 46(2)(c) GDPR.</p>
 
   <div class="merk">
     <p>Depending on your settings, notifications also appear on the lock screen. If
     you do not want others to be able to read the content, set
     <em>Notifications &rarr; Show Previews</em> in the iOS settings to
-    <em>When Unlocked</em>.</p>
+    <em>When Unlocked</em>. On Android, you decide in the system settings for
+    notifications what the lock screen shows; the exact wording depends on the
+    manufacturer.</p>
   </div>
 
   <p>You can switch notifications off at any time: on iPhone in the iOS settings under
   <em>Notifications</em>, on Android in the settings under
-  <em>Apps &rarr; fin &rarr; Notifications</em>. Mostly they are about your training
-  and your friends; occasionally, on iPhone, we also point out news or promotions from
-  fin, such as an offer for fin Pro. These messages also stop when you switch
-  notifications off.</p>
+  <em>Apps &rarr; fin &rarr; Notifications</em>. You also choose which kinds arrive in
+  fin under <em>Account &amp; Settings &rarr; Notifications</em>. Mostly they are about
+  your training and your friends.</p>
+
+  <h3>News and offers from fin</h3>
+  <p>We only point out news and promotions from fin by push notification, such as an
+  offer for fin Pro, if you have switched this on yourself: in fin under
+  <em>Account &amp; Settings &rarr; Notifications</em> with the <em>News from fin</em>
+  switch. It is off by default. We store your choice with your account; delivery works
+  as described above, via Apple on iPhone and via Firebase Cloud Messaging on Android.
+  Legal basis: Art. 6(1)(a) GDPR. You can withdraw your consent at any time with the
+  same switch or by switching notifications off. Notes about your referral reward are
+  not advertising and arrive regardless of this switch.</p>
 </section>
 
 <section id="s9b">
@@ -822,6 +853,13 @@
           <td>Apple Push Notification service (Apple Inc.)</td>
           <td>Notifications on iPhone</td>
           <td>Device token and content of the message, see <a href="#s9">Section 12</a></td>
+        </tr>
+        <tr>
+          <td>Google (Firebase Cloud Messaging; Google Ireland Limited, Ireland)</td>
+          <td>Android only: push notifications, once notifications are allowed and you are
+            signed in</td>
+          <td>Device token, a random Firebase installation identifier and content of the
+            message, see <a href="#s9">Section 12</a></td>
         </tr>
         <tr>
           <td>Apple Maps (Apple Inc.)</td>

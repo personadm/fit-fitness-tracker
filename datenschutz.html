@@ -30,7 +30,7 @@
     <li class="nein">Keine Werbeanzeigen, kein Tracking, keine Weitergabe an Datenbroker.</li>
     <li>Schlaf, Ruhepuls, Herzfrequenzvariabilität, Schritte und die Routen deiner Einheiten aus Apple Health oder Health Connect bleiben auf deinem Gerät.</li>
     <li>Läufe, Radfahrten und Schwimmeinheiten aus anderen Apps übernimmt fin automatisch. Das kannst du abschalten. Im Feed erscheinen sie nur, wenn du sie selbst teilst.</li>
-    <li>Benachrichtigungen lassen sich jederzeit in den Einstellungen deines Geräts abschalten.</li>
+    <li>Benachrichtigungen lassen sich jederzeit in den Einstellungen deines Geräts abschalten. Angebote von fin schicken wir per Push nur, wenn du das in der App selbst einschaltest.</li>
     <li>fin Pro kaufst du über den App Store oder Google Play. Deine Zahlungsdaten sehen wir nicht.</li>
     <li class="nein">Gesundheitsdaten werden niemals für Werbung verwendet.</li>
   </ul>
@@ -90,7 +90,7 @@
   <p>Für diese Daten holen wir eine ausdrückliche, gesonderte Einwilligung ein. Ohne sie ist die Kernfunktion der App nicht nutzbar.</p>
   <p>Manche Werte aus Apple Health und Health Connect bleiben ausschließlich auf deinem Gerät, andere werden mit deinem Konto gespeichert. Welche das sind, steht in <a href="#s6">Abschnitt 8</a> und <a href="#s6b">Abschnitt 9</a>.</p>
   <div class="merk">
-    <p>Wir zeigen keine Werbeanzeigen, betreiben kein Tracking zu Werbezwecken und verkaufen keine Daten. Im Profil verlinken wir auf Partner (siehe <a href="#partner">„Partner-Links“</a>). Wir binden keine Werbe-SDKs und keine Analysedienste von Dritten ein. Unter Android enthält fin zwei Bausteine von Google, die selbst technische Angaben an Google senden: ML Kit für den Barcode-Scanner und die Texterkennung und die Google-Play-Abrechnung. Einzelheiten stehen unter <a href="#s12">„Empfänger“</a>. Wie oft die Kaufseite zu einem Kauf führt, werten wir selbst aus (siehe <a href="#s9b">Abschnitt 13</a>).</p>
+    <p>Wir zeigen keine Werbeanzeigen, betreiben kein Tracking zu Werbezwecken und verkaufen keine Daten. Im Profil verlinken wir auf Partner (siehe <a href="#partner">„Partner-Links“</a>). Wir binden keine Werbe-SDKs und keine Analysedienste von Dritten ein. Unter Android enthält fin drei Bausteine von Google, die selbst technische Angaben an Google senden: ML Kit für den Barcode-Scanner und die Texterkennung, die Google-Play-Abrechnung und Firebase Cloud Messaging für Push-Mitteilungen. Einzelheiten stehen unter <a href="#s12">„Empfänger“</a>. Wie oft die Kaufseite zu einem Kauf führt, werten wir selbst aus (siehe <a href="#s9b">Abschnitt 13</a>).</p>
   </div>
 </section>
 
@@ -373,23 +373,29 @@
   <p>Rechtsgrundlage: Art. 6 Abs. 1 lit. a DSGVO – die Einwilligung erteilst du über den Systemdialog von iOS bzw. Android (dort ab Android 13).</p>
 
   <h3>Benachrichtigungen unter Android</h3>
-  <p>Unter Android entstehen alle Benachrichtigungen von fin bisher auf deinem Gerät: Erinnerungen an Training, Supplements und dein Abo, der Gong am Ende der Satzpause, die Anzeige des laufenden Trainings (Übung, Satz und Uhr) und der Tagesbegleiter, der dir den Tag über auf dem Sperrbildschirm zeigt, was ansteht. Dafür werden keine Daten an uns oder an Dritte übermittelt. Die Erlaubnis erteilst du ab Android 13 über den Systemdialog.</p>
-  <p>Jede Art hat einen eigenen Kanal. Du schaltest sie in den Android-Einstellungen unter <em>Apps → fin → Benachrichtigungen</em> einzeln oder ganz ab.</p>
-  <p>Hinweise zu sozialen Ereignissen, wie sie unten beschrieben sind, schickt fin unter Android noch nicht als Push-Mitteilung; du siehst sie in der App (siehe <a href="#s7">Abschnitt 10</a>). Bevor sich das ändert, ergänzen wir diesen Abschnitt.</p>
+  <p>Viele Benachrichtigungen von fin entstehen unter Android auf deinem Gerät: Erinnerungen an Training, Supplements und dein Abo, der Gong am Ende der Satzpause, die Anzeige des laufenden Trainings (Übung, Satz und Uhr) und der Tagesbegleiter, der dir den Tag über auf dem Sperrbildschirm zeigt, was ansteht. Dafür werden keine Daten an uns oder an Dritte übermittelt. Hinweise zu sozialen Ereignissen und die übrigen Meldungen, die von unserem Server ausgehen, schickt fin unter Android als Push-Mitteilung über Firebase Cloud Messaging von Google (siehe unten).</p>
+  <p>Die Erlaubnis erteilst du ab Android 13 über den Systemdialog; bis Android 12 fragt das System nicht, dort sind Benachrichtigungen erlaubt, bis du sie abschaltest. Jede Art hat einen eigenen Kanal: <em>Allgemein</em> (Ankündigungen, Prämien und Hinweise von fin), <em>Soziales</em>, <em>Anfeuern</em>, <em>Erinnerungen</em>, <em>Pausengong</em>, <em>Training</em> und <em>Tagesbegleiter</em>. Du schaltest sie in den Android-Einstellungen unter <em>Apps → fin → Benachrichtigungen</em> einzeln oder ganz ab.</p>
 
   <h3>Hinweise zu sozialen Ereignissen</h3>
-  <p>Für Hinweise zu sozialen Ereignissen – neue Follower, Follower-Anfragen, Likes, Kommentare und Anfeuerungen im laufenden Training – nutzt fin auf dem iPhone den Push-Dienst von Apple.</p>
+  <p>Für Hinweise zu sozialen Ereignissen – neue Follower, Follower-Anfragen, Likes, Kommentare und Anfeuerungen im laufenden Training – nutzt fin einen Push-Dienst: auf dem iPhone den von Apple, unter Android Firebase Cloud Messaging von Google. Auf demselben Weg kommen Hinweise zu deiner Einladungsprämie und, wenn du zugestimmt hast, Neuigkeiten und Angebote von fin (siehe unten).</p>
   <dl class="feld">
-    <dt>Daten</dt><dd>Eine Gerätekennung, die dein Gerät vom Betriebssystem erhält und die wir zusammen mit deinem Konto speichern; der Inhalt der jeweiligen Meldung</dd>
+    <dt>Daten</dt><dd>Eine Gerätekennung, die dein Gerät vom Push-Dienst erhält (unter Android die Kennung von Firebase Cloud Messaging) und die wir zusammen mit deinem Konto speichern; der Inhalt der jeweiligen Meldung</dd>
     <dt>Zweck</dt><dd>Zustellung der Benachrichtigung auf dein Gerät</dd>
-    <dt>Grundlage</dt><dd>Art. 6 Abs. 1 lit. a DSGVO – Einwilligung über den iOS-Systemdialog</dd>
-    <dt>Dauer</dt><dd>Die Kennung wird gelöscht, sobald du dich abmeldest oder dein Konto löschst</dd>
+    <dt>Grundlage</dt><dd>Art. 6 Abs. 1 lit. a DSGVO – Einwilligung über den Systemdialog von iOS bzw. Android (dort ab Android 13)</dd>
+    <dt>Dauer</dt><dd>Die Kennung wird gelöscht, sobald du dich abmeldest oder dein Konto löschst, außerdem, wenn der Push-Dienst sie als ungültig zurückweist</dd>
   </dl>
-  <p>Die Meldung enthält den Namen der auslösenden Person und gegebenenfalls den Namen des betroffenen Trainings. Zur Zustellung übermitteln wir Kennung und Meldung an den <b>Apple Push Notification service</b> (Apple Inc., One Apple Park Way, Cupertino, CA 95014, USA). Soweit dabei Daten in die USA übermittelt werden, stützt sich dies auf Standardvertragsklauseln der EU-Kommission nach Art. 46 Abs. 2 lit. c DSGVO beziehungsweise auf einen Angemessenheitsbeschluss im Rahmen des EU-US Data Privacy Framework.</p>
+  <p>Die Meldung enthält den Namen der auslösenden Person und gegebenenfalls den Namen des betroffenen Trainings. Auf dem iPhone übermitteln wir Kennung und Meldung zur Zustellung an den <b>Apple Push Notification service</b> (Apple Inc., One Apple Park Way, Cupertino, CA 95014, USA). Soweit dabei Daten in die USA übermittelt werden, stützt sich dies auf Standardvertragsklauseln der EU-Kommission nach Art. 46 Abs. 2 lit. c DSGVO beziehungsweise auf einen Angemessenheitsbeschluss im Rahmen des EU-US Data Privacy Framework.</p>
+
+  <h3>Push unter Android: Firebase Cloud Messaging</h3>
+  <p>Unter Android übermitteln wir Kennung und Meldung zur Zustellung an <b>Firebase Cloud Messaging</b>, einen Dienst von Google (Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Irland). Mit der Meldung gehen die Art der Meldung und gegebenenfalls die interne Kennung der betroffenen Einheit oder Restday-Anfrage mit, damit sich beim Antippen die richtige Stelle in der App öffnet.</p>
+  <p>Die Kennung entsteht erst, wenn Benachrichtigungen für fin erlaubt sind und du angemeldet bist. Dann legt Firebase auf deinem Gerät eine zufällige Installationskennung an, meldet sie an Google und erhält dafür die Gerätekennung, die wir mit deinem Konto speichern. Soweit Google Daten in die USA übermittelt, stützt sich dies auf einen Angemessenheitsbeschluss im Rahmen des EU-US Data Privacy Framework beziehungsweise auf Standardvertragsklauseln der EU-Kommission nach Art. 46 Abs. 2 lit. c DSGVO.</p>
   <div class="merk">
-    <p>Benachrichtigungen erscheinen je nach Einstellung auch auf dem gesperrten Bildschirm. Wenn du nicht möchtest, dass Dritte den Inhalt mitlesen können, stell in den iOS-Einstellungen unter <em>Mitteilungen → Vorschau anzeigen</em> auf <em>Wenn entsperrt</em>.</p>
+    <p>Benachrichtigungen erscheinen je nach Einstellung auch auf dem gesperrten Bildschirm. Wenn du nicht möchtest, dass Dritte den Inhalt mitlesen können, stell in den iOS-Einstellungen unter <em>Mitteilungen → Vorschau anzeigen</em> auf <em>Wenn entsperrt</em>. Unter Android legst du in den Systemeinstellungen bei den Benachrichtigungen fest, was der Sperrbildschirm zeigt; die genaue Bezeichnung hängt vom Hersteller ab.</p>
   </div>
-  <p>Du kannst Benachrichtigungen jederzeit abschalten: auf dem iPhone in den iOS-Einstellungen unter <em>Mitteilungen</em>, unter Android in den Einstellungen unter <em>Apps → fin → Benachrichtigungen</em>. Meist geht es um dein Training und deine Freunde; gelegentlich weisen wir auf dem iPhone auch auf Neuigkeiten oder Aktionen von fin hin, etwa ein Angebot für fin Pro. Auch diese Meldungen enden, wenn du die Benachrichtigungen abschaltest.</p>
+  <p>Du kannst Benachrichtigungen jederzeit abschalten: auf dem iPhone in den iOS-Einstellungen unter <em>Mitteilungen</em>, unter Android in den Einstellungen unter <em>Apps → fin → Benachrichtigungen</em>. Welche Arten ankommen, stellst du außerdem in fin unter <em>Konto &amp; Einstellungen → Benachrichtigungen</em> ein. Meist geht es um dein Training und deine Freunde.</p>
+
+  <h3>Neuigkeiten und Angebote von fin</h3>
+  <p>Auf Neuigkeiten und Aktionen von fin, etwa ein Angebot für fin Pro, weisen wir per Push nur hin, wenn du das selbst eingeschaltet hast: in fin unter <em>Konto &amp; Einstellungen → Benachrichtigungen</em> mit dem Schalter <em>Neues von fin</em>. Ab Werk ist er aus. Wir speichern deine Wahl mit deinem Konto; zugestellt wird wie oben beschrieben, auf dem iPhone über Apple, unter Android über Firebase Cloud Messaging. Rechtsgrundlage: Art. 6 Abs. 1 lit. a DSGVO. Du widerrufst die Einwilligung jederzeit mit demselben Schalter oder indem du die Benachrichtigungen abschaltest. Hinweise zu deiner Einladungsprämie sind keine Werbung und kommen unabhängig von diesem Schalter.</p>
 </section>
 
 <section id="s9b">
@@ -453,6 +459,11 @@
           <td>Apple Push Notification service (Apple Inc.)</td>
           <td>Benachrichtigungen auf dem iPhone</td>
           <td>Gerätekennung und Inhalt der Meldung, siehe <a href="#s9">Abschnitt 12</a></td>
+        </tr>
+        <tr>
+          <td>Google (Firebase Cloud Messaging; Google Ireland Limited, Irland)</td>
+          <td>nur unter Android: Push-Mitteilungen, sobald Benachrichtigungen erlaubt sind und du angemeldet bist</td>
+          <td>Gerätekennung, eine zufällige Installationskennung von Firebase und Inhalt der Meldung, siehe <a href="#s9">Abschnitt 12</a></td>
         </tr>
         <tr>
           <td>Apple Karten (Apple Inc.)</td>
