@@ -30,7 +30,7 @@
     <li class="nein">Keine Werbeanzeigen, kein Tracking, keine Weitergabe an Datenbroker.</li>
     <li>Schlaf, Ruhepuls, Herzfrequenzvariabilität, Schritte und die Routen deiner Einheiten aus Apple Health oder Health Connect bleiben auf deinem Gerät.</li>
     <li>Läufe, Radfahrten und Schwimmeinheiten aus anderen Apps übernimmt fin automatisch. Das kannst du abschalten. Im Feed erscheinen sie nur, wenn du sie selbst teilst.</li>
-    <li>Benachrichtigungen lassen sich jederzeit in den Einstellungen deines Geräts abschalten. Angebote von fin schicken wir per Push nur, wenn du das in der App selbst einschaltest.</li>
+    <li>Benachrichtigungen lassen sich jederzeit in den Einstellungen deines Geräts abschalten, Erinnerungen außerdem einzeln in fin. Angebote von fin schicken wir per Push nur, wenn du das in der App selbst einschaltest.</li>
     <li>fin Pro kaufst du über den App Store oder Google Play. Deine Zahlungsdaten sehen wir nicht.</li>
     <li class="nein">Gesundheitsdaten werden niemals für Werbung verwendet.</li>
   </ul>
@@ -116,7 +116,7 @@
   <p>Für den Versand nutzen wir den Dienstleister Resend, siehe <a href="#s12">Abschnitt 17</a>. Eine Weitergabe deiner Adresse an Dritte zu Werbezwecken findet nicht statt.</p>
 
   <h3>Geschlecht, Körpergröße, Geburtsdatum und Gewicht bei der Einrichtung</h3>
-  <p>Bei der Einrichtung der App kannst du freiwillig dein Geschlecht, deine Körpergröße, dein Geburtsdatum (oder nur das Geburtsjahr) und dein aktuelles Gewicht angeben. Das Geschlecht nutzen wir, um dir bei Wettkampfformaten wie Hyrox die passenden Zusatzgewichte anzuzeigen; das Gewicht bildet den Startpunkt deines Gewichtsverlaufs. Aus diesen Angaben berechnet fin deinen täglichen Bedarf an Kalorien und Nährstoffen; dein Alter geht außerdem in einen Trainingsplan ein, den fin dir erstellt. Alle vier Angaben sind ausschließlich für dich sichtbar und erscheinen weder im Feed noch auf Share-Karten.</p>
+  <p>Bei der Einrichtung der App kannst du freiwillig dein Geschlecht, deine Körpergröße, dein Geburtsdatum (oder nur das Geburtsjahr) und dein aktuelles Gewicht angeben. Das Geschlecht nutzen wir, um dir bei Wettkampfformaten wie Hyrox die passenden Zusatzgewichte anzuzeigen, und für die Stärkewertung der Rangliste, deren Schwellen für Frauen und Männer verschieden sind. Das Gewicht bildet den Startpunkt deines Gewichtsverlaufs. Aus diesen Angaben berechnet fin deinen täglichen Bedarf an Kalorien und Nährstoffen; dein Alter geht außerdem in einen Trainingsplan ein, den fin dir erstellt. Alle vier Angaben sind ausschließlich für dich sichtbar und erscheinen weder im Feed noch auf Share-Karten; in der Rangliste sehen andere nur das Ergebnis der Wertung (siehe <a href="#s6">Abschnitt 8</a>, „Körpergewicht“).</p>
   <p>Rechtsgrundlage: Art. 6 Abs. 1 lit. b DSGVO, für Körpermaße in Verbindung mit Art. 9 Abs. 2 lit. a DSGVO. Alle Angaben sind freiwillig und lassen sich überspringen; ohne sie zeigen wir Standardwerte an. Du kannst sie jederzeit im Profil ändern oder entfernen.</p>
 
   <h3>Profilbild und Bio</h3>
@@ -160,6 +160,17 @@
 
   <h3>Lebensmittelsuche und Barcode</h3>
   <p>Suchst du ein Lebensmittel oder scannst du einen Barcode und liegt das Produkt nicht in der Datenbank auf deinem Gerät, fragt dein Gerät direkt bei Open Food Facts an. Unter Android erkennt fin Barcodes und Text auf Bildern mit ML Kit von Google auf deinem Gerät; das Bild geht dabei nicht an Google. Beides steht in <a href="#s12">Abschnitt 17</a>. Wie fin Fotos, Sätze und Rezepte mit einer KI auswertet, steht in <a href="#ki">Abschnitt 7</a>.</p>
+
+  <h3>Selbst angelegte Lebensmittel</h3>
+  <p>Kennt fin ein Lebensmittel nicht, kannst du es selbst anlegen. Trägst du ein solches Lebensmittel ein, meldet die App unserem Server seinen Namen zusammen mit der Kennung deines Kontos. Mit diesen Meldungen finden wir heraus, welche Lebensmittel mehreren Menschen in unserem Verzeichnis fehlen.</p>
+  <dl class="feld">
+    <dt>Daten</dt><dd>Der Name des Lebensmittels in vereinfachter Form (klein geschrieben, Umlaute umgeschrieben, ohne Satzzeichen, die Wörter alphabetisch sortiert), die Kennung deines Kontos, der Zeitpunkt der ersten Meldung und, sobald wir nach dem Namen gesucht haben, der Zeitpunkt dieser Suche. Jeden Namen speichern wir je Konto nur einmal. Nährwerte, Menge und den Zeitpunkt deiner Mahlzeit übermittelt die App dafür nicht.</dd>
+    <dt>Zweck</dt><dd>Lebensmittel, die mehrere Menschen unabhängig voneinander von Hand anlegen, einmal nachschlagen und für alle in der Suche auffindbar machen</dd>
+    <dt>Grundlage</dt><dd>Art. 6 Abs. 1 lit. f DSGVO; unser berechtigtes Interesse ist ein Lebensmittelverzeichnis, in dem du und andere finden, was sonst jede und jeder selbst anlegen müsste. Soweit der Name Rückschlüsse auf deine Ernährung zulässt, in Verbindung mit Art. 9 Abs. 2 lit. a DSGVO, wie bei deinem Ernährungstagebuch.</dd>
+    <dt>Dauer</dt><dd>Bis du dein Konto löschst</dd>
+  </dl>
+  <p>Haben mindestens drei Konten unabhängig voneinander ein Lebensmittel mit demselben Namen angelegt, sucht unser Server einmal danach: zuerst in unserem Verzeichnis, dann im Web über die Produktsuche aus <a href="#ki">Abschnitt 7</a>. Dabei geht nur der Name an OpenAI, ohne Bezug zu einem Konto. Findet die Suche das Produkt auf einer nachprüfbaren Seite, nehmen wir es mit dieser Quelle in unser Verzeichnis auf. Deine eingetippten Werte übernehmen wir dabei nicht. Wer ein Lebensmittel angelegt hat und wie viele es waren, sieht kein anderer Nutzer.</p>
+  <p>Du kannst dieser Verarbeitung jederzeit widersprechen (Art. 21 DSGVO). In der App geht das nicht; eine formlose Nachricht an <a href="mailto:support@fin-tracker.de">support@fin-tracker.de</a> genügt, dann löschen wir die Namen, die dein Konto gemeldet hat.</p>
 
   <h3>Einsprechen statt tippen</h3>
   <p>Tippst du auf „Sprechen“, nutzt fin das Mikrofon, um das Gesagte in Text umzuwandeln – nur dann und nur für dieses eine Diktat. fin erhält davon nur den erkannten Text, keine Tonaufnahme. Eine Aufnahme wird weder gespeichert noch an uns gesendet.</p>
@@ -220,7 +231,7 @@
   <p>Danach übernimmt fin <b>jede</b> Gewichtsmessung, die in Health eingeht – etwa von einer Waage, deren App nach Health schreibt. Zu jeder Messung speichert fin das Gewicht, den Zeitpunkt und den Namen der App, von der sie stammt.</p>
   <p>Damit eine neue Messung auch dann ankommt, wenn du fin gerade nicht geöffnet hast, darf Apple Health fin <b>im Hintergrund kurz starten</b>. fin liest dabei nur die neuen Gewichtsmessungen und legt sie auf deinem Gerät bereit, sonst nichts.</p>
   <p>Übernommene Messungen behandelt fin wie ein selbst eingetragenes Körpergewicht. Sie werden <b>mit deinem Konto auf unseren Servern gespeichert</b> und zwischen deinen Geräten abgeglichen. Das Körpergewicht dient deiner Gewichtskurve, der Berechnung deines Kalorienbedarfs und der Stärkewertung der Rangliste.</p>
-  <p>In die Stärkewertung geht dein zuletzt gespeichertes Gewicht ein. fin berechnet sie in der App; wir berechnen sie außerdem in einem gesonderten Durchlauf aus den in deinem Konto gespeicherten Daten. Andere Nutzer sehen nur das Ergebnis, also deine Stufe und Punktzahl – und zwar Personen, die dir folgen, und bei einem öffentlichen Profil auch weitere Nutzer. <b>Dein Körpergewicht selbst sieht kein anderer Nutzer.</b></p>
+  <p>In die Stärkewertung gehen deine besten Sätze einer abgeschlossenen Woche, dein zuletzt gespeichertes Gewicht und deine Geschlechtsangabe ein. fin berechnet sie in der App, beim Start und nach jedem Training. Hat die App deine Wertung seit Wochenbeginn nicht aktualisiert, etwa weil du fin nicht geöffnet hast, rechnet unser Server sie nachts nach: aus den in deinem Konto gespeicherten Daten (deinem Trainingsprotokoll, deinem Körpergewicht und deiner Geschlechtsangabe) und nach denselben Regeln wie die App. Diese Daten verlassen dabei unsere Server bei Supabase (EU) nicht. Damit wir dein Konto nicht jede Nacht erneut lesen, merken wir uns bis zum Ende der Woche, mit welchem Stand wir es gelesen haben. Andere Nutzer sehen nur das Ergebnis, also deine Stufe und Punktzahl – und zwar Personen, die dir folgen, und bei einem öffentlichen Profil auch weitere Nutzer. <b>Dein Körpergewicht selbst sieht kein anderer Nutzer.</b></p>
   <p>Löschst du eine Messung in fin, übernimmt fin sie nicht erneut. Dafür merkt sich fin in deinem Konto Zeitpunkt und Kennung der gelöschten Messung. In Apple Health bleibt die Messung erhalten; dort löschst du sie in der Health-App. Wird umgekehrt eine übernommene Messung in Health gelöscht, während die Übernahme eingeschaltet ist, entfernt fin sie beim nächsten Abgleich auch aus deinem Verlauf.</p>
 
   <h3>Trainingseinheiten aus anderen Apps</h3>
@@ -231,7 +242,7 @@
   <p>Teilst du sie, sind sichtbar: die Sportart – bei einer Sportart, die fin nicht zuordnen kann, stattdessen der Name der aufzeichnenden App – dazu Zeitpunkt und Dauer, gegebenenfalls zurückgelegte Strecke und Tempo sowie die Kalorienzahl, wenn Health eine liefert. Herzfrequenz-, Schlaf- und Gewichtsdaten sowie Karten und Streckenpunkte sehen andere <b>nicht</b>.</p>
 
   <h3>Route und Karte</h3>
-  <p>Für Lauf-, Rad- und andere Ausdauereinheiten mit Route liest fin die Wegpunkte (Koordinaten, Höhe, Tempo) aus Apple Health, um die Karte und den Streckenverlauf anzuzeigen. Das gilt auch für Einheiten, die andere Apps oder Uhren in Apple Health gespeichert haben. Die Wegpunkte bleiben auf deinem Gerät. Sie werden weder in deinem Konto gespeichert noch an andere Nutzer weitergegeben, die Karte siehst nur du in deinem Verlauf.</p>
+  <p>Für Lauf-, Rad- und andere Ausdauereinheiten mit Route liest fin die Wegpunkte (Koordinaten, Höhe, Tempo) aus Apple Health, um die Karte und den Streckenverlauf anzuzeigen. Das gilt auch für Einheiten, die andere Apps oder Uhren in Apple Health gespeichert haben. Die Wegpunkte bleiben auf deinem Gerät. Sie werden weder in deinem Konto gespeichert noch an andere Nutzer weitergegeben, die Karte siehst nur du in deinem Verlauf – außer du teilst sie selbst als Bild (siehe <a href="#s8">Abschnitt 11</a>).</p>
   <p>Um das Kartenbild zu zeichnen, fragt dein iPhone bei Apple Karten (Apple Inc.) den Kartenausschnitt an, der die Route umschließt. Apple erhält dabei nur diesen Ausschnitt, nicht die Route selbst. Das geschieht, wenn du eine Einheit öffnest, automatisch für bis zu drei gerade übernommene Einheiten und, wenn du im Verlauf einen Tag aufschlägst, für bis zu drei Einheiten dieses Tages. Das passiert nur, solange fin geöffnet ist.</p>
 
   <h3>Weitere Werte</h3>
@@ -361,20 +372,20 @@
 
 <section id="s8">
   <h2>Teilen von Inhalten</h2>
-  <p>Über die Share-Funktion erzeugst du Grafiken mit einer Zusammenfassung deines Trainings, deinem Volumen oder den trainierten Muskelgruppen.</p>
-  <p>Die Grafiken entstehen auf deinem Gerät. Eine Übermittlung an uns findet nicht statt. Sobald du eine Grafik in einer anderen App oder einem sozialen Netzwerk teilst, gelten die Datenschutzbestimmungen des jeweiligen Anbieters. Da die Grafiken Trainingsdaten enthalten, überlege vor dem Teilen, welche Reichweite du wählst.</p>
+  <p>Über die Share-Funktion erzeugst du Grafiken: zu einer Einheit mit einer Zusammenfassung deines Trainings, deinem Volumen oder den trainierten Muskelgruppen, bei Einheiten mit Strecke auch mit der Karte oder nur dem Umriss deiner Runde; zu einem Rezept als Nährwert-Etikett; und aus der fin-Kachel deiner Startseite.</p>
+  <p>Die Grafiken entstehen auf deinem Gerät. Eine Übermittlung an uns findet nicht statt. Du gibst eine Grafik über das Teilen-Menü deines Geräts weiter, speicherst sie in deinen Fotos (unter Android in der Galerie, im Album <em>fin</em>) oder kopierst sie. Beim Speichern liest fin deine übrigen Fotos nicht; auf dem iPhone fragt fin dafür nur nach dem Recht, Bilder hinzuzufügen, unter Android 8 und 9 nach dem Recht, in den Speicher zu schreiben. Sobald du eine Grafik in einer anderen App oder einem sozialen Netzwerk teilst, gelten die Datenschutzbestimmungen des jeweiligen Anbieters. Da die Grafiken Trainings- oder Ernährungsdaten enthalten, überlege vor dem Teilen, welche Reichweite du wählst.</p>
 </section>
 
 <section id="s9">
   <h2>Benachrichtigungen</h2>
 
-  <h3>Trainingserinnerungen</h3>
-  <p>Trainingserinnerungen plant fin lokal auf deinem Gerät. Dafür werden keine Daten an uns oder an Dritte übermittelt.</p>
+  <h3>Trainings- und Mahlzeiten-Erinnerungen</h3>
+  <p>Trainingserinnerungen und die Erinnerungen an Frühstück, Mittag- und Abendessen plant fin lokal auf deinem Gerät. Ob eine Mahlzeit an dem Tag schon eingetragen ist und die Erinnerung deshalb entfällt, prüft dein Gerät selbst. Dafür werden keine Daten an uns oder an Dritte übermittelt; nur deine Einstellungen dazu (an oder aus, Uhrzeiten) sichert fin mit deinem Konto, damit sie auf all deinen Geräten gelten. Beide schaltest du in fin unter <em>Konto &amp; Einstellungen → Benachrichtigungen</em> einzeln ab, die Uhrzeiten stellst du dort ein.</p>
   <p>Rechtsgrundlage: Art. 6 Abs. 1 lit. a DSGVO – die Einwilligung erteilst du über den Systemdialog von iOS bzw. Android (dort ab Android 13).</p>
 
   <h3>Benachrichtigungen unter Android</h3>
-  <p>Viele Benachrichtigungen von fin entstehen unter Android auf deinem Gerät: Erinnerungen an Training, Supplements und dein Abo, der Gong am Ende der Satzpause, die Anzeige des laufenden Trainings (Übung, Satz und Uhr) und der Tagesbegleiter, der dir den Tag über auf dem Sperrbildschirm zeigt, was ansteht. Dafür werden keine Daten an uns oder an Dritte übermittelt. Hinweise zu sozialen Ereignissen und die übrigen Meldungen, die von unserem Server ausgehen, schickt fin unter Android als Push-Mitteilung über Firebase Cloud Messaging von Google (siehe unten).</p>
-  <p>Die Erlaubnis erteilst du ab Android 13 über den Systemdialog; bis Android 12 fragt das System nicht, dort sind Benachrichtigungen erlaubt, bis du sie abschaltest. Jede Art hat einen eigenen Kanal: <em>Allgemein</em> (Ankündigungen, Prämien und Hinweise von fin), <em>Soziales</em>, <em>Anfeuern</em>, <em>Erinnerungen</em>, <em>Pausengong</em>, <em>Training</em> und <em>Tagesbegleiter</em>. Du schaltest sie in den Android-Einstellungen unter <em>Apps → fin → Benachrichtigungen</em> einzeln oder ganz ab.</p>
+  <p>Viele Benachrichtigungen von fin entstehen unter Android auf deinem Gerät: Erinnerungen an Training, Mahlzeiten, Supplements und dein Abo, der Gong am Ende der Satzpause, die Anzeige des laufenden Trainings (Übung, Satz und Uhr) und der Tagesbegleiter, der dir den Tag über auf dem Sperrbildschirm zeigt, was ansteht. Dafür werden keine Daten an uns oder an Dritte übermittelt. Hinweise zu sozialen Ereignissen und die übrigen Meldungen, die von unserem Server ausgehen, schickt fin unter Android als Push-Mitteilung über Firebase Cloud Messaging von Google (siehe unten).</p>
+  <p>Die Erlaubnis erteilst du ab Android 13 über den Systemdialog; bis Android 12 fragt das System nicht, dort sind Benachrichtigungen erlaubt, bis du sie abschaltest. Jede Art hat einen eigenen Kanal: <em>Allgemein</em> (Ankündigungen, Prämien und Hinweise von fin), <em>Soziales</em>, <em>Anfeuern</em>, <em>Erinnerungen</em>, <em>Mahlzeiten</em>, <em>Pausengong</em>, <em>Training</em> und <em>Tagesbegleiter</em>. Du schaltest sie in den Android-Einstellungen unter <em>Apps → fin → Benachrichtigungen</em> einzeln oder ganz ab.</p>
 
   <h3>Hinweise zu sozialen Ereignissen</h3>
   <p>Für Hinweise zu sozialen Ereignissen – neue Follower, Follower-Anfragen, Likes, Kommentare und Anfeuerungen im laufenden Training – nutzt fin einen Push-Dienst: auf dem iPhone den von Apple, unter Android Firebase Cloud Messaging von Google. Auf demselben Weg kommen Hinweise zu deiner Einladungsprämie und, wenn du zugestimmt hast, Neuigkeiten und Angebote von fin (siehe unten).</p>
@@ -393,6 +404,16 @@
     <p>Benachrichtigungen erscheinen je nach Einstellung auch auf dem gesperrten Bildschirm. Wenn du nicht möchtest, dass Dritte den Inhalt mitlesen können, stell in den iOS-Einstellungen unter <em>Mitteilungen → Vorschau anzeigen</em> auf <em>Wenn entsperrt</em>. Unter Android legst du in den Systemeinstellungen bei den Benachrichtigungen fest, was der Sperrbildschirm zeigt; die genaue Bezeichnung hängt vom Hersteller ab.</p>
   </div>
   <p>Du kannst Benachrichtigungen jederzeit abschalten: auf dem iPhone in den iOS-Einstellungen unter <em>Mitteilungen</em>, unter Android in den Einstellungen unter <em>Apps → fin → Benachrichtigungen</em>. Welche Arten ankommen, stellst du außerdem in fin unter <em>Konto &amp; Einstellungen → Benachrichtigungen</em> ein. Meist geht es um dein Training und deine Freunde.</p>
+
+  <h3>Wenn du ein paar Tage nicht in fin warst</h3>
+  <p>Hast du fin drei Tage lang nicht geöffnet, erinnern wir dich per Push daran („Wir vermissen dich“): eine Woche lang einmal täglich am Abend, danach einmal pro Woche, nach 60 Tagen gar nicht mehr. Damit wir das wissen, meldet die App unserem Server, wann du sie geöffnet hast – aber nur, solange du Benachrichtigungen erlaubt hast und der Schalter <em>Wir vermissen dich</em> an ist.</p>
+  <dl class="feld">
+    <dt>Daten</dt><dd>Der Zeitpunkt, zu dem du fin zuletzt geöffnet hast (die App meldet ihn beim Start und bei der Rückkehr, höchstens alle paar Stunden; wir speichern nur den jeweils letzten), der Tag der letzten Erinnerung und wie viele es insgesamt waren. Ob du länger nicht da warst, entscheiden wir außerdem anhand von Zeitpunkten, die ohnehin gespeichert sind: wann dein Gerät sich zuletzt für Benachrichtigungen angemeldet hat und wann deine Daten zuletzt gesichert wurden. Für die Meldung selbst verwenden wir deinen Vornamen aus dem Profil und die Sprache deines Geräts; zugestellt wird wie oben beschrieben.</dd>
+    <dt>Zweck</dt><dd>Dich an dein Training und deine Ernährung erinnern, wenn du länger nicht in fin warst – und es nicht tun, solange du die App benutzt</dd>
+    <dt>Grundlage</dt><dd>Art. 6 Abs. 1 lit. f DSGVO; unser berechtigtes Interesse ist, dass du fin weiter nutzen kannst, wofür du es eingerichtet hast. Zugestellt wird nur mit deiner Einwilligung in Benachrichtigungen (Art. 6 Abs. 1 lit. a DSGVO, über den Systemdialog von iOS bzw. Android; bis Android 12 über den Knopf <em>Benachrichtigungen erlauben</em> in fin).</dd>
+    <dt>Dauer</dt><dd>Bis du den Schalter abschaltest, Benachrichtigungen nicht mehr erlaubst, dich abmeldest oder dein Konto löschst – dann löschen wir den Zeitpunkt (nimmst du die Erlaubnis in den Einstellungen deines Geräts zurück, beim nächsten Öffnen von fin). Bis dahin wird er bei jedem Öffnen überschrieben.</dd>
+  </dl>
+  <p>Den Zeitpunkt sieht niemand außer uns, auch nicht die Personen, die dir folgen. Du widersprichst jederzeit in fin unter <em>Konto &amp; Einstellungen → Benachrichtigungen</em> mit dem Schalter <em>Wir vermissen dich</em>, oder indem du die Benachrichtigungen abschaltest. Danach meldet die App dein Öffnen nicht mehr, und wir löschen den gespeicherten Zeitpunkt.</p>
 
   <h3>Neuigkeiten und Angebote von fin</h3>
   <p>Auf Neuigkeiten und Aktionen von fin, etwa ein Angebot für fin Pro, weisen wir per Push nur hin, wenn du das selbst eingeschaltet hast: in fin unter <em>Konto &amp; Einstellungen → Benachrichtigungen</em> mit dem Schalter <em>Neues von fin</em>. Ab Werk ist er aus. Wir speichern deine Wahl mit deinem Konto; zugestellt wird wie oben beschrieben, auf dem iPhone über Apple, unter Android über Firebase Cloud Messaging. Rechtsgrundlage: Art. 6 Abs. 1 lit. a DSGVO. Du widerrufst die Einwilligung jederzeit mit demselben Schalter oder indem du die Benachrichtigungen abschaltest. Hinweise zu deiner Einladungsprämie sind keine Werbung und kommen unabhängig von diesem Schalter.</p>
@@ -477,8 +498,8 @@
         </tr>
         <tr>
           <td>OpenAI Ireland Ltd. (Verarbeitung in den USA)</td>
-          <td>nur nach KI-Einwilligung</td>
-          <td>siehe <a href="#ki">Abschnitt 7</a></td>
+          <td>nach KI-Einwilligung; ohne Bezug zu einem Konto außerdem die Namen von Lebensmitteln, die mehrere Konten selbst angelegt haben</td>
+          <td>siehe <a href="#ki">Abschnitt 7</a> und <a href="#s5b">Abschnitt 6</a></td>
         </tr>
         <tr>
           <td>Resend (USA)</td>
@@ -532,7 +553,7 @@
   <div class="merk">
     <p><b>Ein laufendes Abo endet nicht mit dem Konto.</b> Hast du fin Pro abonniert, kündige das Abo vor dem Löschen dort, wo du es abgeschlossen hast: auf dem iPhone in den Einstellungen unter deinem Namen → <em>Abonnements</em>, unter Android in Google Play unter <em>Profil → Zahlungen und Abos → Abos</em>. Sonst verlängert Apple bzw. Google es weiter.</p>
   </div>
-  <p>Dabei werden entfernt: Kontodaten, Nutzername, Profilbild, Bio, Geschlechtsangabe und Geburtsdatum, sämtliche Trainingsdaten und Trainingspläne, Körpergewichtsdaten, dein Ernährungstagebuch (Mahlzeiten, Wasser, Rezepte und eigene Mahlzeiten, Kalorienziel), Folge-Beziehungen und offene Folgeanfragen, deine Einträge im Feed, deine Kommentare und Reaktionen, die Anzeige deines laufenden Trainings, deine Restday-Anfragen und Stimmen, deine Zurufe, deine Benachrichtigungen und Gerätekennungen dafür, von dir abgegebene Meldungen und Blockierungen, deine Einladungen und dein Stand bei der Einladungsprämie sowie deine Kaufdaten (Abo-Status und -Verlauf, Kaufkennung, Aufrufe der Kaufseite).</p>
+  <p>Dabei werden entfernt: Kontodaten, Nutzername, Profilbild, Bio, Geschlechtsangabe und Geburtsdatum, sämtliche Trainingsdaten und Trainingspläne, Körpergewichtsdaten, dein Ernährungstagebuch (Mahlzeiten, Wasser, Rezepte und eigene Mahlzeiten, Kalorienziel), die gemeldeten Namen selbst angelegter Lebensmittel, Folge-Beziehungen und offene Folgeanfragen, deine Einträge im Feed, deine Kommentare und Reaktionen, die Anzeige deines laufenden Trainings, deine Restday-Anfragen und Stimmen, deine Zurufe, deine Benachrichtigungen und Gerätekennungen dafür, der Zeitpunkt, zu dem du fin zuletzt geöffnet hast, von dir abgegebene Meldungen und Blockierungen, deine Einladungen und dein Stand bei der Einladungsprämie sowie deine Kaufdaten (Abo-Status und -Verlauf, Kaufkennung, Aufrufe der Kaufseite).</p>
   <p>In unserer Datenbank erfolgt die Löschung unmittelbar: Alle zugehörigen Datensätze werden in derselben Transaktion mitgelöscht. Ausgenommen sind nur Rückmeldungen, die du uns aus der App geschickt hast, Fehlermeldungen zu gescheiterten Käufen und Angebotscodes, die wir dir zugeteilt haben: Sie bleiben erhalten, verlieren aber die Verknüpfung mit deinem Konto. Sicherungskopien werden, soweit vorhanden, spätestens nach sieben Tagen überschrieben.</p>
   <p>Beim E-Mail-Dienstleister Resend führen wir kein Adressbuch; deine Adresse steht dort nur in den Versandprotokollen einzelner E-Mails. Hast du Strava verbunden, trenne die Verbindung vor dem Löschen in den Einstellungen. Einheiten, die du an Strava übertragen hast, bleiben dort; dafür ist Strava selbst verantwortlich. Ebenso bleiben deine Käufe bei Apple bzw. Google Play gespeichert; dafür sind Apple und Google selbst verantwortlich.</p>
   <p>Ausgenommen sind Daten, die wir aufgrund gesetzlicher Aufbewahrungspflichten weiter vorhalten müssen; diese sperren wir für alle anderen Zwecke.</p>

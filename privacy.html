@@ -35,7 +35,7 @@
       <li class="nein">No ads, no tracking, no passing data on to data brokers.</li>
       <li>Sleep, resting heart rate, heart rate variability, steps and the routes of your sessions from Apple Health or Health Connect stay on your device.</li>
       <li>fin takes over runs, rides and swims from other apps automatically. You can switch this off. They only appear in the feed if you share them yourself.</li>
-      <li>You can switch off notifications at any time in your device&rsquo;s settings. We only send offers from fin as push notifications if you switch this on yourself in the app.</li>
+      <li>You can switch off notifications at any time in your device&rsquo;s settings, and reminders individually in fin. We only send offers from fin as push notifications if you switch this on yourself in the app.</li>
       <li>You buy fin Pro through the App Store or Google Play. We do not see your payment details.</li>
       <li class="nein">Health data is never used for advertising.</li>
     </ul>
@@ -160,11 +160,14 @@
   <h3>Sex, height, date of birth and weight during setup</h3>
   <p>During setup you may voluntarily provide your sex, your height, your date of
   birth (or just the year of birth) and your current weight. We use sex to show you
-  the appropriate additional weights in competition formats such as Hyrox; weight
+  the appropriate additional weights in competition formats such as Hyrox, and for the
+  strength rating on the leaderboard, whose thresholds differ for women and men. Weight
   forms the starting point of your weight history. From these details fin calculates
   your daily requirement of calories and nutrients; your age is also taken into
   account in a training plan that fin creates for you. All four details are visible
-  only to you and appear neither in the feed nor on share cards.</p>
+  only to you and appear neither in the feed nor on share cards; on the leaderboard
+  others see only the result of the rating (see <a href="#s6">Section 8</a>,
+  &ldquo;Body weight&rdquo;).</p>
   <p>Legal basis: Art. 6(1)(b) GDPR, for body measurements in conjunction with
   Art. 9(2)(a) GDPR. All details are voluntary and can be skipped; without them we
   show default values. You can change or remove them in your profile at any time.</p>
@@ -243,6 +246,37 @@
   the image is not sent to Google. Both are covered in <a href="#s12">Section 17</a>.
   How fin analyses photos, sentences and recipes with an AI is described in
   <a href="#ki">Section 7</a>.</p>
+
+  <h3>Foods you create yourself</h3>
+  <p>If fin does not know a food, you can create it yourself. When you log such a
+  food, the app reports its name to our server together with your account ID. These
+  reports tell us which foods several people are missing from our directory.</p>
+  <dl class="feld">
+    <dt>Data</dt><dd>The name of the food in simplified form (lower case, umlauts
+      transliterated, without punctuation, words sorted alphabetically), your account ID, the time
+      of the first report and, once we have looked the name up, the time of that
+      lookup. Each name is stored only once per account. The app does not send
+      nutritional values, quantity or the time of your meal for this.</dd>
+    <dt>Purpose</dt><dd>Looking up foods that several people create by hand
+      independently of each other once, and making them findable in the search for
+      everyone</dd>
+    <dt>Basis</dt><dd>Art. 6(1)(f) GDPR; our legitimate interest is a food directory
+      in which you and others find what everyone would otherwise have to create
+      themselves. Where the name allows conclusions about your diet, in conjunction
+      with Art. 9(2)(a) GDPR, as with your nutrition diary.</dd>
+    <dt>Retention</dt><dd>Until you delete your account</dd>
+  </dl>
+  <p>Once at least three accounts have independently created a food with the same
+  name, our server looks it up once: first in our directory, then on the web using the
+  product lookup described in <a href="#ki">Section 7</a>. Only the name is sent to
+  OpenAI, without reference to any account. If the lookup finds the product on a
+  verifiable page, we add it to our directory together with that source. The values
+  you typed in are not used. No other user can see who created a food or how many
+  people did.</p>
+  <p>You can object to this processing at any time (Art. 21 GDPR). This is not
+  possible in the app; an informal message to
+  <a href="mailto:support@fin-tracker.de">support@fin-tracker.de</a> is sufficient,
+  and we will delete the names your account has reported.</p>
 
   <h3>Speaking instead of typing</h3>
   <p>When you tap &ldquo;Speak&rdquo;, fin uses the microphone to turn what you say
@@ -353,10 +387,16 @@
   yourself. They are <b>stored with your account on our servers</b> and synchronised
   between your devices. Body weight is used for your weight curve, for calculating
   your calorie requirement and for the strength rating on the leaderboard.</p>
-  <p>The strength rating uses your most recently stored weight. fin calculates it in
-  the app; we also calculate it in a separate run from the data stored in your
-  account. Other users see only the result, i.e. your tier and score &ndash; namely
-  people who follow you and, if your profile is public, other users as well.
+  <p>The strength rating uses your best sets of a completed week, your most recently
+  stored weight and your stated sex. fin calculates it in the app, at launch and after
+  every workout. If the app has not updated your rating since the start of the week,
+  for example because you have not opened fin, our server recalculates it at night:
+  from the data stored in your account (your training log, your body weight and your
+  stated sex) and by the same rules as the app. This data does not leave our servers
+  at Supabase (EU) in the process. So that we do not read your account again every
+  night, we remember until the end of the week which state of it we read. Other
+  users see only the result, i.e. your tier and score &ndash; namely people who
+  follow you and, if your profile is public, other users as well.
   <b>No other user sees your body weight itself.</b></p>
   <p>If you delete a measurement in fin, fin will not take it over again. For this,
   fin remembers the time and identifier of the deleted measurement in your account.
@@ -390,7 +430,8 @@
   course of the route. This also applies to sessions that other apps or watches have
   stored in Apple Health. The waypoints stay on your device. They are neither stored
   in your account nor passed on to other users; only you see the map, in your
-  history.</p>
+  history &ndash; unless you share it yourself as an image (see
+  <a href="#s8">Section 11</a>).</p>
   <p>To draw the map image, your iPhone requests from Apple Maps (Apple Inc.) the map
   section that encloses the route. Apple receives only this section, not the route
   itself. This happens when you open a session, automatically for up to three sessions
@@ -650,26 +691,37 @@
 
 <section id="s8">
   <h2>Sharing content</h2>
-  <p>The share function creates graphics summarising your workout, your volume or the
-  muscle groups you trained.</p>
-  <p>The graphics are created on your device. They are not transmitted to us. As soon
-  as you share a graphic in another app or on a social network, that provider&rsquo;s
-  privacy terms apply. Since the graphics contain training data, consider the audience
-  before sharing.</p>
+  <p>The share function creates graphics: for a session, summarising your workout,
+  your volume or the muscle groups you trained, and for sessions with a route also with
+  the map or just the outline of your loop; for a recipe, as a nutrition label; and
+  from the fin tile on your Home screen.</p>
+  <p>The graphics are created on your device. They are not transmitted to us. You pass
+  a graphic on via your device&rsquo;s share menu, save it to your photos (on Android
+  to the gallery, in the album <em>fin</em>) or copy it. When saving, fin does not
+  read your other photos; on iPhone, fin only asks for permission to add images, on
+  Android 8 and 9 for permission to write to storage. As soon as you share a graphic
+  in another app or on a social network, that provider&rsquo;s privacy terms apply.
+  Since the graphics
+  contain training or nutrition data, consider the audience before sharing.</p>
 </section>
 
 <section id="s9">
   <h2>Notifications</h2>
 
-  <h3>Training reminders</h3>
-  <p>fin schedules training reminders locally on your device. No data is transmitted
-  to us or to third parties for this.</p>
+  <h3>Training and meal reminders</h3>
+  <p>fin schedules training reminders and the reminders for breakfast, lunch and dinner
+  locally on your device. Whether a meal has already been logged that day, so that its
+  reminder is skipped, is checked by your device itself. No data is transmitted to us
+  or to third parties for this; only your settings for them (on or off, times) are
+  saved with your account by fin, so that they apply on all your devices. You switch
+  both off individually in fin under
+  <em>Account &amp; Settings &rarr; Notifications</em> and set their times there.</p>
   <p>Legal basis: Art. 6(1)(a) GDPR &ndash; you give consent via the system dialog of
   iOS or Android (on Android from Android 13).</p>
 
   <h3>Notifications on Android</h3>
   <p>On Android, many of fin&rsquo;s notifications are created on your device:
-  reminders about training, supplements and your subscription, the chime at the end of
+  reminders about training, meals, supplements and your subscription, the chime at the end of
   the rest timer, the display of your ongoing workout (exercise, set and clock), and
   the daily companion, which shows you on the lock screen throughout the day what is
   coming up. No data is transmitted to us or to third parties for this. Alerts about
@@ -678,7 +730,7 @@
   <p>From Android 13 you grant permission via the system dialog; up to Android 12 the
   system does not ask, and notifications are allowed until you switch them off. Each
   kind has its own channel: <em>General</em> (announcements, rewards and notes from
-  fin), <em>Social</em>, <em>Cheers</em>, <em>Reminders</em>, <em>Rest timer</em>,
+  fin), <em>Social</em>, <em>Cheers</em>, <em>Reminders</em>, <em>Meals</em>, <em>Rest timer</em>,
   <em>Workout</em> and <em>Daily companion</em>. You switch them off individually or
   entirely in the Android settings under <em>Apps &rarr; fin &rarr; Notifications</em>.</p>
 
@@ -733,6 +785,37 @@
   <em>Apps &rarr; fin &rarr; Notifications</em>. You also choose which kinds arrive in
   fin under <em>Account &amp; Settings &rarr; Notifications</em>. Mostly they are about
   your training and your friends.</p>
+
+  <h3>When you haven&rsquo;t been in fin for a few days</h3>
+  <p>If you haven&rsquo;t opened fin for three days, we remind you by push notification
+  (&ldquo;We miss you&rdquo;): once a day in the evening for a week, then once a week,
+  and not at all after 60 days. To know this, the app tells our server when you opened
+  it &ndash; but only while you allow notifications and the <em>We miss you</em> switch
+  is on.</p>
+  <dl class="feld">
+    <dt>Data</dt><dd>The time you last opened fin (the app reports it at launch and
+    when you return to it, at most every few hours; we only keep the most recent one),
+    the day of the last reminder and how many there have been in total. To decide whether
+    you have been away, we also use times that are stored anyway: when your device last
+    registered for notifications and when your data was last backed up. For the message
+    itself we use your first name from your profile and your device&rsquo;s language;
+    delivery works as described above.</dd>
+    <dt>Purpose</dt><dd>Reminding you of your training and nutrition when you
+    haven&rsquo;t been in fin for a while &ndash; and not doing so while you use the
+    app</dd>
+    <dt>Basis</dt><dd>Art. 6(1)(f) GDPR; our legitimate interest is that you can keep
+    using fin for what you set it up for. Delivery only happens with your consent to
+    notifications (Art. 6(1)(a) GDPR, via the system dialog of iOS or Android; up to
+    Android 12 via the <em>Allow notifications</em> button in fin).</dd>
+    <dt>Retention</dt><dd>Until you turn the switch off, no longer allow notifications,
+    sign out or delete your account &ndash; then we delete the time (if you withdraw
+    the permission in your device&rsquo;s settings, the next time you open fin). Until
+    then it is overwritten each time you open the app.</dd>
+  </dl>
+  <p>Nobody but us sees this time, not even the people who follow you. You can object
+  at any time in fin under <em>Account &amp; Settings &rarr; Notifications</em> with the
+  <em>We miss you</em> switch, or by switching notifications off. After that the app no
+  longer reports when you open it, and we delete the stored time.</p>
 
   <h3>News and offers from fin</h3>
   <p>We only point out news and promotions from fin by push notification, such as an
@@ -877,8 +960,9 @@
         </tr>
         <tr>
           <td>OpenAI Ireland Ltd. (processing in the USA)</td>
-          <td>only after AI consent</td>
-          <td>see <a href="#ki">Section 7</a></td>
+          <td>after AI consent; without reference to any account, also the names of
+            foods that several accounts have created themselves</td>
+          <td>see <a href="#ki">Section 7</a> and <a href="#s5b">Section 6</a></td>
         </tr>
         <tr>
           <td>Resend (USA)</td>
@@ -976,10 +1060,11 @@
   </div>
   <p>The following is removed: account data, username, profile picture, bio, sex and
   date of birth, all training data and training plans, body weight data, your nutrition
-  diary (meals, water, recipes and your own meals, calorie target), following
-  relationships and pending follow requests, your entries in the feed, your comments
+  diary (meals, water, recipes and your own meals, calorie target), the reported
+  names of foods you created yourself, following relationships and pending follow requests, your entries in the feed, your comments
   and reactions, the display of your ongoing workout, your rest day requests and votes,
-  your shout-outs, your notifications and the device tokens for them, reports and
+  your shout-outs, your notifications and the device tokens for them, the time you last
+  opened fin, reports and
   blocks you have submitted, your invitations and your referral reward status, and your
   purchase data (subscription status and history, purchase identifier, visits to the
   purchase page).</p>
