@@ -1,13 +1,25 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
+<!--
+  ENTWURF ZUR ANWALTLICHEN PRÜFUNG. Stand 01.10.2026.
+  Nicht veröffentlichen, bevor eine Anwältin oder ein Anwalt (IT-, Verbraucher-,
+  Wettbewerbsrecht, dazu Datenschutz) den Text geprüft hat. Das ist keine
+  Rechtsberatung.
+  Begründung je Abschnitt mit Normen: scratchpad/recht/AGB-AENDERUNGEN.md.
+  Stellen, die erst mit einer App- oder Server-Änderung stimmen, sind im Text
+  mit einem Kommentar "OFFEN" markiert. Vor dem Hochladen: jedes OFFEN erledigen
+  oder den Satz anpassen, "Stand" auf das Datum des Inkrafttretens setzen und
+  terms.html (EN) gleichziehen.
+  Einführung bei Bestandsnutzern nur mit aktiver Zustimmung in der App
+  (Abschnitt 19), nicht durch Schweigen.
+-->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Nutzungsbedingungen – fin</title>
-<meta name="description" content="Nutzungsbedingungen der App fin für iPhone, Apple Watch, Android und Web: Konto, Abo, Inhalte, Verhaltensregeln und Haftung.">
+<title>Nutzungsbedingungen · fin</title>
+<meta name="description" content="Nutzungsbedingungen der App fin für iPhone, Apple Watch, Android und Web: Mindestalter, Konto, fin Pro, Gesundheit, KI, Inhalte, Regeln und Haftung.">
 <meta name="robots" content="index, follow">
 <link rel="stylesheet" href="style.css">
-<style>mark.todo{background:#FFE98A;color:#111213;padding:0 .2rem;border-radius:.2rem}</style>
 </head>
 <body>
 
@@ -18,39 +30,45 @@
 <header>
   <div class="marke">fin <span>Nutzungsbedingungen</span></div>
   <h1>Die Regeln,<br>kurz gefasst</h1>
-  <p class="stand">Stand: <b>24.09.2026</b></p>
+  <p class="stand">Stand: <b>01.10.2026</b></p>
 
   <div class="kurz">
     <h2>Kurz gesagt</h2>
     <ul>
-      <li>Du brauchst ein Konto und musst mindestens 13 Jahre alt sein. Bist du jünger als 16, brauchst du die Zustimmung deiner Eltern.</li>
-      <li>fin Pro kaufst du bei Apple (App Store) oder bei Google Play, nicht bei uns – als Abo oder als Einmalkauf. Ein Abo kündigst du auch dort.</li>
-      <li>Lifetime: einmal zahlen, Pro ohne Abo, solange es fin gibt.</li>
-      <li>Was du schreibst, verantwortest du. Deine Inhalte bleiben deine.</li>
-      <li>Mit fin Pro &uuml;bernimmt fin L&auml;ufe, Radfahrten und Schwimmeinheiten aus anderen Apps automatisch &ndash; das kannst du abschalten.</li>
-      <li class="nein">fin ersetzt keine ärztliche Beratung und kein Coaching.</li>
-      <li class="nein">Beleidigungen, Werbung und fremde Inhalte führen zur Sperrung.</li>
+      <li>fin darfst du ab 15 Jahren nutzen. Bist du jünger als 18, brauchst du die Zustimmung deiner Eltern oder einer anderen erziehungsberechtigten Person. Das gilt für die Nutzung und für Käufe.</li>
+      <li>fin Pro kaufst du im App Store oder bei Google Play. Dort kündigst du dein Abo, und dort beantragst du in der Regel auch Erstattungen.</li>
+      <li>Lifetime heißt: einmal zahlen, fin Pro ohne Abo, solange es fin gibt.</li>
+      <li>fin ist kein Medizinprodukt. Kalorien, Nährwerte, Preise und KI-Werte sind Schätzungen.</li>
+      <li>Deine Inhalte bleiben deine. Was du veröffentlichst, verantwortest du.</li>
+      <li>Neue Fassungen dieser Bedingungen gelten für dich erst, wenn du zustimmst.</li>
+      <li class="nein">Beleidigungen, Belästigung, Spam und fremde Inhalte können zur Sperre führen.</li>
     </ul>
   </div>
 
   <nav class="toc" aria-label="Inhalt">
     <h2>Inhalt</h2>
     <ol>
-      <li><a href="#s1">Anbieter und Geltungsbereich</a></li>
-      <li><a href="#s2">Was fin ist</a></li>
-      <li><a href="#s3">Konto und Mindestalter</a></li>
-      <li><a href="#s4">Abonnement und Testphase</a></li>
+      <li><a href="#s1">Anbieter, Geltung und Vertragsschluss</a></li>
+      <li><a href="#s2">Was fin bietet</a></li>
+      <li><a href="#s3">Mindestalter und Minderjährige</a></li>
+      <li><a href="#konto">Konto und Zugangsdaten</a></li>
+      <li><a href="#pro">fin Pro: Abo und Probezeitraum</a></li>
       <li><a href="#lifetime">fin Pro Lifetime</a></li>
-      <li><a href="#s5">Nutzungsrechte</a></li>
-      <li><a href="#s6">Deine Inhalte</a></li>
-      <li><a href="#s7">Verhaltensregeln</a></li>
-      <li><a href="#s8">Melden, Blockieren, Sperren</a></li>
-      <li><a href="#s9">Gesundheitshinweis</a></li>
-      <li><a href="#s10">Verfügbarkeit</a></li>
-      <li><a href="#s11">Haftung</a></li>
-      <li><a href="#s12">Laufzeit und Beendigung</a></li>
-      <li><a href="#s13">Änderungen</a></li>
-      <li><a href="#s14">Schlussbestimmungen</a></li>
+      <li><a href="#aktionen">Aktionen, Einladungen, Gewinnspiele</a></li>
+      <li><a href="#gesundheit">Gesundheitshinweis</a></li>
+      <li><a href="#ki">KI-Schätzungen</a></li>
+      <li><a href="#einkauf">Wocheneinkauf, Preise und Nährwerte</a></li>
+      <li><a href="#dritte">Verbundene Dienste und Partner</a></li>
+      <li><a href="#inhalte">Deine Inhalte und Sichtbarkeit</a></li>
+      <li><a href="#regeln">Verhaltensregeln</a></li>
+      <li><a href="#moderation">Melden, Moderation, Sperren</a></li>
+      <li><a href="#rechte">Nutzungsrechte an fin</a></li>
+      <li><a href="#dienst">Verfügbarkeit, Updates, Änderungen des Dienstes</a></li>
+      <li><a href="#haftung">Haftung</a></li>
+      <li><a href="#ende">Laufzeit, Kündigung, Kontolöschung</a></li>
+      <li><a href="#aenderungen">Änderungen dieser Bedingungen</a></li>
+      <li><a href="#stores">Hinweise zu App Store und Google Play</a></li>
+      <li><a href="#schluss">Schlussbestimmungen</a></li>
     </ol>
   </nav>
 </header>
@@ -58,158 +76,254 @@
 <main>
 
 <section id="s1">
-  <h2>Anbieter und Geltungsbereich</h2>
+  <h2>1. Anbieter, Geltung und Vertragsschluss</h2>
   <p>Anbieter der App fin ist:</p>
   <address>
-    Tim Bodon · gymmittim<br>
+    Tim Bodon · gymmittim (Einzelunternehmen)<br>
     Kiskamperweg 13<br>
     48683 Ahaus, Deutschland
   </address>
-  <p style="margin-top:1rem">E-Mail: <a href="mailto:support@fin-tracker.de">support@fin-tracker.de</a></p>
-  <p>Diese Nutzungsbedingungen gelten für die Nutzung der App fin auf iPhone und Apple Watch, auf Android-Geräten sowie für die Web-Version – gleich, ob du die App über den App Store von Apple oder über Google Play bezogen hast. Mit der Registrierung erkennst du sie an.</p>
-  <p>Abweichende Bedingungen gelten nur, wenn wir ihnen ausdrücklich schriftlich zugestimmt haben.</p>
+  <p style="margin-top:1rem">E-Mail: <a href="mailto:support@fin-tracker.de">support@fin-tracker.de</a> · Weitere Angaben im <a href="impressum.html">Impressum</a>.</p>
+  <p>Im Folgenden heißt der Anbieter „wir“, du als Nutzerin oder Nutzer „du“.</p>
+  <p>Diese Bedingungen gelten für die App fin auf iPhone und Apple Watch, auf Android-Geräten und im Web und für die fin-App für Garmin-Uhren, egal ob du fin aus dem App Store, aus Google Play oder aus dem Connect IQ Store von Garmin hast.</p>
+  <!-- OFFEN: Garmin nur nennen, wenn die Connect-IQ-App veröffentlicht ist; sonst den Garmin-Teil hier und in den Abschnitten 11 und 20 streichen. -->
+  <p><b>Vertragsschluss.</b> Der Nutzungsvertrag kommt zustande, wenn du bei der Registrierung diesen Bedingungen zustimmst und wir dein Konto anlegen. Die Bedingungen sind dort verlinkt. Du kannst sie jederzeit auf dieser Seite abrufen, speichern und drucken. Wir speichern, welcher Fassung du wann zugestimmt hast, und schicken dir frühere Fassungen auf Anfrage.</p>
+  <!-- OFFEN: Protokoll der Zustimmung (Fassung, Zeitpunkt) in der Datenbank anlegen, siehe AGB-AENDERUNGEN.md. -->
+  <p>Vertragssprache ist Deutsch. Eine englische Übersetzung findest du unter <a href="terms.html">terms.html</a>.</p>
+  <p>Allgemeine Geschäftsbedingungen von Nutzerinnen und Nutzern gelten nicht.</p>
 </section>
 
 <section id="s2">
-  <h2>Was fin ist</h2>
-  <p>fin ist eine App zur Aufzeichnung und Auswertung von Training. Du legst Trainingspläne an, protokollierst Sätze, Wiederholungen und Gewichte, siehst deinen Verlauf in Diagrammen und kannst abgeschlossene Einheiten mit Personen teilen, die dir folgen.</p>
-  <p>Mit fin Pro &uuml;bernimmt fin zus&auml;tzlich Trainingseinheiten, die andere Apps in Apple Health (iPhone) oder Health Connect (Android) abgelegt haben, in deinen fin-Verlauf: L&auml;ufe, Radfahrten und Schwimmeinheiten automatisch, sofern du das nicht in den Einstellungen abschaltest, andere Einheiten einzeln durch dein Antippen.</p>
-  <p>Der Funktionsumfang entwickelt sich weiter. Ein Anspruch auf den Fortbestand einzelner Funktionen besteht nicht, solange der Kern der Leistung erhalten bleibt.</p>
+  <h2>2. Was fin bietet</h2>
+  <p>fin ist eine App, mit der du Training und Ernährung aufzeichnest und auswertest. Dazu gehören:</p>
+  <ul class="punkte">
+    <li><b>Training:</b> Pläne anlegen, Sätze, Wiederholungen und Gewichte protokollieren, Verlauf und Diagramme, Vorschläge zur Steigerung, ein Trainer, der Pläne vorschlägt, und ein Wert zur Trainingsbereitschaft.</li>
+    <li><b>Ernährung:</b> ein Kalorien- und Nährwertziel aus deinen Angaben, ein Ernährungstagebuch, eine Lebensmitteldatenbank und das Erkennen von Mahlzeiten per Foto, Sprache oder Text mit KI (Abschnitt 9).</li>
+    <li><b>Wocheneinkauf:</b> Wochenpläne mit Gerichten, Einkaufsliste und geschätzten Supermarktpreisen (Abschnitt 10).</li>
+    <li><b>Gemeinschaft:</b> Profil, Folgen, Feed, Kommentare, Serien und Rangliste, für freigeschaltete Konten ein Creator-Profil (Abschnitt 12).</li>
+    <li><b>Verbundene Dienste:</b> Übernahme von Daten aus Apple Health, Health Connect, Strava und Whoop, wenn du das einrichtest (Abschnitt 11).</li>
+    <li><b>Mitteilungen:</b> Erinnerungen und Hinweise per Push, die du in den Einstellungen steuerst.</li>
+  </ul>
+  <p>Einen Grundumfang kannst du kostenlos nutzen. Weitere Funktionen gehören zu fin Pro (Abschnitte 5 und 6). Was kostenlos ist und was zu fin Pro gehört, zeigt dir die App vor jedem Kauf.</p>
+  <p>fin leistet keine ärztliche Beratung, keine Ernährungsberatung, kein persönliches Coaching und keine Kaufberatung. Alle Werte sind rechnerische Richtwerte (Abschnitt 8).</p>
+  <p>Für einzelne Funktionen können zusätzliche Bedingungen gelten, etwa für Aktionen. Wir zeigen sie dir vor der Nutzung.</p>
 </section>
 
 <section id="s3">
-  <h2>Konto und Mindestalter</h2>
-  <p>Für die Nutzung brauchst du ein Konto. Deine Angaben müssen zutreffend sein, und du hältst sie aktuell.</p>
-  <p><b>Die Nutzung ist Personen ab 13 Jahren gestattet.</b> Für die Verarbeitung deiner Trainings- und Gesundheitsdaten und für die KI-Funktionen ist eine ausdrückliche Einwilligung erforderlich, die in Deutschland ab dem vollendeten 16. Lebensjahr wirksam selbst erteilt werden kann (Art. 8 DSGVO). <b>Bist du jünger als 16, brauchst du dafür die Zustimmung deiner Eltern</b> oder anderer Sorgeberechtigter.</p>
-  <p>Bei der Registrierung bestätigst du dein Alter: unter Android, dass du mindestens 13 Jahre alt bist und, falls du jünger als 16 bist, deine Eltern einverstanden sind; auf dem iPhone und im Web, dass du mindestens 16 Jahre alt bist.</p>
-  <p>Deine Zugangsdaten gibst du nicht weiter. Ein Konto ist für eine Person bestimmt. Wenn du den Verdacht hast, dass jemand unbefugt darauf zugreift, sag uns Bescheid und ändere dein Passwort, bei der Anmeldung mit Google oder Apple das deines Google-Kontos bzw. Apple-Accounts.</p>
-  <p>Nutzernamen, die Rechte Dritter verletzen, andere Personen imitieren oder beleidigend sind, dürfen wir ändern oder sperren.</p>
+  <h2>3. Mindestalter und Minderjährige</h2>
+  <p><b>(1) Mindestalter 15.</b> fin darfst du nutzen, wenn du mindestens 15 Jahre alt bist. In der App lässt sich kein Geburtsdatum eintragen, das jünger ist.</p>
+  <p><b>(2) Unter 18 nur mit Zustimmung.</b> Bist du jünger als 18, brauchst du die Zustimmung einer erziehungsberechtigten Person, zum Beispiel deiner Eltern. Die Zustimmung muss die Nutzung von fin und etwaige Käufe umfassen, also fin Pro, Lifetime und Aktionsangebote. Bei der Registrierung bestätigst du, dass diese Zustimmung vorliegt. Zeig deinen Eltern dafür diese Bedingungen und die <a href="datenschutz.html">Datenschutzerklärung</a>.</p>
+  <!-- OFFEN: Anmeldesatz in anmelden.jsx (Zeilen ~109 und ~222), texte.js (EN) und die Ersetzung in AUF_ANDROID auf diese Regel umstellen, eine Fassung für iOS, Android und Web. Vorschlag in AGB-AENDERUNGEN.md. -->
+  <p><b>(3) Unter 16: Einwilligungen.</b> Manche Funktionen brauchen nach dem Datenschutzrecht deine Einwilligung, zum Beispiel die Übernahme von Gesundheitsdaten aus Apple Health oder Health Connect, die KI-Erkennung und verbundene Dienste. Bist du jünger als 16, gilt deine Einwilligung nur, wenn deine Eltern zustimmen (Art. 8 DSGVO). Wir dürfen dafür eine Bestätigung deiner Eltern verlangen, zum Beispiel per E-Mail, und diese Funktionen bis dahin gesperrt lassen.</p>
+  <p><b>(4) Käufe.</b> Käufe laufen über den App Store oder Google Play. Eltern können dort Käufe sperren oder freigeben lassen, bei Apple zum Beispiel mit „Kaufen anfragen“ in der Familienfreigabe, bei Google Play mit der Kaufbestätigung oder Family Link. Ein Kauf ohne die nötige Zustimmung ist nur wirksam, wenn deine Eltern ihn genehmigen. Genehmigen sie ihn nicht, könnt ihr den Kaufpreis zurückverlangen. Wendet euch dafür an den Store, bei dem gekauft wurde. Wir helfen euch dabei unter <a href="mailto:support@fin-tracker.de">support@fin-tracker.de</a>.</p>
+  <p><b>(5) Schutz Minderjähriger.</b> Für Nutzerinnen und Nutzer unter 18 dürfen wir einzelne Funktionen einschränken oder anders voreinstellen, zum Beispiel Kaufangebote, Aktionen, Werbung, Partner-Links, Codes in Creator-Profilen, die Sichtbarkeit des Profils oder Abnehm- und Fastenziele.</p>
+  <p><b>(6) Richtige Angaben.</b> Wir fragen deinen Geburtstag ab, um dein Kalorienziel zu berechnen und das Mindestalter zu prüfen. Gib ihn richtig an.</p>
+  <p><b>(7) Sperre und Löschung.</b> Wir dürfen ein Konto sperren, wenn die Person jünger als 15 ist, wenn unter 18 die Zustimmung fehlt oder wenn eine erziehungsberechtigte Person widerspricht. Neue Konten, deren eingetragener Geburtstag ein Alter unter 15 ergibt, sperren wir automatisch. Wir sagen dir den Grund. Ist es ein Irrtum, etwa ein Vertipper beim Geburtstag, schreib uns innerhalb von 30 Tagen. Wir können dich bitten, dein Alter glaubhaft zu machen. Danach löschen wir das Konto und seine Daten, soweit wir sie nicht aufbewahren müssen.</p>
+  <!-- OFFEN: 113_altersgrenze.sql sperrt ohne Frist und löscht nicht. Löschung nach 30 Tagen serverseitig umsetzen, Sperrmeldung mit Grund, Kontaktweg, Hinweis zur Abo-Kündigung und Erstattung (iOS und Android gleich). -->
+  <p>Eine Sperre beendet kein Abo im Store. Kündige es dort und beantrage dort eine Erstattung, wir unterstützen dich dabei.</p>
+  <p><b>(8) Eltern.</b> Erziehungsberechtigte erreichen uns unter <a href="mailto:support@fin-tracker.de">support@fin-tracker.de</a>. Widersprechen sie der Nutzung, sperren oder löschen wir das Konto auf ihren Wunsch. Wir können einen Nachweis verlangen, dass die Nachricht von einer erziehungsberechtigten Person kommt.</p>
 </section>
 
-<section id="s4">
-  <h2>Abonnement und Testphase</h2>
+<section id="konto">
+  <h2>4. Konto und Zugangsdaten</h2>
+  <p>Für fin brauchst du ein Konto. Du meldest dich mit E-Mail und Passwort, mit Apple oder mit Google an. Deine Angaben müssen stimmen, und du hältst sie aktuell.</p>
+  <p>Ein Konto ist für eine Person bestimmt und nicht übertragbar. Gib deine Zugangsdaten nicht weiter. Hast du den Verdacht, dass jemand unbefugt auf dein Konto zugreift, ändere dein Passwort (bei der Anmeldung mit Apple oder Google das deines Apple-Accounts oder Google-Kontos) und sag uns Bescheid.</p>
+  <p>Nutzernamen und Anzeigenamen dürfen keine Rechte Dritter verletzen, keine anderen Personen nachahmen und nicht beleidigend sein. Sonst dürfen wir sie ändern oder sperren. Wir sagen dir den Grund.</p>
+  <p>Nachrichten, die für dein Konto oder diesen Vertrag nötig sind, etwa zu Sicherheit, Sperren oder Änderungen, schicken wir dir in der App oder per E-Mail. Werbung schicken wir nur, wenn du eingewilligt hast. Du kannst sie jederzeit abbestellen.</p>
+</section>
 
-  <h3>Wer dein Vertragspartner ist</h3>
-  <p>fin Pro erwirbst du über den Store deines Geräts – auf iPhone über den App Store, auf Android über Google Play –, als Abo mit automatischer Verlängerung (Laufzeit ein Monat, drei Monate oder ein Jahr) oder als Einmalkauf (fin Pro Lifetime, siehe Abschnitt 5). Welche Laufzeiten gerade angeboten werden, siehst du in der App.</p>
-  <p><b>App Store.</b> <b>Der Kaufvertrag kommt zwischen dir und Apple zustande</b>, nicht zwischen dir und uns. Für Zahlung, Rechnungsstellung, Kündigung und Rückerstattung gelten die Bedingungen von Apple.</p>
-  <p><b>Google Play.</b> Kaufst du über Google Play, wickelt Google den Kauf ab: Zahlung, Abrechnung, Kündigung und Erstattung laufen über dein Google-Konto bei Google Play. Neben diesen Nutzungsbedingungen gelten dafür die Bedingungen von Google Play.</p>
-  <p>Von uns bekommst du keine Rechnung und keine Zahlungsaufforderung. Deine Zahlungsdaten sehen wir nicht; sie liegen bei Apple bzw. Google. Bei Käufen über den App Store sehen wir auch deine Rechnungsadresse nicht.</p>
+<section id="pro">
+  <h2>5. fin Pro: Abo und Probezeitraum</h2>
 
-  <h3>Testphase</h3>
-  <p>Neue Nutzerinnen und Nutzer können fin 30 Tage kostenlos testen. Kaufst du über den App Store, ist die Testphase an deine Apple-ID gebunden und kann pro Apple-ID nur einmal in Anspruch genommen werden – unabhängig davon, wie viele fin-Konten du anlegst. Kaufst du über Google Play, ist die Testphase an das Google-Konto gebunden, mit dem du kaufst, und steht dir pro Google-Konto nur einmal zu – ebenfalls unabhängig davon, wie viele fin-Konten du anlegst.</p>
-  <p><b>App Store.</b> Kündigst du nicht spätestens 24 Stunden vor Ablauf, geht die Testphase in das gewählte Abonnement über.</p>
-  <p><b>Google Play.</b> Kündigst du nicht vor Ablauf der Testphase, geht sie in das gewählte Abonnement über.</p>
+  <h3>Kauf und Vertragspartner</h3>
+  <p>fin Pro kaufst du in der App über den Store deines Geräts: auf dem iPhone über den App Store, auf Android über Google Play. Es gibt fin Pro als Abo, das sich automatisch verlängert, und als Einmalkauf (Lifetime, Abschnitt 6). Welche Laufzeiten es gibt, zeigt dir die App.</p>
+  <p><b>Den Kauf schließt du über den Store ab.</b> Händler ist nach den Bedingungen der Stores beim App Store eine Apple-Gesellschaft (für Kundinnen und Kunden in der EU in der Regel Apple Distribution International Ltd.) und bei Google Play Google Commerce Limited. Zahlung, Abrechnung, Widerruf, Kündigung und Erstattung richten sich nach den Bedingungen des jeweiligen Stores. Was fin Pro umfasst und wie wir es bereitstellen, regeln diese Bedingungen.</p>
+  <p>Von uns bekommst du keine Rechnung. Deine Zahlungsdaten sehen wir nicht.</p>
 
-  <h3>Laufzeit und Verlängerung</h3>
-  <p><b>App Store.</b> Das Abonnement verlängert sich automatisch um die gewählte Laufzeit, sofern du nicht spätestens 24 Stunden vor Ablauf kündigst. Die Kündigung erfolgt in den Einstellungen deines Apple-Accounts unter <em>Apple-Account → Abonnements</em>.</p>
-  <p><b>Google Play.</b> Das Abonnement verlängert sich automatisch um die gewählte Laufzeit, bis du es kündigst. Du kannst jederzeit kündigen; das Abo endet dann mit Ablauf des laufenden Zeitraums, bis dahin bleibt dir fin Pro. Die Kündigung erfolgt in Google Play unter <em>Google Play → Profil → Zahlungen und Abos → Abos</em>.</p>
-  <p>In fin kommst du unter <em>Profil → Konto &amp; Einstellungen → Abonnement → Abo kündigen</em> direkt zur Abo-Verwaltung deines Stores. Eine Kündigung uns gegenüber ist dafür nicht möglich und nicht nötig.</p>
+  <h3>Preise</h3>
+  <p>Den Preis siehst du vor dem Kauf in der App und im Kaufblatt des Stores. Es sind Endpreise einschließlich Umsatzsteuer in deiner Landeswährung. Zeigen wir beim Jahresabo einen durchgestrichenen Betrag, ist das der Preis von zwölf Monaten im Monatsabo.</p>
 
-  <h3>Nach Ablauf</h3>
-  <p>Endet dein Abonnement, nutzt du fin im kostenlosen Umfang weiter. Die Pro-Funktionen stehen dann nicht mehr zur Verfügung, und dein Verlauf zeigt die letzten 90 Tage. Ältere Einträge löschen wir nicht automatisch.</p>
+  <h3>Probezeitraum</h3>
+  <p>Ob und wie lange du fin Pro kostenlos testen kannst, zeigen dir die App und der Store vor dem Kauf. Der Probezeitraum ist an deinen Apple-Account oder dein Google-Konto gebunden und steht dir dort nur einmal zu, egal wie viele fin-Konten du hast.</p>
+  <p>Kündigst du nicht rechtzeitig, geht der Probezeitraum in das gewählte bezahlte Abo über. Rechtzeitig heißt beim App Store spätestens 24 Stunden vor seinem Ende, bei Google Play vor seinem Ende.</p>
+
+  <h3>Verlängerung und Kündigung</h3>
+  <p><b>App Store.</b> Nach den Bedingungen des App Store verlängert sich das Abo automatisch um die gewählte Laufzeit, wenn du nicht spätestens 24 Stunden vor Ablauf kündigst. Du kündigst in den Einstellungen deines Apple-Accounts unter <em>Abonnements</em>.</p>
+  <p><b>Google Play.</b> Nach den Bedingungen von Google Play verlängert sich das Abo automatisch, bis du kündigst. Du kannst jederzeit kündigen. Das Abo endet dann mit dem laufenden Zeitraum, bis dahin bleibt dir fin Pro. Du kündigst in Google Play unter <em>Profil → Zahlungen und Abos → Abos</em>.</p>
+  <p>In fin kommst du unter <em>Profil → Konto &amp; Einstellungen → Abonnement → Abo kündigen</em> direkt zur Abo-Verwaltung deines Stores. Eine Kündigung bei uns ist nicht nötig und technisch nicht möglich. <b>Wenn du die App oder dein fin-Konto löschst, endet dein Abo nicht.</b></p>
+
+  <h3>Widerruf und Erstattung</h3>
+  <p>Ob und wie du einen Kauf widerrufen kannst, richtet sich nach dem Gesetz und den Bedingungen des Stores, über den du gekauft hast. Der Store informiert dich darüber beim Kauf. Erstattungen beantragst du beim Store: bei Apple unter <a href="https://reportaproblem.apple.com" rel="noreferrer">reportaproblem.apple.com</a>, bei Google Play in deinem Google-Konto unter Bestellverlauf. Wir helfen dir gern dabei. Deine gesetzlichen Rechte bei Mängeln bleiben unberührt.</p>
 
   <h3>Preisänderungen</h3>
-  <p>Preisänderungen für bestehende Abonnements kündigt Apple dir rechtzeitig an. Sie werden erst wirksam, wenn du zustimmst oder – je nach Ausgestaltung – nicht widersprichst. Auch das läuft über Apple.</p>
-  <p>Bei einem Abo über Google Play kündigt Google dir Preisänderungen an. Ob und wann sie für dich wirksam werden, richtet sich nach den Regeln von Google Play; auch das läuft über Google.</p>
+  <p>Preisänderungen für laufende Abos kündigt dir der Store vorher an. Ob du zustimmen musst, richtet sich nach den Regeln des Stores. Du kannst dein Abo vor Wirksamwerden kündigen.</p>
 
-  <h3>Aktionen</h3>
-  <p>Für Rabattaktionen in der App gelten zusätzlich die jeweiligen <a href="aktion.html">Aktionsbedingungen</a>. Ein Aktionsangebot löst du über den Store ein, über den du fin Pro beziehst – den App Store oder Google Play.</p>
+  <h3>Nach dem Ende</h3>
+  <p>Endet fin Pro, nutzt du fin im kostenlosen Umfang weiter. Die Pro-Funktionen fallen weg, und dein Verlauf zeigt die letzten 90 Tage. Ältere Einträge löschen wir dadurch nicht.</p>
+
+  <h3>Zu welchem Konto ein Kauf gehört</h3>
+  <p>fin Pro gilt für das fin-Konto, mit dem du gekauft hast. Möchtest du es auf ein anderes fin-Konto übertragen, schreib uns.</p>
 </section>
 
 <section id="lifetime">
-  <h2>fin Pro Lifetime (Einmalkauf)</h2>
-  <p>(1) fin Pro Lifetime ist ein einmaliger Kauf über den App Store oder über Google Play. Es verlängert sich nicht, und es fallen keine weiteren Zahlungen an.</p>
-  <p>(2) Der Zugang gilt, solange wir fin betreiben. Eine ordentliche Kündigung durch uns ist für Lifetime ausgeschlossen; die Kündigung aus wichtigem Grund bleibt unberührt.</p>
-  <p>(3) Stellen wir fin ein, kündigen wir das mindestens drei Monate vorher in der App und per E-Mail an und bieten bis dahin einen Export deiner Daten an. Endet der Dienst innerhalb von 24 Monaten nach deinem Kauf, erstatten wir auf Anfrage an <a href="mailto:support@fin-tracker.de">support@fin-tracker.de</a> den Kaufpreis anteilig für die nicht genutzten Monate dieser 24 Monate.</p>
-  <p>(4) Die Regeln zur Kündigung durch uns und zur Einstellung des Dienstes in Abschnitt 13 gelten für Lifetime nicht.</p>
+  <h2>6. fin Pro Lifetime (Einmalkauf)</h2>
+  <p>(1) fin Pro Lifetime ist ein einmaliger Kauf im App Store oder bei Google Play. Es verlängert sich nicht, und es fallen keine weiteren Zahlungen an.</p>
+  <p>(2) Lifetime umfasst den jeweiligen Umfang von fin Pro, also auch Funktionen, die später zu fin Pro dazukommen.</p>
+  <p>(3) „Lifetime“ bezieht sich auf die Lebensdauer von fin: Der Zugang gilt, solange wir oder ein Nachfolger nach Abschnitt 18 fin betreiben. Eine ordentliche Kündigung nur deines Lifetime-Zugangs durch uns ist ausgeschlossen. Die Kündigung aus wichtigem Grund (Abschnitt 18) bleibt möglich. Was gilt, wenn wir fin für alle einstellen, regelt Absatz 4.</p>
+  <p>(4) Stellen wir fin ein, kündigen wir das mindestens drei Monate vorher in der App und per E-Mail an und bieten bis dahin einen Export deiner Daten an. Endet der Dienst innerhalb von 24 Monaten nach deinem Kauf, erstatten wir dir auf Anfrage an <a href="mailto:support@fin-tracker.de">support@fin-tracker.de</a> den Kaufpreis anteilig für die nicht genutzten Monate dieser 24 Monate.</p>
+  <!-- ENTSCHEIDUNG TIM: 24 Monate beibehalten oder länger staffeln (z. B. 60 Monate). Länger ist robuster gegen § 307 BGB und § 5 UWG, siehe AGB-AENDERUNGEN.md. -->
+  <p>(5) Übernimmt ein anderes Unternehmen fin (Abschnitt 18), geht dein Lifetime-Zugang mit über.</p>
 </section>
 
-<section id="s5">
-  <h2>Nutzungsrechte</h2>
-  <p>Wir räumen dir ein einfaches, nicht übertragbares Recht ein, fin für eigene, private Zwecke zu nutzen, solange dieser Vertrag läuft.</p>
-  <p>Nicht gestattet ist es, die App zurückzuentwickeln, zu verändern, zu vervielfältigen, zu vermieten, unterzulizenzieren oder Inhalte automatisiert auszulesen. Ebenfalls nicht gestattet ist der Einsatz für gewerbliche Zwecke Dritter, etwa als Betreuungswerkzeug für zahlende Kundinnen und Kunden, ohne unsere vorherige Zustimmung.</p>
-  <p>Marke, Name, Logo, Gestaltung und Programmcode von fin sind geschützt.</p>
+<section id="aktionen">
+  <h2>7. Aktionen, Einladungen, Gewinnspiele</h2>
+  <p>Für Aktionen gelten zusätzlich eigene Bedingungen, die wir vor der Teilnahme zeigen:</p>
+  <ul class="punkte">
+    <li><b>Rabatt-Rad:</b> die <a href="aktion.html">Aktionsbedingungen</a>. Das Angebot löst du über den Store ein.</li>
+    <li><b>Einladungen:</b> die Bedingungen auf der Einladungskarte in der App. Geschenkte Pro-Zeit endet von selbst. Sie verlängert sich nicht und kostet nichts.</li>
+    <li><b>Gewinnspiele:</b> eigene Teilnahmebedingungen, die wir vor dem Start veröffentlichen. Apple, Google und Meta sind daran nicht beteiligt.</li>
+  </ul>
+  <!-- OFFEN: Für die Einladungsaktion eine eigene Bedingungsseite wie aktion.html anlegen (Stufen, Laufzeit oder Ende mit Vorankündigung, Missbrauch, keine Barauszahlung) und aus der Einladungskarte verlinken. -->
+  <p>Eine Barauszahlung ist ausgeschlossen. Wer Aktionen missbraucht, etwa mit Scheinkonten, verliert den Anspruch auf die Belohnung. Für Nutzerinnen und Nutzer unter 18 bieten wir Aktionen gegebenenfalls nicht an (Abschnitt 3 Absatz 5).</p>
 </section>
 
-<section id="s6">
-  <h2>Deine Inhalte</h2>
-  <p>Inhalte, die du in fin erstellst – Trainingsdaten, Bezeichnungen, Profilbild, Bio, Kommentare – bleiben deine.</p>
-  <p>Damit wir sie technisch anzeigen können, räumst du uns ein einfaches, räumlich unbeschränktes und unentgeltliches Recht ein, sie zu speichern, zu vervielfältigen und den Personen anzuzeigen, die sie nach deinen Sichtbarkeitseinstellungen sehen können. Dieses Recht endet, wenn du den Inhalt löschst – ausgenommen Kopien, die bereits Dritte angefertigt haben, sowie technische Sicherungskopien bis zu ihrer Überschreibung.</p>
-  <p>Das gilt auch f&uuml;r Trainingseinheiten, die du aus Apple Health oder Health Connect &uuml;bernimmst: Sie werden nach der &Uuml;bernahme wie eigene Eintr&auml;ge behandelt. Im Feed erscheinen sie nur, wenn du sie selbst teilst.</p>
-  <p>Du versicherst, dass du an allen von dir hochgeladenen Inhalten die n&ouml;tigen Rechte hast. Das gilt besonders für Profilbilder: Lade keine Fotos hoch, die andere Personen zeigen, ohne deren Einverständnis.</p>
-  <p>Beachte, dass geteilte Trainingseinheiten Gesundheitsdaten enthalten. Überlege vor dem Teilen, wer sie sehen soll.</p>
+<section id="gesundheit">
+  <h2>8. Gesundheitshinweis</h2>
+  <div class="merk">
+    <p><b>fin ist kein Medizinprodukt und ersetzt keine ärztliche Beratung.</b> fin zeichnet auf, was du eingibst oder aus anderen Apps freigibst, und rechnet daraus Richtwerte. fin stellt keine Diagnosen, gibt keine Therapieempfehlungen und ist nicht dafür bestimmt, Krankheiten oder Verletzungen zu erkennen, zu verhüten oder zu behandeln.</p>
+  </div>
+  <p><b>Richtwerte, keine Vorgaben.</b> Trainingspläne, Steigerungen, Trainingsbereitschaft, Kalorien- und Nährwertziele, Wochenpläne und KI-Schätzungen beruhen auf allgemeinen Formeln und deinen Angaben. Sie können deutlich von deinem tatsächlichen Bedarf abweichen. Prüfe sie und passe sie an. Die Trainingsbereitschaft ist ein Orientierungswert und keine Freigabe zum Training.</p>
+  <p><b>Sprich vorher mit einer Ärztin oder einem Arzt,</b> bevor du ein Training beginnst oder änderst oder deine Ernährung umstellst, vor allem bei Vorerkrankungen, Beschwerden, Verletzungen, Untergewicht, einer Essstörung (auch einer früheren), in Schwangerschaft und Stillzeit, bei Herz-, Nieren- oder Stoffwechselerkrankungen oder wenn du Medikamente nimmst. Brich das Training ab und hol ärztlichen Rat ein, wenn du Schmerzen, Schwindel, Atemnot oder andere Beschwerden bemerkst.</p>
+  <p><b>Unter 18.</b> Du bist noch im Wachstum. Die Formeln für Kalorienziele sind für Erwachsene entwickelt. Setze dir kein Abnehmziel und keine Fastenform, ohne vorher mit deinen Eltern und einer Ärztin oder einem Arzt zu sprechen. Wir dürfen solche Funktionen für dich einschränken.</p>
+  <!-- OFFEN (vor 09.12.2026, neue Produkthaftung): unter 18 kein Kaloriendefizit, kein Intervallfasten, kein Low Carb, keine KI-Verschiebung; Gesundheitsfragen vor dem ersten Kalorienziel; Satz "Kein Medizinprodukt" auch auf iOS, nicht nur Android. Siehe risiken-gesundheit.md. -->
+  <p><b>Daten aus anderen Quellen.</b> Werte aus Apple Health, Health Connect, Strava, Whoop oder anderen Apps zeigen wir so, wie wir sie bekommen. Wir erheben und prüfen sie nicht.</p>
+  <p><b>Deine Entscheidung.</b> Ob und wie du trainierst und isst, entscheidest du selbst. Für Schäden haften wir nach Abschnitt 17. Für Schäden an Leben, Körper und Gesundheit, die wir verschulden, haften wir unbeschränkt.</p>
 </section>
 
-<section id="s7">
-  <h2>Verhaltensregeln</h2>
+<section id="ki">
+  <h2>9. KI-Schätzungen</h2>
+  <p>fin nutzt KI-Modelle eines Dienstleisters (derzeit OpenAI), um aus Fotos, Sprache und Text Mahlzeiten und Nährwerte zu schätzen, Nährwerttabellen auf Packungen zu lesen, Produkte nachzuschlagen (dafür durchsucht der Dienstleister auch das Internet) und Rezepte zu lesen. Wie oft du die KI am Tag nutzen kannst, ist begrenzt. Die KI nutzt du erst, nachdem du in der App eingewilligt hast. Die Einwilligung kannst du jederzeit widerrufen. Welche Daten dabei wohin gehen, steht in der <a href="datenschutz.html">Datenschutzerklärung</a>.</p>
+  <p>Ergebnisse der KI sind in der App als geschätzt gekennzeichnet. Sie können deutlich danebenliegen. Prüfe und korrigiere sie. Verlass dich nicht auf sie, wenn es um deine Gesundheit geht, zum Beispiel beim Berechnen von Insulin oder Medikamenten oder bei Allergien und Unverträglichkeiten. Maßgeblich sind die Angaben auf der Packung.</p>
+  <p>Lade für die KI keine Fotos hoch, auf denen andere Personen erkennbar sind.</p>
+</section>
+
+<section id="einkauf">
+  <h2>10. Wocheneinkauf, Preise und Nährwerte</h2>
+  <p>Preise, Angebote und Nährwerte in fin stammen aus offenen Datenbanken (etwa Open Prices und Open Food Facts), aus dem Bundeslebensmittelschlüssel, aus Angaben der Händler und Hersteller und aus eigenen Erhebungen. Sie sind <b>unverbindliche Richtwerte</b>. Sie können regional abweichen, veraltet oder unvollständig sein. Maßgeblich sind Preis und Angebot im Markt und die Angaben auf der Packung.</p>
+  <p>Wochenpläne sind Vorschläge, keine Kauf- oder Ernährungsberatung. Wir sagen nicht zu, dass Produkte verfügbar sind.</p>
+  <p>Namen von Händlern, Ketten und Marken gehören ihren Inhabern. fin ist mit ihnen nicht verbunden, außer wir sagen das ausdrücklich.</p>
+  <p>Daten aus offenen Quellen stehen weiter unter deren Lizenzen. Welche das sind, steht in der App unter <em>Profil → Konto &amp; Einstellungen → Woher die Daten kommen</em>.</p>
+</section>
+
+<section id="dritte">
+  <h2>11. Verbundene Dienste und Partner</h2>
+  <p><b>Apple Health, Health Connect, Strava, Whoop.</b> Du kannst fin mit diesen Diensten verbinden. Dann gelten zusätzlich deren Bedingungen. Du kannst die Verbindung jederzeit in fin oder beim jeweiligen Dienst trennen. Mit fin Pro übernimmt fin Läufe, Radfahrten und Schwimmeinheiten aus anderen Apps automatisch, wenn du das nicht in den Einstellungen abschaltest. Andere Einheiten übernimmst du einzeln.</p>
+  <p>Diese Dienste gehören nicht uns. Ändert oder beendet ein Anbieter seine Schnittstelle, kann die Verbindung eingeschränkt werden oder wegfallen (Abschnitt 16).</p>
+  <p><b>Garmin.</b> Die fin-App für Garmin-Uhren verbindest du mit einem Code aus fin mit deinem Konto. Dafür gelten zusätzlich die Bedingungen von Garmin für Connect IQ.</p>
+  <p><b>Anmeldung mit Apple oder Google.</b> Dafür gelten zusätzlich die Bedingungen von Apple oder Google.</p>
+  <p><b>Partner-Links.</b> In fin findest du gekennzeichnete Links zu Partnern, derzeit Gymshark und Prozis. Das ist Werbung: Kaufst du über einen solchen Link, bekommen wir eine Provision. Für dich ändert sich der Preis dadurch nicht. Den Kaufvertrag schließt du mit dem Partner, nicht mit uns.</p>
+  <p><b>Codes in Creator-Profilen.</b> Creator können in ihrem Creator-Profil Rabattcodes und Links zu Shops zeigen. fin kennzeichnet sie als Anzeige. Codes, Links und Angebote stammen vom Creator, nicht von uns. Kaufst du damit, bekommt der Creator unter Umständen eine Provision von der Marke. Für dich wird der Preis dadurch nicht höher. Den Kaufvertrag schließt du mit dem Shop, nicht mit uns. Wir prüfen Codes und Angebote nicht vorab.</p>
+  <!-- OFFEN: Ob Codes in Creator-Profilen für unter 18 ausgeblendet werden (Abschnitt 3 Absatz 5), entscheidet Tim. Die App zeigt sie derzeit allen Angemeldeten. -->
+</section>
+
+<section id="inhalte">
+  <h2>12. Deine Inhalte und Sichtbarkeit</h2>
+  <p><b>Deine Inhalte bleiben deine.</b> Inhalte sind alles, was du in fin anlegst oder hochlädst, etwa Trainings, Mahlzeiten, Rezepte, Bezeichnungen, Profilbild, Beschreibung, Kommentare und das Creator-Profil mit Titelbild und Playlist-Cover.</p>
+  <p><b>Recht, das du uns einräumst.</b> Damit fin funktioniert, räumst du uns ein einfaches, unentgeltliches, weltweites Recht ein, deine Inhalte nur für diese Zwecke zu nutzen: speichern und sichern; dir und den Personen anzeigen, die sie nach deinen Einstellungen sehen dürfen, auch in Feed und Rangliste; technisch anpassen, etwa verkleinern oder umwandeln; an Dienstleister übermitteln, die für uns arbeiten, etwa für die KI-Erkennung; automatisch auf Verstöße gegen diese Bedingungen prüfen; als Bild ausgeben, wenn du selbst etwas teilst. Für Werbung nutzen wir deine Inhalte nur mit deiner gesonderten Einwilligung. Löschst du einen Inhalt oder dein Konto, endet das Recht. Kopien, die andere bereits angefertigt haben, und technische Sicherungen bis zu ihrer Löschung nach der <a href="datenschutz.html">Datenschutzerklärung</a> bleiben davon unberührt.</p>
+  <p><b>Sichtbarkeit.</b> Was andere von dir sehen, richtet sich nach deinen Einstellungen. Ab Werk ist dein Profil öffentlich. Unter <em>Profil → Konto &amp; Einstellungen → Wer was sieht</em> stellst du es auf privat. Dann musst du jede Folgeanfrage bestätigen. Bei einem öffentlichen Profil können angemeldete Personen dir ohne Bestätigung folgen und sehen, was du teilst. Geteilte Trainings können Gesundheitsdaten enthalten. Überlege vor dem Teilen, wer sie sehen soll.</p>
+  <!-- OFFEN: Profile sind ab Werk öffentlich (007: privat default false). Empfehlung: unter 18 privat ab Werk, für alle eine echte Wahl im Onboarding. Danach den Satz "Ab Werk ist dein Profil öffentlich." ersetzen, etwa: "Bist du jünger als 18, ist dein Profil ab Werk privat." -->
+  <p><b>Deine Zusicherung.</b> Du lädst nur Inhalte hoch, an denen du die nötigen Rechte hast. Fotos, auf denen andere Menschen erkennbar sind, nur mit deren Einverständnis. Verletzt du schuldhaft Rechte Dritter und nehmen diese uns deshalb in Anspruch, stellst du uns von diesen Ansprüchen und den angemessenen Kosten der Rechtsverteidigung frei.</p>
+  <p><b>Creator-Profil.</b> Ein Creator-Profil schalten wir für einzelne Konten frei. Einen Anspruch darauf gibt es nicht. Wir können die Freischaltung wieder entziehen, etwa bei Verstößen gegen diese Bedingungen, und sagen dir den Grund. Dein Creator-Profil sehen alle angemeldeten Personen, auch bei privatem Profil, außer bei einer Blockade. Als Creator verantwortest du deine Angaben, Codes und Links, auch dass sie zu dem führen, was du angibst, und dass deine Werbung den gesetzlichen Regeln entspricht. Codes und Shop-Links kennzeichnet fin als Anzeige.</p>
+  <p><b>Veröffentlichte Pläne.</b> Veröffentlichst du als Creator einen Plan, dürfen angemeldete Personen ihn als Kopie in ihren eigenen Plan übernehmen und für ihr Training nutzen. Dieses einfache, unentgeltliche Recht räumst du ihnen mit dem Veröffentlichen ein. Übernommene Kopien bleiben bei ihnen, auch wenn du den Plan zurückziehst oder dein Konto löschst.</p>
+  <p><b>Rezepte aus anderen Quellen.</b> Importierst du ein Rezept aus einem fremden Beitrag, ist es für deinen eigenen Gebrauch. Die Rechte am ursprünglichen Beitrag bleiben bei seinen Urhebern.</p>
+  <p><b>Minderjährige.</b> Bist du jünger als 18, umfasst die Zustimmung deiner Eltern nach Abschnitt 3 auch das Recht, das du uns hier einräumst.</p>
+</section>
+
+<section id="regeln">
+  <h2>13. Verhaltensregeln</h2>
   <p>fin ist zum Trainieren da. Nicht erlaubt sind insbesondere:</p>
   <ul class="punkte">
-    <li>Beleidigungen, Bedrohungen, Belästigung und Hetze</li>
-    <li>Diskriminierende, gewaltverherrlichende oder sexualisierte Inhalte</li>
-    <li>Inhalte, die Essstörungen, Selbstschädigung oder gefährliche Praktiken fördern</li>
-    <li>Werbung, Spam, Kettennachrichten und das Abwerben von Nutzerinnen und Nutzern</li>
-    <li>Falsche Identitätsangaben und das Imitieren anderer Personen</li>
-    <li>Inhalte, die Rechte Dritter verletzen</li>
-    <li>Automatisierte Zugriffe, Manipulation von Ranglisten oder Rekorden, Umgehung technischer Schutzmaßnahmen</li>
-    <li>Alles, was gegen geltendes Recht verstößt</li>
+    <li>Beleidigungen, Bedrohungen, Belästigung, Mobbing und Hetze</li>
+    <li>diskriminierende, gewaltverherrlichende, pornografische oder sexualisierte Inhalte, besonders gegenüber Minderjährigen</li>
+    <li>Inhalte, die Essstörungen, Selbstverletzung oder gefährliche Praktiken fördern, und Abnehm- oder Fastenaufrufe an Minderjährige</li>
+    <li>Daten anderer Personen veröffentlichen, etwa Adresse, Telefonnummer oder Fotos, ohne deren Einverständnis</li>
+    <li>Werbung außerhalb der gekennzeichneten Codes und Links im Creator-Profil, Spam, Kettennachrichten und das Abwerben von Nutzerinnen und Nutzern</li>
+    <li>falsche Identitäten und das Nachahmen anderer Personen</li>
+    <li>Inhalte, die Rechte Dritter verletzen, etwa Urheber-, Marken- oder Persönlichkeitsrechte</li>
+    <li>automatisierte Zugriffe, Scheinkonten, Manipulation von Ranglisten, Serien oder Aktionen und das Umgehen technischer Schutzmaßnahmen</li>
+    <li>das Ausnutzen von Sicherheitslücken. Findest du eine, sag uns bitte Bescheid.</li>
+    <li>alles, was gegen geltendes Recht verstößt</li>
   </ul>
-  <p>Wir sind nicht verpflichtet, Inhalte vorab zu prüfen. Wir setzen aber automatische Filter ein und gehen Meldungen nach.</p>
 </section>
 
-<section id="s8">
-  <h2>Melden, Blockieren, Sperren</h2>
-  <p>Über das Menü an jedem Beitrag, Kommentar und Profil kannst du Inhalte melden und Konten blockieren. Meldungen prüfen wir zeitnah.</p>
-  <p>Bei Verstößen gegen diese Bedingungen können wir – abgestuft nach Schwere – einzelne Inhalte entfernen, Funktionen einschränken, das Konto vorübergehend sperren oder dauerhaft schließen. Bei schwerwiegenden Verstößen und bei Wiederholung sperren wir sofort.</p>
-  <p>Über eine Maßnahme informieren wir dich unter Angabe des Grundes, soweit uns das rechtlich möglich ist. Du kannst der Entscheidung binnen sechs Monaten widersprechen – formlos an <a href="mailto:support@fin-tracker.de">support@fin-tracker.de</a>. Wir prüfen den Fall dann erneut. Unberührt bleibt dein Recht, dich an eine außergerichtliche Streitbeilegungsstelle nach Art. 21 des Digital Services Act oder an ein Gericht zu wenden.</p>
+<section id="moderation">
+  <h2>14. Melden, Moderation, Sperren</h2>
+  <p><b>Kontaktstelle.</b> Für Nutzerinnen und Nutzer und für Behörden sind wir unter <a href="mailto:support@fin-tracker.de">support@fin-tracker.de</a> erreichbar, auf Deutsch und Englisch (Art. 11 und 12 Digital Services Act, DSA).</p>
+  <p><b>Melden in der App.</b> Bei Beiträgen, Kommentaren und Profilen anderer kannst du in der App den Inhalt melden und die Person blockieren.</p>
+  <p><b>Melden ohne Konto.</b> Jede Person kann Inhalte, die sie für rechtswidrig hält, per E-Mail an <a href="mailto:support@fin-tracker.de">support@fin-tracker.de</a> mit dem Betreff „Rechtswidriger Inhalt“ melden. Gib bitte an: warum der Inhalt rechtswidrig ist, wo genau er steht (Nutzername, Art und Datum des Inhalts), deinen Namen und deine E-Mail-Adresse und dass deine Angaben nach bestem Wissen richtig sind. Wir bestätigen den Eingang, prüfen sorgfältig und teilen dir unsere Entscheidung mit.</p>
+  <p><b>Wie wir moderieren.</b> Wir prüfen Inhalte nicht vorab. Ein automatischer Wortfilter lehnt Nutzernamen, Anzeigenamen, Beschreibungen, Kommentare und Texte in Creator-Profilen mit bestimmten beleidigenden oder anstößigen Wörtern ab, bevor sie erscheinen. Meldungen prüft ein Mensch. Wegen Verstößen gegen diese Regeln sperren wir Konten nur nach Prüfung durch einen Menschen. Automatisch gesperrt werden nur neue Konten unter 15 Jahren nach Abschnitt 3.</p>
+  <p><b>Maßnahmen.</b> Bei Verstößen können wir, abgestuft nach Schwere, Inhalte entfernen oder ausblenden, Funktionen einschränken, das Konto vorübergehend sperren oder den Vertrag kündigen (Abschnitt 18). Entfernen oder verbergen wir einen Inhalt von dir, sagen wir dir das spätestens danach mit Grund. Bevor wir dein Konto sperren oder den Vertrag kündigen, sagen wir dir den Grund und geben dir Gelegenheit, dich zu äußern. Nur wenn das im Einzelfall nicht zumutbar ist, etwa bei einer Gefahr für andere Menschen, handeln wir sofort und holen das unverzüglich nach. Für die Sperre wegen der Altersgrenze gilt Abschnitt 3 Absatz 7. Wer wiederholt offensichtlich rechtswidrige Inhalte einstellt, wird nach einer Warnung für eine angemessene Zeit gesperrt. Wer wiederholt offensichtlich unbegründete Meldungen schickt, dessen Meldungen bearbeiten wir nach einer Warnung eine Zeit lang nicht. Haben wir den Verdacht einer Straftat, die Leben oder Sicherheit von Menschen bedroht, informieren wir die zuständigen Behörden.</p>
+  <p><b>Begründung und Widerspruch.</b> Über eine Maßnahme informieren wir dich mit Grund, soweit das rechtlich erlaubt ist (Art. 17 DSA). Du kannst innerhalb von sechs Monaten formlos an <a href="mailto:support@fin-tracker.de">support@fin-tracker.de</a> widersprechen. Dann prüft ein Mensch den Fall erneut und wir entscheiden neu. Du kannst dich außerdem an eine zugelassene außergerichtliche Streitbeilegungsstelle nach Art. 21 DSA oder an ein Gericht wenden.</p>
 </section>
 
-<section id="s9">
-  <h2>Gesundheitshinweis</h2>
-  <div class="merk">
-    <p><b>fin ist kein Medizinprodukt und ersetzt keine ärztliche Beratung.</b> Die App zeichnet auf, was du eingibst, und wertet es rechnerisch aus. Sie stellt keine Diagnosen, gibt keine Therapieempfehlungen und beurteilt nicht, ob ein Training für dich geeignet ist.</p>
-  </div>
-  <p>Die Trainingsbereitschaft ist ein aus deinen Daten berechneter Orientierungswert, kein medizinischer Befund. Verlass dich nicht darauf, um gesundheitliche Fragen zu beantworten.</p>
-  <p>Werte und Trainingseinheiten, die aus Apple Health, aus Health Connect oder aus Apps Dritter stammen, geben wir unver&auml;ndert wieder. F&uuml;r deren Richtigkeit und Vollst&auml;ndigkeit k&ouml;nnen wir nicht einstehen, da wir sie weder erheben noch pr&uuml;fen.</p>
-  <p>Kläre vor Aufnahme oder Änderung eines Trainings ärztlich ab, ob du dafür gesundheitlich geeignet bist – insbesondere bei Vorerkrankungen, Beschwerden, Verletzungen, in der Schwangerschaft oder nach längerer Pause. Brich das Training ab und hol ärztlichen Rat ein, wenn du Schmerzen, Schwindel, Atemnot oder andere Beschwerden bemerkst.</p>
-  <p>Training erfolgt auf eigene Verantwortung. Für Verletzungen und Gesundheitsschäden, die aus deinem Training entstehen, haften wir nicht – vorbehaltlich der Regelungen in Abschnitt 12.</p>
+<section id="rechte">
+  <h2>15. Nutzungsrechte an fin</h2>
+  <p>Wir räumen dir für die Dauer dieses Vertrags ein einfaches, nicht übertragbares Recht ein, fin für eigene, private Zwecke zu nutzen.</p>
+  <p>Nicht erlaubt ist, die App zu verändern, zu vervielfältigen, zu vermieten oder weiterzugeben, sie zurückzuentwickeln, soweit das Gesetz es nicht erlaubt (§§ 69d, 69e Urheberrechtsgesetz), und Inhalte oder Datensammlungen von fin automatisiert auszulesen oder nachzubauen. fin für gewerbliche Zwecke zu nutzen, etwa als Werkzeug für zahlende Kundinnen und Kunden, braucht unsere vorherige Zustimmung.</p>
+  <p>Name, Logo, Gestaltung, Programmcode und die Datensammlungen von fin sind geschützt. Daten aus offenen Quellen stehen weiter unter deren Lizenzen. Die Verbote in diesem Abschnitt schränken die Rechte nicht ein, die dir diese Lizenzen oder das Gesetz geben.</p>
 </section>
 
-<section id="s10">
-  <h2>Verfügbarkeit</h2>
-  <p>Wir bemühen uns um eine hohe Verfügbarkeit, schulden aber keine ununterbrochene Erreichbarkeit. Wartungsarbeiten, Störungen bei Dienstleistern und Ereignisse außerhalb unseres Einflussbereichs können zu Unterbrechungen führen.</p>
-  <p>Die App setzt ein aktuelles Betriebssystem und eine Internetverbindung voraus. Für die Kosten deiner Verbindung kommst du selbst auf.</p>
-  <p>Sichere deine Daten regelmäßig über die Exportfunktion. Wir ersetzen keine eigene Datensicherung.</p>
+<section id="dienst">
+  <h2>16. Verfügbarkeit, Updates, Änderungen des Dienstes</h2>
+  <p><b>Verfügbarkeit.</b> Wir bemühen uns um eine hohe Verfügbarkeit. Wartung, Störungen bei Dienstleistern und Ereignisse außerhalb unseres Einflusses können zu Unterbrechungen führen. fin braucht eine Internetverbindung und eine Betriebssystemversion, die der Store angibt. Die Kosten deiner Verbindung trägst du.</p>
+  <p><b>Updates.</b> Wir stellen Updates bereit, die nötig sind, damit fin vertragsgemäß bleibt, auch Sicherheitsupdates. Installiere sie zeitnah. Installierst du ein Update nicht, obwohl wir dich darüber und über die Folgen informiert haben und obwohl das nicht an einer mangelhaften Installationsanleitung lag, haften wir nicht für Mängel, die allein darauf beruhen (§ 327f Abs. 2 BGB).</p>
+  <p><b>Änderungen.</b> Über Updates hinaus ändern wir fin nur aus einem triftigen Grund, zum Beispiel wegen neuer Gesetze oder Urteile, aus Gründen der Sicherheit, wegen Änderungen an Betriebssystemen oder App Stores, weil ein Dienstleister oder ein verbundener Dienst (etwa Apple Health, Health Connect, Strava, Whoop oder ein KI-Anbieter) seine Leistung ändert oder einstellt, oder um fin technisch weiterzuentwickeln. Dir entstehen dadurch keine zusätzlichen Kosten, und wir informieren dich klar und verständlich.</p>
+  <p>Beeinträchtigt eine Änderung deinen Zugang zu fin oder die Nutzbarkeit mehr als nur unerheblich, informieren wir dich rechtzeitig vorher per E-Mail und zusätzlich in der App, mit Inhalt und Zeitpunkt der Änderung. Du kannst den Vertrag dann innerhalb von 30 Tagen nach der Information oder nach der Änderung, wenn diese später erfolgt, kostenlos beenden. Hast du für fin Pro im Voraus bezahlt, erstatten wir dir den Anteil für die Zeit nach der Beendigung. Das gilt nicht, wenn du fin in der bisherigen Form ohne Mehrkosten weiter nutzen kannst (§ 327r BGB).</p>
+  <p><b>Export.</b> Du kannst deine Daten jederzeit über die Exportfunktion sichern. Das empfehlen wir regelmäßig.</p>
 </section>
 
-<section id="s11">
-  <h2>Haftung</h2>
-  <p>Wir haften unbeschränkt bei Vorsatz und grober Fahrlässigkeit sowie bei Verletzung von Leben, Körper oder Gesundheit.</p>
-  <p>Bei einfacher Fahrlässigkeit haften wir nur bei Verletzung einer Pflicht, deren Erfüllung die ordnungsgemäße Durchführung des Vertrags überhaupt erst ermöglicht und auf deren Einhaltung du regelmäßig vertrauen darfst. In diesem Fall ist die Haftung auf den vertragstypischen, vorhersehbaren Schaden begrenzt.</p>
-  <p>Im Übrigen ist die Haftung ausgeschlossen. Die Haftung nach dem Produkthaftungsgesetz bleibt unberührt.</p>
-  <p>Für Inhalte, die Nutzerinnen und Nutzer einstellen, haften wir nicht, solange wir keine Kenntnis von einer konkreten Rechtsverletzung haben. Bei Kenntnis entfernen wir sie umgehend.</p>
+<section id="haftung">
+  <h2>17. Haftung</h2>
+  <p>(1) Wir haften unbeschränkt bei Vorsatz und grober Fahrlässigkeit, für Schäden aus der Verletzung von Leben, Körper oder Gesundheit, die auf einer fahrlässigen oder vorsätzlichen Pflichtverletzung von uns beruhen, bei arglistig verschwiegenen Mängeln, soweit wir eine Garantie übernommen haben, und nach dem Produkthaftungsgesetz.</p>
+  <p>(2) Bei einfacher Fahrlässigkeit haften wir sonst nur, wenn wir eine wesentliche Vertragspflicht verletzen. Das ist eine Pflicht, die die ordnungsgemäße Durchführung des Vertrags überhaupt erst möglich macht und auf deren Einhaltung du regelmäßig vertrauen darfst. In diesem Fall haften wir nur für den Schaden, der bei Vertragsschluss typischerweise vorhersehbar war.</p>
+  <p>(3) Im Übrigen haften wir nicht für einfache Fahrlässigkeit.</p>
+  <p>(4) Diese Regeln gelten auch für unsere Beschäftigten und Beauftragten.</p>
+  <p>(5) Deine gesetzlichen Rechte bei Mängeln digitaler Produkte (§§ 327 ff. BGB) bleiben unberührt.</p>
+  <p>(6) Für Inhalte, die Nutzerinnen und Nutzer einstellen, sind wir nicht verantwortlich, solange wir keine Kenntnis von einer konkreten Rechtsverletzung haben. Erfahren wir davon, handeln wir zügig nach Abschnitt 14.</p>
 </section>
 
-<section id="s12">
-  <h2>Laufzeit und Beendigung</h2>
-  <p>Der Nutzungsvertrag über die App läuft auf unbestimmte Zeit. Du kannst ihn jederzeit beenden, indem du dein Konto löschst: <em>Profil → Konto &amp; Einstellungen → Konto → Konto löschen</em>.</p>
-  <p><b>Beachte:</b> Die Löschung deines Kontos beendet nicht dein Abonnement. Das kündigst du getrennt in den Einstellungen deines Apple-Accounts bzw. bei Google Play unter <em>Profil → Zahlungen und Abos → Abos</em> – sonst läuft es weiter.</p>
-  <p>Wir können den Vertrag mit einer Frist von 30 Tagen zum Monatsende kündigen; das gilt nicht für fin Pro Lifetime (Abschnitt 5). Das Recht zur außerordentlichen Kündigung aus wichtigem Grund bleibt unberührt; ein wichtiger Grund liegt insbesondere bei schwerwiegenden Verstößen gegen Abschnitt 8 vor.</p>
-  <p>Stellen wir den Dienst dauerhaft ein, informieren wir dich mindestens 30 Tage vorher und geben dir Gelegenheit, deine Daten zu exportieren. Hast du fin Pro Lifetime gekauft, gelten stattdessen die Frist von drei Monaten und die Erstattung nach Abschnitt 5.</p>
+<section id="ende">
+  <h2>18. Laufzeit, Kündigung, Kontolöschung</h2>
+  <p><b>Laufzeit.</b> Der Nutzungsvertrag läuft auf unbestimmte Zeit.</p>
+  <p><b>Du</b> kannst ihn jederzeit beenden, indem du dein Konto löschst: <em>Profil → Konto &amp; Einstellungen → Konto → Konto löschen</em>, oder mit einer E-Mail an <a href="mailto:support@fin-tracker.de">support@fin-tracker.de</a>. <b>Ein Abo im Store endet dadurch nicht.</b> Kündige es getrennt im Store (Abschnitt 5), sonst läuft es weiter. Was mit deinen Daten passiert, steht in der <a href="datenschutz.html">Datenschutzerklärung</a>.</p>
+  <p><b>Wir</b> können den Vertrag mit einer Frist von 30 Tagen zum Monatsende kündigen. Hast du fin Pro im Voraus bezahlt, wirkt die Kündigung frühestens zum Ende des bezahlten Zeitraums. Wir sagen dir dann, wie du dein Abo im Store kündigst. Zahlst du trotzdem für Zeit nach dem Vertragsende, erstatten wir dir diesen Betrag. Für Lifetime ist die ordentliche Kündigung ausgeschlossen (Abschnitt 6).</p>
+  <p><b>Aus wichtigem Grund</b> können beide Seiten fristlos kündigen. Ein wichtiger Grund für uns ist insbesondere ein schwerer oder wiederholter Verstoß gegen Abschnitt 13, das Unterschreiten des Mindestalters, eine fehlende Zustimmung nach Abschnitt 3 oder falsche Angaben zum Alter. Bei einem Verstoß warnen wir dich in der Regel vorher, außer das ist nicht zumutbar.</p>
+  <p><b>Einstellung des Dienstes.</b> Stellen wir fin dauerhaft ein, informieren wir dich mindestens 30 Tage vorher und geben dir Gelegenheit, deine Daten zu exportieren. Soweit der Store es zulässt, verhindern wir, dass sich Abos danach verlängern, und sagen dir, wie du dein Abo kündigst. Für im Voraus bezahlte Zeit nach dem Ende erstatten wir dir den anteiligen Betrag. Für Lifetime gelten die Frist von drei Monaten und die Erstattung nach Abschnitt 6.</p>
+  <p><b>Übertragung.</b> Wir dürfen diesen Vertrag auf ein anderes Unternehmen übertragen, das fin weiterführt. Wir teilen dir das mindestens 30 Tage vorher mit. Du kannst den Vertrag dann jederzeit mit Wirkung zur Übertragung beenden. Für im Voraus bezahlte Zeit und für Lifetime gilt dann dasselbe wie bei einer Einstellung des Dienstes. Laufende Abos und Lifetime gehen mit über.</p>
 </section>
 
-<section id="s13">
-  <h2>Änderungen dieser Bedingungen</h2>
-  <p>Wir können diese Bedingungen ändern, wenn sich die Rechtslage, die Rechtsprechung oder der Funktionsumfang ändert oder wir Regelungslücken schließen müssen.</p>
-  <p>Über Änderungen informieren wir dich mindestens 30 Tage vorher in der App oder per E-Mail. Widersprichst du nicht bis zum Wirksamwerden, gelten sie als angenommen. Darauf weisen wir dich in der Mitteilung gesondert hin. Widersprichst du, können wir den Vertrag zum Zeitpunkt des Wirksamwerdens kündigen, außer du hast fin Pro Lifetime gekauft.</p>
+<section id="aenderungen">
+  <h2>19. Änderungen dieser Bedingungen</h2>
+  <p>Wir ändern diese Bedingungen nur, wenn es dafür einen sachlichen Grund gibt, zum Beispiel neue Gesetze oder Urteile, neue oder geänderte Funktionen oder Lücken, die wir schließen müssen.</p>
+  <p><b>Eine neue Fassung gilt für dich erst, wenn du ihr zustimmst.</b> Wir zeigen sie dir in der App mit den Änderungen und bitten dich um Zustimmung. Schweigen gilt nicht als Zustimmung.</p>
+  <p>Stimmst du nicht zu, gilt für dich die bisherige Fassung weiter. Wir können den Vertrag dann nach Abschnitt 18 ordentlich kündigen. Hast du fin Pro im Voraus bezahlt, wirkt die Kündigung frühestens zum Ende des bezahlten Zeitraums. Lifetime kündigen wir deswegen nicht.</p>
+  <!-- OFFEN: Zustimmungsblatt in der App (iOS und Android) mit Protokoll von Fassung und Zeitpunkt, bevor diese Fassung für Bestandsnutzer gilt. -->
 </section>
 
-<section id="s14">
-  <h2>Schlussbestimmungen</h2>
-  <p>Es gilt deutsches Recht unter Ausschluss des UN-Kaufrechts. Zwingende Verbraucherschutzvorschriften deines Aufenthaltsstaats bleiben unberührt.</p>
-  <p>Wir sind nicht bereit und nicht verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.</p>
-  <p>Sollte eine Bestimmung unwirksam sein, bleibt der übrige Vertrag wirksam.</p>
-  <p>Für Fassungen von fin, die du über den App Store bezogen hast, gilt: Apple ist an diesem Vertrag nicht beteiligt und dafür nicht verantwortlich. Apple ist jedoch berechtigt, diese Bedingungen dir gegenüber als begünstigter Dritter durchzusetzen.</p>
-  <p>Für Fassungen, die du über Google Play bezogen hast, gilt der vorige Absatz nicht; Google ist an diesem Vertrag nicht beteiligt.</p>
+<section id="stores">
+  <h2>20. Hinweise zu App Store und Google Play</h2>
+  <p><b>App Store.</b> Hast du fin aus dem App Store, gilt zusätzlich: Dieser Vertrag besteht zwischen dir und uns, nicht mit Apple. Für fin und seine Inhalte sind wir verantwortlich, nicht Apple. Auf Apple-Geräten darfst du fin auf Geräten nutzen, die dir gehören oder über die du verfügst, im Rahmen der Nutzungsregeln in den Bedingungen für Apple-Mediendienste. Die Familienfreigabe bleibt möglich. Apple ist nicht verpflichtet, Wartung oder Support für fin zu leisten. Entspricht fin nicht einer geltenden Gewährleistung, kannst du Apple informieren, und Apple erstattet dir den Kaufpreis. Im Übrigen hat Apple, soweit gesetzlich zulässig, keine weitere Gewährleistungspflicht für fin. Für Ansprüche im Zusammenhang mit fin, etwa zu Produkthaftung, Rechtskonformität, Verbraucherschutz, Datenschutz oder Rechten Dritter, sind wir zuständig, nicht Apple. Behauptet jemand, fin verletze seine Rechte an geistigem Eigentum, sind wir und nicht Apple für Prüfung, Abwehr, Vergleich und Erledigung verantwortlich. Halte bei der Nutzung von fin die Bedingungen Dritter ein, die dafür gelten, etwa deines Mobilfunk- oder Internetvertrags. Du darfst fin nicht nutzen, wenn du in einem Land lebst, gegen das die USA ein Embargo verhängt haben, oder auf einer Sanktionsliste der US-Regierung stehst. Apple und seine Tochtergesellschaften sind begünstigte Dritte dieses Vertrags und dürfen ihn dir gegenüber durchsetzen. Deine Rechte uns gegenüber nach diesen Bedingungen und nach dem Gesetz bleiben unberührt.</p>
+  <p><b>Google Play.</b> Hast du fin aus Google Play, gilt der vorige Absatz nicht. Google ist nicht Partei dieses Vertrags. Für Käufe gelten zusätzlich die Bedingungen von Google Play.</p>
+  <p><b>Garmin.</b> Für die fin-App für Garmin-Uhren gilt der Absatz zum App Store nicht. Garmin ist nicht Partei dieses Vertrags.</p>
+</section>
+
+<section id="schluss">
+  <h2>21. Schlussbestimmungen</h2>
+  <p><b>Recht.</b> Es gilt deutsches Recht unter Ausschluss des UN-Kaufrechts. Bist du Verbraucherin oder Verbraucher, behältst du den Schutz der zwingenden Vorschriften des Landes, in dem du deinen gewöhnlichen Aufenthalt hast.</p>
+  <p><b>Streitbeilegung.</b> Wir sind nicht bereit und nicht verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen. Schreib uns bei Problemen einfach an <a href="mailto:support@fin-tracker.de">support@fin-tracker.de</a>.</p>
+  <p><b>Sprache.</b> Die englische Fassung ist eine Übersetzung. Bei Abweichungen gilt die deutsche Fassung.</p>
+  <p><b>Unwirksame Bestimmungen.</b> Ist eine Bestimmung unwirksam, bleibt der Vertrag im Übrigen wirksam. An die Stelle der unwirksamen Bestimmung tritt die gesetzliche Regelung.</p>
+  <p class="stand">Stand: 01.10.2026</p>
 </section>
 
 </main>
@@ -219,6 +333,7 @@
     <a href="datenschutz.html">Datenschutz</a>
     <a href="impressum.html">Impressum</a>
     <a href="support.html">Support</a>
+    <a href="terms.html">English</a>
   </nav>
   <p>fin ist ein Produkt von gymmittim · Tim Bodon, Ahaus</p>
 </footer>

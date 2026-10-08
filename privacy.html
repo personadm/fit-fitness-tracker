@@ -17,7 +17,7 @@
 <header>
   <div class="marke">fin <span>Privacy</span></div>
   <h1>Your data<br>is yours</h1>
-  <p class="stand">Version: <b>24 September 2026</b> · Applies to the fin app on iPhone and Android and the web version</p>
+  <p class="stand">Version: <b>7 October 2026</b> · Applies to the fin app on iPhone and Android and the web version</p>
 
   <div class="merk">
     <p><b>This is a translation for your convenience.</b> The legally binding version
@@ -32,8 +32,10 @@
       <li>People who follow you see your completed sessions. You can set this to &ldquo;Only me&rdquo;, in general or for each individual session.</li>
       <li>AI features only run if you have agreed beforehand, separately for each kind.</li>
       <li>You delete your account directly in the app.</li>
-      <li class="nein">No ads, no tracking, no passing data on to data brokers.</li>
+      <li class="nein">No ads from ad networks, no tracking, no passing data on to data brokers.</li>
       <li>Sleep, resting heart rate, heart rate variability, steps and the routes of your sessions from Apple Health or Health Connect stay on your device.</li>
+      <li>The app lock for workouts checks which app is open on your device only. We do not learn your apps or your choice.</li>
+      <li>fin only uses your location for a GPS run that you start yourself. The route stays on your device; only numbers such as distance and times are saved with your account.</li>
       <li>fin takes over runs, rides and swims from other apps automatically. You can switch this off. They only appear in the feed if you share them yourself.</li>
       <li>You can switch off notifications at any time in your device&rsquo;s settings, and reminders individually in fin. We only send offers from fin as push notifications if you switch this on yourself in the app.</li>
       <li>You buy fin Pro through the App Store or Google Play. We do not see your payment details.</li>
@@ -60,6 +62,7 @@
       <li><a href="#s10">Sync and logs</a></li>
       <li><a href="#s11">Use in a browser</a></li>
       <li><a href="#partner">Partner links</a></li>
+      <li><a href="#giveaway">Giveaways</a></li>
       <li><a href="#s12">Recipients</a></li>
       <li><a href="#s13">Deleting your account</a></li>
       <li><a href="#s14">Minimum age</a></li>
@@ -97,8 +100,9 @@
   device; others are stored with your account. Which ones is set out in
   <a href="#s6">Section 8</a> and <a href="#s6b">Section 9</a>.</p>
   <div class="merk">
-    <p>We do not show ads, we do not track for advertising purposes, and we do not
-    sell data. In your profile we link to partners (see
+    <p>We do not show ads from ad networks, we do not track for advertising purposes,
+    and we do not sell data. In your profile we link to partners, and creators can
+    show labelled discount codes in their profile (see
     <a href="#partner">&ldquo;Partner links&rdquo;</a>). We do not embed any
     advertising SDKs or third-party analytics services. On Android, fin contains three
     components from Google that themselves send technical information to Google:
@@ -121,7 +125,7 @@
       associating your data, syncing between your devices</dd>
     <dt>Basis</dt><dd>Art. 6(1)(b) GDPR &ndash; performance of the contract of use</dd>
     <dt>Retention</dt><dd>Until the account is deleted; details in
-      <a href="#s13">Section 18</a></dd>
+      <a href="#s13">Section 19</a></dd>
   </dl>
 
   <h3>Sign in with Google or Apple</h3>
@@ -154,7 +158,7 @@
   address, for security reasons or about changed terms, as well as replies to feedback
   you send us from the app. We only send emails about new features or offers if you
   have explicitly agreed to them beforehand.</p>
-  <p>We use the service provider Resend for sending, see <a href="#s12">Section 17</a>.
+  <p>We use the service provider Resend for sending, see <a href="#s12">Section 18</a>.
   Your address is not passed to third parties for advertising purposes.</p>
 
   <h3>Sex, height, date of birth and weight during setup</h3>
@@ -201,6 +205,79 @@
   the app. You can withdraw it at any time with effect for the future in the settings.
   After withdrawal, workouts can no longer be recorded; data already recorded is
   deleted at your request.</p>
+
+  <h3>App lock during workouts</h3>
+  <p>If you switch on the app lock, fin blocks the apps you picked yourself while
+  your workout runs. The lock ends with the workout, at the latest after four hours.
+  It is off by default.</p>
+  <ul class="punkte">
+    <li>On Android you grant two permissions for it in the system settings: usage
+      access and &ldquo;Display over other apps&rdquo;. For the picker, fin reads the
+      list of launchable apps on your device, with name and icon, and only when you
+      open the picker. During a workout with the lock switched on, fin checks about
+      once per second via usage access which app is open. If it is a blocked app,
+      fin shows its block screen.</li>
+    <li>On iPhone the lock uses Apple&rsquo;s Screen Time. You pick the apps in
+      Apple&rsquo;s own picker. fin only receives identifiers it cannot read and
+      learns neither which apps you picked nor which ones you use.</li>
+  </ul>
+  <p>All of this happens on your device only. The list of your apps, your choice and
+  which app you open when are not sent to us or to third parties. Only your choice is
+  stored, on the device. You can switch the lock off at any time in fin under
+  Settings &rarr; Training. On Android you revoke the permissions in the system
+  settings under &ldquo;Special app access&rdquo;, on iPhone under Settings &rarr;
+  Screen Time.</p>
+  <p>Legal basis: Section 25(2) no. 2 TDDDG in conjunction with Art. 6(1)(b) GDPR,
+  because you switch the feature on yourself and it does not work without this
+  access.</p>
+
+  <h3>GPS run</h3>
+  <p>If you start a run, walk, hike or ride with GPS in fin, fin records your route
+  with the GPS of your iPhone or Android device. From it, fin calculates distance,
+  pace, splits and elevation gain.</p>
+  <ul class="punkte">
+    <li><b>Location only for the run.</b> fin only asks when you start a run with GPS,
+      and only for location &ldquo;While Using the App&rdquo; (iPhone) or &ldquo;While
+      using the app&rdquo; (Android). fin never asks for background location. It is
+      read on the map before the start while that map is open, and from the start to
+      the end of the session, then also when the screen is locked. Your device shows
+      this: on iPhone with the blue indicator, on Android with the workout
+      notification in the notification shade. After that, fin reads no location.</li>
+    <li><b>Route on the device only.</b> fin stores the waypoints (coordinates, time,
+      altitude, accuracy) in a file on your device that is excluded from device
+      backups. They are not sent to us, not to other users and not to Apple Health
+      or Health Connect. That is why you only see the map of your run on the device
+      you ran with.</li>
+    <li><b>Only numbers go into the session:</b> distance, time, pauses, splits per
+      kilometre or mile, elevation gain and the number of waypoints. Like any
+      workout, they are saved with your history; <a href="#s7">Section 10</a>
+      applies to visibility. Others never see maps or waypoints unless you share
+      the map yourself as an image (see <a href="#s8">Section 11</a>).</li>
+    <li><b>Live map.</b> Before the start and during the run, fin shows a map with
+      your location and the route so far. Your device loads the map material for the
+      section shown directly from the provider: on iPhone from Apple Maps (Apple
+      Inc.), on Android from OpenFreeMap (tiles.openfreemap.org, map data from
+      OpenStreetMap). When the map follows your location, this section is the area
+      you are in. As with any request on the web, the provider therefore sees your
+      device&rsquo;s IP address and which section it loads. fin does not send your
+      coordinates or waypoints. fin only loads map material while the map is
+      visible. On Android, the map keeps loaded tiles in a cache on the device that
+      is also excluded from backups.</li>
+    <li>If Apple Health or Health Connect is connected, fin shows your heart rate and
+      calories from there during the run while fin is open (see
+      <a href="#s6">Section 8</a>).</li>
+    <li>If you delete the session or your account on this device, fin also deletes
+      the route there. Otherwise it is removed at the latest when you delete fin
+      from the device.</li>
+  </ul>
+  <p>You can revoke location access at any time: on iPhone under Settings &rarr;
+  Privacy &amp; Security &rarr; Location Services &rarr; fin, on Android in
+  fin&rsquo;s app info under Permissions &rarr; Location. Without access, fin only
+  counts the time of your run. In fin you switch GPS off under Settings &rarr;
+  Training &rarr; &ldquo;Running with GPS&rdquo;.</p>
+  <p>Legal basis: Section 25(2) no. 2 TDDDG in conjunction with Art. 6(1)(b) GDPR,
+  because you start the recording yourself and it does not work without your
+  location.</p>
 </section>
 
 <section id="s5">
@@ -208,7 +285,8 @@
   <dl class="feld">
     <dt>Data</dt><dd>Weight values with timestamps that you record during setup or
       later in the app; optionally your height</dd>
-    <dt>Purpose</dt><dd>Showing how your weight develops over time and in charts</dd>
+    <dt>Purpose</dt><dd>Showing how your weight develops over time and in charts; in the app also
+      estimating the calories of your strength training</dd>
     <dt>Basis</dt><dd>Art. 9(2)(a) GDPR &ndash; explicit consent</dd>
     <dt>Retention</dt><dd>Until you delete the entry or remove your account</dd>
   </dl>
@@ -237,13 +315,13 @@
   it, and it does not appear in the feed.</p>
   <p>An entry you delete is marked as deleted so that it does not come back via
   another of your devices. It is finally removed together with your account (see
-  <a href="#s13">Section 18</a>).</p>
+  <a href="#s13">Section 19</a>).</p>
 
   <h3>Food search and barcode</h3>
   <p>If you search for a food or scan a barcode and the product is not in the database
   on your device, your device queries Open Food Facts directly. On Android, fin
   recognises barcodes and text in images on your device using Google&rsquo;s ML Kit;
-  the image is not sent to Google. Both are covered in <a href="#s12">Section 17</a>.
+  the image is not sent to Google. Both are covered in <a href="#s12">Section 18</a>.
   How fin analyses photos, sentences and recipes with an AI is described in
   <a href="#ki">Section 7</a>.</p>
 
@@ -365,8 +443,25 @@
 
   <h3>Heart rate and active energy for a workout</h3>
   <p>For a workout in your fin history, fin reads the heart rate from the period of
-  that workout &ndash; average, maximum and curve &ndash; and the active energy burned
-  during it. fin stores both with that entry.</p>
+  that workout (average, maximum and curve) and the active energy burned during it.
+  fin stores both with that entry.</p>
+  <ul class="punkte">
+    <li>For strength, strength endurance and Hyrox workouts, fin takes the energy that
+      your watch, band or ring measured for that period, even without a recorded
+      workout. With the entry, fin stores the name of the source, such as
+      &ldquo;Apple Watch&rdquo; or the name of your tracker&rsquo;s app. What your
+      iPhone estimates from steps in the background does not count. If no such
+      device measured anything, fin only takes the energy if a watch or another app
+      recorded a workout in Health for that period, and keeps that workout&rsquo;s
+      identifier with the entry. Because some trackers sync later, fin asks again
+      when you open fin, up to 48 hours after the workout.</li>
+    <li>For a cardio workout, fin only takes the energy if a device measured your
+      heart rate during that period. While the workout is running and fin is open,
+      fin shows heart rate and energy as they come in.</li>
+  </ul>
+  <p>If you turn on <em>Include activity</em> in the food section (off by default),
+  fin also adds this active energy to your calorie goal for that day, within the
+  app.</p>
   <p>Your history is stored with your account on our servers so that it is the same on
   all your devices &ndash; and so are these values. Other users do not see your heart
   rate. People who follow you see the calorie count of an endurance session unless you
@@ -386,7 +481,9 @@
   <p>fin treats measurements taken over in this way like a body weight you entered
   yourself. They are <b>stored with your account on our servers</b> and synchronised
   between your devices. Body weight is used for your weight curve, for calculating
-  your calorie requirement and for the strength rating on the leaderboard.</p>
+  your calorie requirement, for estimating the calories of your strength training (in
+  the app only; the estimate is not stored or shared anywhere) and for the strength
+  rating on the leaderboard.</p>
   <p>The strength rating uses your best sets of a completed week, your most recently
   stored weight and your stated sex. fin calculates it in the app, at launch and after
   every workout. If the app has not updated your rating since the start of the week,
@@ -412,8 +509,8 @@
   view. There you decide for each individual session, by tapping it, whether it is
   added to your history. Workouts that fin recorded itself are not taken over a
   second time.</p>
-  <p>This also applies to sessions from your Garmin watch that Garmin Connect stores in
-  Apple Health. fin does not exchange any data with Garmin itself.</p>
+  <p>This also applies to sessions from your watch that its app stores in Apple
+  Health.</p>
   <p>A session that is taken over becomes an ordinary fin entry and is stored with your
   history in your account on our servers. Unlike a workout recorded in fin, however,
   it does <b>not appear in the feed by itself</b>: people who follow you only see it
@@ -446,6 +543,10 @@
   <p>If you allow it, fin stores the workouts you record in the app as sessions in
   Health so that your activity there is complete. You can revoke this permission at
   any time.</p>
+  <p>Likewise, if you allow it, fin writes the meals you log, with calories, protein,
+  carbohydrates and fat, to Health. This happens on your device only; if you edit or
+  delete a meal in fin, that applies there too. fin does not read nutrition from
+  Health. You can turn this off in the settings.</p>
 
   <h3>Legal basis</h3>
   <p>Health data is processed solely on the basis of your explicit consent
@@ -484,11 +585,21 @@
   without it the app works fully, but certain analyses remain empty.</p>
   <p><b>The same rules apply as in the previous section.</b> Sleep, resting heart
   rate, heart rate variability, the day&rsquo;s steps and the waypoints of a route stay
-  on the device, as do the elevation gain, power and cardio fitness of a session. Body
+  on the device, as does the elevation gain of a session. Body
   weight, sessions that are taken over, and heart rate and active energy for a workout
   are stored with your account. The same toggles exist, and
   <a href="#s7">Section 10</a> applies to the visibility of a session: others only see
   sessions that were taken over if you share them yourself.</p>
+  <p>The same applies to the active energy of a workout. For strength, strength
+  endurance and Hyrox workouts, fin takes what your watch, band or ring wrote to Health
+  Connect for that period, and stores the name of the app with the entry. What your
+  phone estimates from steps in the background does not count. If no such device
+  measured anything, fin matches the period against the workouts from other apps that
+  it reads anyway and keeps the identifier of the matching workout. Up to 48 hours
+  afterwards, fin asks again when you open it. For cardio, fin only takes the energy if
+  a device measured your heart rate during that period. If you turn on <em>Include
+  activity</em> in the food section (off by default), fin also adds this active energy
+  to your calorie goal for that day, within the app.</p>
 
   <h3>What fin reads from Health Connect</h3>
   <p>Only after you grant permission in the Health Connect authorisation dialog:</p>
@@ -503,8 +614,10 @@
       only on the device, for the map, laps and elevation profile. No coordinate is
       stored with your account. You grant permission for this in Health Connect, for
       each route individually or permanently.</li>
-    <li>Elevation gain, power (watts) and cardio fitness (VO2 max) for such a session
-      &ndash; for display only; they stay on the device.</li>
+    <li>fin does not read the elevation gain of such a session separately but
+      calculates it on the device from the altitudes of its route &ndash; for display
+      only; it stays on the device. fin does not read power (watts) or cardio fitness
+      (VO2 max) on Android.</li>
   </ul>
 
   <h3>About heart rate variability</h3>
@@ -525,16 +638,21 @@
   <h3>What fin writes to Health Connect</h3>
   <p>If you allow it: the workouts you record in the app, as an exercise session
   (sport type, start, duration). If you entered calories yourself for an endurance
-  session, that value is added. fin does not write an estimate. Nothing more.</p>
+  session, that value is added. fin does not write an estimate.</p>
+  <p>Also only with your permission: the meals you log, with calories, protein,
+  carbohydrates and fat. This happens on your device only; if you edit or delete a
+  meal in fin, that applies there too. fin does not read nutrition from Health
+  Connect. You can turn this off in the settings. fin writes nothing else.</p>
 
   <h3>Route and map on Android</h3>
   <p>On Android, fin draws the map itself, using map material from OpenFreeMap
   (tiles.openfreemap.org, data from OpenStreetMap). For this, your device loads the map
-  tiles for the section shown &ndash; that is, the rectangle that encloses the route,
-  not the individual waypoints. As with any request on the web, OpenFreeMap receives
+  tiles for the section shown, that is, the rectangle that encloses the route, not
+  the individual waypoints. As with any request on the web, OpenFreeMap receives
   your device&rsquo;s IP address, but it requires no sign-in and no key and sets no
   cookies. None of this is sent to us. Waypoints and the finished map image stay on
-  the device. fin does not query your location on Android.</p>
+  the device. fin does not query your location for this map; only the GPS run uses
+  it (see <a href="#s4">Section 4</a>).</p>
   <p>fin loads the tiles when you open a session and, for some sessions that have just
   been taken over or that you open in your history, also in advance so that the map is
   ready there. This only happens while fin is open.</p>
@@ -603,9 +721,49 @@
   </div>
 
   <h3>My gym</h3>
-  <p>People who follow you see the name of your gym, the equipment you have set up and
-  the areas you have unlocked, unless you set &ldquo;Who sees what&rdquo; to
-  &ldquo;Only me&rdquo;. Nobody but you sees points or credit.</p>
+  <p>People who follow you see the name of your gym, the equipment you have set up,
+  the areas you have unlocked and your people, unless you set &ldquo;Who sees
+  what&rdquo; to &ldquo;Only me&rdquo;. People you have blocked or who have blocked
+  you are excluded. Nobody but you sees points or credit.</p>
+  <p><b>Your people:</b> For each person in your gym we store, with your account,
+  the figure you chose and, if you give one, a name of up to 16 characters. Without a
+  name of your own, fin shows the figure&rsquo;s name; we do not store that. As with
+  comments, we check names for prohibited words. If your device has no connection at
+  the moment, it remembers your choice and sends it the next time you open the gym.
+  Legal basis: Art. 6(1)(b) GDPR. When you delete your account, we delete your gym
+  including your people.</p>
+
+  <h3>Creator profile</h3>
+  <p>Only accounts we unlock as creators have a creator profile. For this we store the
+  time of unlocking and an internal note on the reason. If we withdraw the unlocking,
+  the creator profile is no longer visible, and we delete its details and published
+  plans.</p>
+  <p><b>Data processed:</b> what you enter in your creator profile, that is a cover
+  image with the section you chose, a playlist (title, its own artwork and links to
+  Spotify, Apple Music or YouTube Music), discount
+  codes (brand, code, discount, extra text and link to the shop), your usernames on
+  Instagram, TikTok and YouTube, the order and visibility of the sections, published
+  training plans and the time of the last change. A published plan contains name,
+  level, days and exercises with sets, reps, rest times and notes, but no weights and
+  nothing from your training history. Like your profile picture, the cover image and
+  the playlist artwork are stored in our file storage at Supabase (EU).</p>
+  <p><b>Visibility:</b> Every signed-in user can see your creator profile, even without
+  following you and even if your profile is private. People you have blocked or who
+  have blocked you are excluded. Your sessions are still shown only to people who
+  follow you (see above). Like comments, we check texts in the creator profile for
+  prohibited words.</p>
+  <p><b>Links:</b> If someone taps a playlist, a shop or a social profile, the page opens
+  in the browser or in the provider&rsquo;s app. fin does not transmit any data to the
+  provider; the provider&rsquo;s privacy policy applies. For codes and shop links see
+  <a href="#partner">Partner links</a>.</p>
+  <p><b>Adopted plans:</b> Others can adopt a published plan into their own plan. It is
+  then stored as a copy in that person&rsquo;s account and remembers which creator
+  profile it came from. The copy remains even if you withdraw the plan or delete your
+  account. You do not see who has adopted your plan.</p>
+  <p>Legal basis: Art. 6(1)(b) GDPR. All details are voluntary; you can change or remove
+  them in the app at any time under <em>Profile &rarr; Creator profile</em>. When you
+  delete your account, we delete your creator profile, the cover image, the playlist
+  artwork and your published plans.</p>
 
   <h3>Comments and reactions</h3>
   <p><b>Data processed:</b> the text of your comments, reactions given, the time, and
@@ -624,10 +782,10 @@
   ends or one of the two accounts is deleted. Legal basis: Art. 6(1)(b) GDPR.</p>
 
   <h3>In-app notifications</h3>
-  <p>We store records that someone has followed you, commented on your session or
-  reacted to it, so that we can show them to you in the app. This involves processing
-  the person who triggered it, the occasion, the reference to the session and the
-  time.</p>
+  <p>We store records that someone has followed you, commented on your session,
+  reacted to it or sent you a recipe, so that we can show them to you in the app. This
+  involves processing the person who triggered it, the occasion, the reference to the
+  session or recipe and the time.</p>
   <p>Legal basis: Art. 6(1)(b) GDPR. We delete read notifications after 90 days.</p>
 
   <h3>Training partners</h3>
@@ -660,6 +818,24 @@
   Legal basis: Art. 6(1)(b) GDPR. A shout-out is deleted at the latest when one of the
   two of you deletes their account.</p>
 
+  <h3>Recipes for friends</h3>
+  <p>Via <em>Share</em> you can send a recipe to friends, meaning people you follow who
+  also follow you, as long as neither of you has blocked the other. What is sent is a
+  copy with the name, servings, weight, ingredients with amounts and nutritional values,
+  and the preparation steps. No picture, no link, and not whether or when you ate it.
+  We store the copy with sender, recipient and time, and whether the person has opened
+  or saved it; only they see that. They receive a notification with your name and the
+  name of the recipe (see <a href="#s9">Section 12</a>). They can switch off the push for
+  this in fin under <em>Account &amp; Settings &rarr; Notifications</em> with the
+  <em>Recipes</em> toggle; the recipe still shows up in the app. As with comments, we check the
+  name for prohibited words. For the limit of 30 recipes a day we also store when you
+  sent one, without recipient or content. Legal basis: Art. 6(1)(b) GDPR.</p>
+  <p>The copy stays with us until the person deletes it, one of you blocks the other or
+  one of the two accounts is deleted. Otherwise you cannot take it back. We delete the
+  times kept for the limit at your next send once they are older than 24 hours, and at
+  the latest with your account. If the person has saved the recipe to their recipes, it
+  stays there as theirs.</p>
+
   <h3>Invitations and referral reward</h3>
   <p>You can invite friends to fin via your device&rsquo;s share menu. The invitation
   contains your invitation code, which is your username. If someone enters it when
@@ -676,7 +852,8 @@
   second time.</p>
 
   <h3>Reporting and blocking</h3>
-  <p>You can report sessions, comments and accounts, and block individual accounts.
+  <p>You can report sessions, comments, recipes sent to you and accounts, and block
+  individual accounts.
   For a report we process the identifier of the reported account, the reported
   content, your identifier, the reason given and the time. We store a block as a
   relationship between the two accounts; blocked people no longer see your content
@@ -736,7 +913,8 @@
 
   <h3>Alerts about social events</h3>
   <p>For alerts about social events &ndash; new followers, follow requests, likes,
-  comments and cheers during an ongoing workout &ndash; fin uses a push service:
+  comments, cheers during an ongoing workout and recipes sent to you &ndash; fin uses a
+  push service:
   Apple&rsquo;s on iPhone, Google&rsquo;s Firebase Cloud Messaging on Android. Notes
   about your referral reward and, if you have agreed, news and offers from fin (see
   below) arrive the same way.</p>
@@ -751,7 +929,7 @@
       account, and also if the push service rejects it as invalid</dd>
   </dl>
   <p>The message contains the name of the person who triggered it and, where
-  applicable, the name of the workout concerned. On iPhone, we transmit the token and
+  applicable, the name of the workout or recipe concerned. On iPhone, we transmit the token and
   the message for delivery to the <b>Apple Push Notification service</b> (Apple Inc.,
   One Apple Park Way, Cupertino, CA 95014, USA). Where data is transferred to the USA,
   this is based on the European Commission&rsquo;s standard contractual clauses under
@@ -761,8 +939,8 @@
   <p>On Android, we transmit the token and the message for delivery to <b>Firebase
   Cloud Messaging</b>, a service of Google (Google Ireland Limited, Gordon House,
   Barrow Street, Dublin 4, Ireland). Along with the message go the kind of message and,
-  where applicable, the internal identifier of the session or rest day request
-  concerned, so that tapping
+  where applicable, the internal identifier of the session, rest day request or sent
+  recipe concerned, so that tapping
   it opens the right place in the app.</p>
   <p>The token is only created once notifications are allowed for fin and you are
   signed in. Firebase then creates a random installation identifier on your device,
@@ -797,14 +975,18 @@
     when you return to it, at most every few hours; we only keep the most recent one),
     the day of the last reminder and how many there have been in total. To decide whether
     you have been away, we also use times that are stored anyway: when your device last
-    registered for notifications and when your data was last backed up. For the message
+    registered for notifications and when your data was last backed up. In your backed-up
+    training data, our server also checks only whether today is marked as a sick day &ndash;
+    if so, we send nothing that evening. For the message
     itself we use your first name from your profile and your device&rsquo;s language;
     delivery works as described above.</dd>
     <dt>Purpose</dt><dd>Reminding you of your training and nutrition when you
     haven&rsquo;t been in fin for a while &ndash; and not doing so while you use the
     app</dd>
     <dt>Basis</dt><dd>Art. 6(1)(f) GDPR; our legitimate interest is that you can keep
-    using fin for what you set it up for. Delivery only happens with your consent to
+    using fin for what you set it up for. Insofar as we check whether you have marked
+    today as a sick day, in conjunction with Art. 9(2)(a) GDPR, as for your training data.
+    Delivery only happens with your consent to
     notifications (Art. 6(1)(a) GDPR, via the system dialog of iOS or Android; up to
     Android 12 via the <em>Allow notifications</em> button in fin).</dd>
     <dt>Retention</dt><dd>Until you turn the switch off, no longer allow notifications,
@@ -860,7 +1042,7 @@
   name &rarr; <em>Subscriptions</em>, on Android in Google Play under
   <em>Profile &rarr; Payments &amp; subscriptions &rarr; Subscriptions</em>. Deleting
   your fin account does not end a running subscription (see
-  <a href="#s13">Section 18</a>).</p>
+  <a href="#s13">Section 19</a>).</p>
 </section>
 
 <section id="s10">
@@ -891,6 +1073,21 @@
   privacy policy of the respective provider applies. If you buy through such a link or
   with the code shown there, we may receive a commission; this does not make the price
   any higher for you.</p>
+  <p><b>Codes from creators.</b> In creator profiles (see <a href="#s7">Section 10</a>),
+  creators show their own discount codes and links to shops, labelled as an ad.
+  Creators enter these codes and links themselves. If you tap a shop link, the page
+  opens in your browser; fin does not transmit any data to the shop. If you copy a code,
+  this happens on your device. If you buy with such a code or through such a link, the
+  creator may receive a commission from the brand; this does not make the price any
+  higher for you.</p>
+</section>
+
+<!-- Giveaway: running since 4 October 2026; upload giveaway.html as well. -->
+<section id="giveaway">
+  <h2>Giveaways</h2>
+  <p>When a giveaway runs in fin, its own official rules apply (<a href="giveaway.html">Story Giveaway</a>); section 10 there describes the processing in detail. If you take part, we store your Instagram username, your entries (day, time of tapping "Share", status of the check), your confirmation of the minimum age and, if stored in your profile, your age to check the minimum age. For winners we add rank, prize, a code to prove the account and the contact details for sending the prize.</p>
+  <p>To check entries, we record the story mentions of @finfitnesstracker on Instagram as a screen recording. To evaluate them we use technical service providers as processors, including providers based in the USA. Only mentions of Instagram usernames added in fin are evaluated. We delete the recordings after the evaluation.</p>
+  <p>Legal basis: Art. 6(1)(b) GDPR for taking part; for mentions by people who do not take part, our legitimate interest in checking the entries (Art. 6(1)(f) GDPR). We delete Instagram usernames and entries after the draw and the handover of the prizes, and immediately with your account. The periods are in the official rules.</p>
 </section>
 
 <section id="s12">
@@ -946,17 +1143,24 @@
         </tr>
         <tr>
           <td>Apple Maps (Apple Inc.)</td>
-          <td>Map of a session on iPhone</td>
-          <td>only the map section around the route, directly from your device, see
-            <a href="#s6">Section 8</a></td>
+          <td>On iPhone: map of a session and live map during a GPS run</td>
+          <td>only the map section around the route or the section shown on the live
+            map (when it follows you, the area around your location), directly from
+            your device; fin does not send coordinates or waypoints. See
+            <a href="#s6">Section 8</a>
+            and <a href="#s4">Section 4</a></td>
         </tr>
         <tr>
           <td>OpenFreeMap (tiles.openfreemap.org)</td>
-          <td>Android only: map of a session taken over from Health Connect</td>
-          <td>Map tiles for the section around the route and your device&rsquo;s IP
-            address, directly from your device; no waypoints, no sign-in, no cookies.
-            Legal basis: Art. 6(1)(f) GDPR; our legitimate interest is showing you the
-            map of your session; see <a href="#s6b">Section 9</a></td>
+          <td>Android only: map of a session (taken over from Health Connect or recorded
+            with GPS) and live map during a GPS run</td>
+          <td>Map tiles for the section around the route or the section shown on the
+            live map (when it follows you, the area around your location) and your
+            device&rsquo;s IP address, directly from your device; no coordinates, no
+            waypoints, no sign-in, no cookies. Legal basis: Art. 6(1)(f) GDPR; our
+            legitimate interest is showing you the map of your session; for the live
+            map Art. 6(1)(b) GDPR. See <a href="#s6b">Section 9</a> and
+            <a href="#s4">Section 4</a></td>
         </tr>
         <tr>
           <td>OpenAI Ireland Ltd. (processing in the USA)</td>
@@ -1038,8 +1242,8 @@
   information to operate and improve these components (Google Ireland Limited, Gordon
   House, Barrow Street, Dublin 4, Ireland). Legal basis: Art. 6(1)(f) GDPR.</p>
 
-  <p>Your operating system&rsquo;s own services, such as Health Connect or speech
-  recognition on Android (see <a href="#s5b">Section 6</a>), are not listed here;
+  <p>Your operating system&rsquo;s own services, such as Health Connect, location
+  services or speech recognition on Android (see <a href="#s5b">Section 6</a>), are not listed here;
   Apple&rsquo;s or Google&rsquo;s terms apply to them. We do not pass data to recipients
   other than those named here unless we are legally required to do so.</p>
 </section>
@@ -1063,11 +1267,15 @@
   diary (meals, water, recipes and your own meals, calorie target), the reported
   names of foods you created yourself, following relationships and pending follow requests, your entries in the feed, your comments
   and reactions, the display of your ongoing workout, your rest day requests and votes,
-  your shout-outs, your notifications and the device tokens for them, the time you last
+  your shout-outs, recipes you have sent to friends or received from them, your
+  notifications and the device tokens for them, the time you last
   opened fin, reports and
-  blocks you have submitted, your invitations and your referral reward status, and your
+  blocks you have submitted, your invitations and your referral reward status, your
+  gym with its name, equipment, areas and your people, your creator profile with cover image, playlist artwork and published plans, and your
   purchase data (subscription status and history, purchase identifier, visits to the
-  purchase page).</p>
+  purchase page). Plans that others have adopted from your creator profile, and recipes
+  that friends have saved to their recipes, remain as copies in their accounts (see
+  <a href="#s7">Section 10</a>).</p>
   <p>In our database, deletion is immediate: all associated records are deleted in the
   same transaction. The only exceptions are feedback you have sent us from the app,
   error messages about failed purchases and offer codes we have assigned to you: these
