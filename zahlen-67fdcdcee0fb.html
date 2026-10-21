@@ -1,0 +1,988 @@
+<!doctype html><html lang="de"><head><meta name="robots" content="noindex,nofollow"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style></head><body><title>fin Zahlen</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&display=swap">
+<style>
+/* Layout: Kopfzeile mit Stand, dann "Heute" als Kachelraster, "Bestand jetzt",
+   "Verlauf" mit zwei Diagrammen und die Tagestabelle; eine Spalte, hoechstens 1120px. */
+:root {
+  --bg: #F6F4F4;
+  --flaeche: #FFFFFF;
+  --flaeche-2: #F0EDED;
+  --tinte: #0B090A;
+  --tinte-2: #574F51;
+  --tinte-3: #857C7E;
+  --linie: #E2DCDD;
+  --akzent: #BA181B;
+  --akzent-zeichen: #BA181B;
+  --akzent-flaeche: rgba(186, 24, 27, .07);
+  --gut: #2B7A12;
+  --warn: #9A5800;
+  --schlecht: #B3261E;
+  --ios: #2a78d6;
+  --android: #1baf7a;
+  --ohne: #BDB5B7;
+  --balken: #C9C1C3;
+  --fokus: #2a78d6;
+  --schrift: 'Archivo', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --radius: 14px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0B090A;
+    --flaeche: #161A1D;
+    --flaeche-2: #1D2125;
+    --tinte: #F5F3F4;
+    --tinte-2: #B1A7A6;
+    --tinte-3: #8A8182;
+    --linie: #2A2F33;
+    --akzent: #BA181B;
+    --akzent-zeichen: #F05A5D;
+    --akzent-flaeche: rgba(240, 90, 93, .10);
+    --gut: #5BC236;
+    --warn: #E0A030;
+    --schlecht: #F05A5D;
+    --ios: #3987e5;
+    --android: #199e70;
+    --ohne: #5D5759;
+    --balken: #4A4446;
+    --fokus: #3987e5;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0B090A;
+  --flaeche: #161A1D;
+  --flaeche-2: #1D2125;
+  --tinte: #F5F3F4;
+  --tinte-2: #B1A7A6;
+  --tinte-3: #8A8182;
+  --linie: #2A2F33;
+  --akzent: #BA181B;
+  --akzent-zeichen: #F05A5D;
+  --akzent-flaeche: rgba(240, 90, 93, .10);
+  --gut: #5BC236;
+  --warn: #E0A030;
+  --schlecht: #F05A5D;
+  --ios: #3987e5;
+  --android: #199e70;
+  --ohne: #5D5759;
+  --balken: #4A4446;
+  --fokus: #3987e5;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--bg);
+  color: var(--tinte);
+  font-family: var(--schrift);
+  font-size: 15px;
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+}
+.seite {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 20px 48px;
+  display: grid;
+  gap: 28px;
+}
+button, input { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--fokus); outline-offset: 2px; border-radius: 6px; }
+.zahl { font-variant-numeric: tabular-nums; }
+
+/* Kopf */
+.kopf { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px 20px; }
+.marke { display: grid; gap: 2px; min-width: 0; }
+.marke h1 {
+  margin: 0;
+  font-size: 30px;
+  line-height: 1.05;
+  font-weight: 800;
+  font-stretch: 112%;
+  letter-spacing: -.01em;
+  text-wrap: balance;
+}
+.marke h1 b { color: var(--akzent-zeichen); font-weight: 800; }
+.datum { color: var(--tinte-2); font-size: 14px; }
+.steuer { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.stand { color: var(--tinte-2); font-size: 13px; }
+.chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 3px 10px 3px 8px; border-radius: 999px;
+  font-size: 12px; font-weight: 700; font-stretch: 90%;
+  letter-spacing: .06em; text-transform: uppercase;
+  background: var(--flaeche-2); color: var(--tinte-2);
+}
+.chip::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
+.chip[data-art="live"] { color: var(--gut); }
+.chip[data-art="laedt"] { color: var(--tinte-3); }
+.chip[data-art="fehler"] { color: var(--schlecht); }
+.chip[data-art="beispiel"] { color: var(--warn); }
+.chip[data-art="alt"] { color: var(--warn); }
+.knopf {
+  appearance: none; border: 1px solid var(--linie); background: var(--flaeche);
+  padding: 7px 14px; border-radius: 999px; cursor: pointer; font-size: 14px; font-weight: 600;
+}
+.knopf:hover { border-color: var(--tinte-3); }
+.knopf[disabled] { opacity: .55; cursor: default; }
+.knopf.voll { background: var(--akzent); border-color: var(--akzent); color: #FFFFFF; }
+.knopf.voll:hover { filter: brightness(1.08); }
+
+/* Hinweise und Fehler */
+.meldung {
+  display: grid; gap: 4px; padding: 12px 16px; border-radius: 12px;
+  background: var(--akzent-flaeche); border: 1px solid var(--linie);
+}
+.meldung[data-art="beispiel"] { background: var(--flaeche-2); }
+.meldung strong { font-weight: 700; }
+.meldung p { margin: 0; color: var(--tinte-2); font-size: 14px; }
+.meldung .knopfreihe { margin-top: 6px; }
+
+/* Zugang */
+.zugang {
+  background: var(--flaeche); border: 1px solid var(--linie); border-radius: var(--radius);
+  padding: 18px; display: grid; gap: 14px; max-width: 640px;
+}
+.zugang h2 { margin: 0; font-size: 18px; font-weight: 700; }
+.feld { display: grid; gap: 6px; }
+.feld label { font-size: 13px; font-weight: 600; color: var(--tinte-2); }
+.feld input {
+  width: 100%; min-width: 0; padding: 10px 12px; border-radius: 10px;
+  border: 1px solid var(--linie); background: var(--bg); font-size: 15px;
+}
+.klein { font-size: 13px; color: var(--tinte-3); margin: 0; }
+.knopfreihe { display: flex; flex-wrap: wrap; gap: 8px; }
+
+/* Abschnitte */
+section { display: grid; gap: 12px; min-width: 0; }
+.abschnitt-kopf { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 12px; }
+h2.titel {
+  margin: 0; font-size: 13px; font-weight: 700; font-stretch: 88%;
+  letter-spacing: .09em; text-transform: uppercase; color: var(--tinte-2);
+}
+.nebenbei { font-size: 13px; color: var(--tinte-3); }
+.inhalt { display: grid; gap: 28px; min-width: 0; }
+
+/* Kacheln Heute */
+.kacheln { display: grid; grid-template-columns: repeat(auto-fill, minmax(168px, 1fr)); gap: 10px; }
+.kachel {
+  background: var(--flaeche); border: 1px solid var(--linie); border-radius: var(--radius);
+  padding: 14px 14px 12px; display: grid; grid-template-rows: auto auto 1fr auto; gap: 4px; min-width: 0;
+}
+.kachel .name { font-size: 13px; font-weight: 600; color: var(--tinte-2); }
+.kachel .wert { font-size: 34px; line-height: 1.05; font-weight: 750; font-stretch: 108%; letter-spacing: -.01em; }
+.kachel .teil { font-size: 12.5px; color: var(--tinte-3); overflow-wrap: anywhere; }
+.kachel .fuss { display: grid; gap: 4px; margin-top: 6px; }
+.kachel .vergleich { font-size: 12px; color: var(--tinte-3); }
+.funke { display: block; width: 100%; height: 30px; }
+
+/* Bestand */
+.bestand { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 10px; }
+.karte {
+  background: var(--flaeche); border: 1px solid var(--linie); border-radius: var(--radius);
+  padding: 16px; display: grid; gap: 12px; align-content: start; min-width: 0;
+}
+.karte h3 { margin: 0; font-size: 15px; font-weight: 700; }
+.paare { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 16px; margin: 0; }
+.paare div { display: grid; gap: 1px; min-width: 0; align-content: start; }
+.paare dt { font-size: 12.5px; color: var(--tinte-2); }
+.paare dd { margin: 0; font-size: 22px; font-weight: 700; font-stretch: 106%; }
+.paare dd small { display: block; font-size: 12.5px; font-weight: 500; color: var(--tinte-3); font-stretch: 100%; }
+.tabelle-huelle { overflow-x: auto; min-width: 0; }
+table { border-collapse: collapse; width: 100%; font-size: 14px; }
+th, td { padding: 7px 10px; text-align: right; white-space: nowrap; border-bottom: 1px solid var(--linie); font-variant-numeric: tabular-nums; }
+th:first-child, td:first-child { text-align: left; padding-left: 0; }
+thead th { font-size: 12px; font-weight: 600; color: var(--tinte-2); }
+tbody tr:last-child td { border-bottom: 0; }
+tr.summe td { font-weight: 700; }
+td.null { color: var(--tinte-3); }
+.liste { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.liste li { display: flex; justify-content: space-between; gap: 12px; font-size: 14px; }
+.liste li span:last-child { font-weight: 700; font-variant-numeric: tabular-nums; }
+
+/* Verlauf */
+.diagramme { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 10px; }
+.diagramm { position: relative; }
+.diagramm svg { display: block; width: 100%; height: auto; overflow: visible; }
+.diagramm text { fill: var(--tinte-3); font-family: var(--schrift); font-size: 11px; }
+.legende { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 13px; color: var(--tinte-2); }
+.legende span { display: inline-flex; align-items: center; gap: 6px; }
+.legende i { width: 10px; height: 10px; border-radius: 3px; display: inline-block; }
+.legende i.strich { height: 3px; border-radius: 2px; width: 14px; }
+.tipp {
+  position: absolute; pointer-events: none; z-index: 2; min-width: 140px;
+  background: var(--tinte); color: var(--bg); border-radius: 10px; padding: 8px 10px;
+  font-size: 12.5px; line-height: 1.4; box-shadow: 0 6px 18px rgba(0, 0, 0, .18);
+}
+.tipp b { display: block; font-size: 12px; margin-bottom: 2px; }
+.tipp div { display: flex; justify-content: space-between; gap: 12px; font-variant-numeric: tabular-nums; }
+
+details.wie { font-size: 13.5px; color: var(--tinte-2); }
+details.wie summary { cursor: pointer; font-weight: 600; color: var(--tinte); }
+details.wie ul { margin: 8px 0 0; padding-left: 18px; display: grid; gap: 4px; max-width: 72ch; }
+
+@media (max-width: 520px) {
+  .marke h1 { font-size: 26px; }
+  .kachel .wert { font-size: 28px; }
+  .kacheln { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .diagramme { grid-template-columns: minmax(0, 1fr); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .chip[data-art="laedt"]::before { animation: puls 1s ease-in-out infinite alternate; }
+  @keyframes puls { from { opacity: .35; } to { opacity: 1; } }
+}
+</style>
+
+<div class="seite">
+  <header class="kopf">
+    <div class="marke">
+      <h1><b>fin</b> <span id="titel-rest">Zahlen</span></h1>
+      <div class="datum" id="datum"></div>
+    </div>
+    <div class="steuer">
+      <span class="chip" id="chip" data-art="beispiel"></span>
+      <span class="stand zahl" id="stand"></span>
+      <button class="knopf" id="neu" type="button"></button>
+      <button class="knopf" id="zugang-knopf" type="button"></button>
+    </div>
+  </header>
+
+  <div class="meldung" id="meldung" role="alert" hidden></div>
+
+  <form class="zugang" id="zugang" hidden>
+    <h2 id="zugang-titel"></h2>
+    <div class="feld">
+      <label for="url" id="url-label"></label>
+      <input id="url" type="url" inputmode="url" autocomplete="off" spellcheck="false" required>
+    </div>
+    <div class="feld">
+      <label for="schluessel" id="schluessel-label"></label>
+      <input id="schluessel" type="password" autocomplete="off" spellcheck="false" required>
+    </div>
+    <p class="klein" id="zugang-hinweis"></p>
+    <div class="knopfreihe">
+      <button class="knopf voll" id="speichern" type="submit"></button>
+      <button class="knopf" id="abbrechen" type="button"></button>
+      <button class="knopf" id="vergessen" type="button"></button>
+    </div>
+  </form>
+
+  <main class="inhalt" id="inhalt">
+  <section aria-labelledby="h-heute">
+    <div class="abschnitt-kopf">
+      <h2 class="titel" id="h-heute"></h2>
+      <span class="nebenbei" id="heute-neben"></span>
+    </div>
+    <div class="kacheln" id="kacheln"></div>
+  </section>
+
+  <section aria-labelledby="h-bestand">
+    <div class="abschnitt-kopf">
+      <h2 class="titel" id="h-bestand"></h2>
+    </div>
+    <div class="bestand" id="bestand"></div>
+  </section>
+
+  <section aria-labelledby="h-verlauf">
+    <div class="abschnitt-kopf">
+      <h2 class="titel" id="h-verlauf"></h2>
+      <span class="nebenbei" id="verlauf-neben"></span>
+    </div>
+    <div class="diagramme">
+      <div class="karte">
+        <h3 id="d1-titel"></h3>
+        <div class="legende" id="d1-legende"></div>
+        <div class="diagramm" id="d1"></div>
+      </div>
+      <div class="karte">
+        <h3 id="d2-titel"></h3>
+        <div class="legende" id="d2-legende"></div>
+        <div class="diagramm" id="d2"></div>
+      </div>
+    </div>
+    <div class="karte">
+      <h3 id="tab-titel"></h3>
+      <div class="tabelle-huelle" id="tagestabelle"></div>
+    </div>
+    <details class="wie">
+      <summary id="wie-titel"></summary>
+      <ul id="wie-liste"></ul>
+    </details>
+  </section>
+  </main>
+</div>
+
+<script>
+(() => {
+  'use strict';
+
+  const STANDARD_URL = 'https://feylbgjusxpvaxvcwssd.supabase.co/functions/v1/dashboard';
+  const SPEICHER = 'fin-dashboard-zugang-v1';
+  const TAGE = 14;
+  const TAKT = 60; // Sekunden bis zum naechsten Laden
+
+  // ---------------------------------------------------------------- Sprache
+  const SPRACHE = String(navigator.language || 'de').toLowerCase().startsWith('de') ? 'de' : 'en';
+  const TEXTE = {
+    de: {
+      titel: 'Zahlen', heute: 'Heute', bestand: 'Bestand jetzt', verlauf: 'Verlauf',
+      verlaufNeben: 'letzte {n} Tage, Berliner Zeit',
+      neu: 'Neu laden', zugang: 'Zugang',
+      chipLive: 'Live', chipLaedt: 'Lädt', chipFehler: 'Fehler', chipBeispiel: 'Beispiel', chipAlt: 'Veraltet',
+      stand: 'Stand {zeit}', standNaechst: 'Stand {zeit} · neu in {s} s', standNie: 'noch nicht geladen',
+      zugangTitel: 'Zugang zur Function', urlLabel: 'Adresse der Function', schluesselLabel: 'Schlüssel',
+      zugangHinweis: 'Beides bleibt nur in diesem Browser.', zugangHinweisFluechtig: 'Dieser Browser speichert nichts. Der Zugang gilt bis zum Schließen.',
+      speichern: 'Speichern und laden', abbrechen: 'Abbrechen', vergessen: 'Schlüssel löschen',
+      beispielTitel: 'Beispielzahlen', beispielText: 'Keine echten Daten. Trag Adresse und Schlüssel ein.',
+      kontenNeu: 'Neue Konten', aktivHeute: 'Aktiv heute', aboStarts: 'Abo-Starts', ersteZahlung: 'Erste Zahlungen',
+      kuendigungen: 'Kündigungen', lifetime: 'Lifetime', erstattungen: 'Erstattungen', feed: 'Trainings im Feed',
+      rueckmeldungen: 'Rückmeldungen', lose: 'Gewinnspiel-Lose',
+      ios: 'iOS', android: 'Android', ohnePush: 'ohne Push',
+      monat: 'Monat', quartal: 'Quartal', jahr: 'Jahr', gesamt: 'Gesamt',
+      davonProbe: 'davon Probe {n}', geschenkt: 'geschenkt {n}', vonKonten: 'von {n} Konten', offen: 'offen {n}',
+      aktivTeil: '7 Tage {a} · 30 Tage {b}', gestern: 'gestern {n}', schnitt: 'Ø {n}',
+      losTeil: 'bestätigt {a} · abgelehnt {b} · offen {c}',
+      ueberblick: 'Überblick', konten: 'Konten', proGesamt: 'Pro gesamt', nurWerbung: 'nur Werbung {n}', aktiv7: 'Aktiv 7 Tage', aktiv30: 'Aktiv 30 Tage',
+      lifetimeGesamt: 'Lifetime', abos: 'Abos', zahlend: 'Zahlend', apple: 'Apple', play: 'Play', probeLaeuft: 'Probe läuft',
+      gekuendigtLaeuft: 'Gekündigt, läuft aus: {a} · in der Probe gekündigt: {b}',
+      mehr: 'Weiteres', verbunden: 'Verbundene Apps', verbundenNeu: 'neu heute {n}', keineVerbunden: 'keine',
+      rueckOffen: 'Rückmeldungen offen', gewinnspielHeute: 'Gewinnspiel heute', proGeschenkt: 'Pro geschenkt heute',
+      d1: 'Neue Konten je Plattform', d2: 'Abos: Starts und erste Zahlungen',
+      starts: 'Starts (mit Probe)', zahlungen: 'Erste Zahlungen',
+      tabelle: 'Alle Tage', tag: 'Tag', proben: 'Proben', feedKurz: 'Feed', rueckKurz: 'Rückm.', loseKurz: 'Lose',
+      wie: 'So wird gezählt',
+      wie1: 'Neue Konten: Anmeldungen am Tag. Plattform vom ersten Push-Gerät, ohne Push unbekannt.',
+      wie2: 'Aktiv: Die App hat an dem Tag Daten gespeichert. Gibt es nur für heute, 7 und 30 Tage.',
+      wie3: 'Abo-Start: Kauf über Apple oder Play, mit Probe, Wiederkehr und Store-Wechsel, nicht nach Zahlungsausfall. Probe und erste Zahlung sind aus dem Laufzeitende geschätzt.',
+      wie4: 'Beim Monatsabo sehen Probe und sofort bezahlter Monat gleich aus.',
+      wie5: 'Lifetime zählt nur Käufe, Geschenke daneben. Pro-Geschenke unter Weiteres.',
+      wie6: 'Abo-Historie seit 23.09.2026. Ältere Abos zählen als bezahlt.',
+      fehlt: 'Nicht in dieser Datenbank: {liste}',
+      fSchluessel: 'Schlüssel abgelehnt', fSchluesselText: 'Prüfe den Schlüssel unter Zugang.',
+      fHerkunft: 'Herkunft nicht freigegeben', fHerkunftText: 'Die Function nimmt Anfragen von dieser Seite nicht an. DASHBOARD_HERKUNFT ergänzen.',
+      fFunktion: 'Funktion fehlt', fFunktionText: 'dashboard_zahlen gibt es noch nicht. 134 im SQL-Editor einspielen.',
+      fEinrichten: 'Function nicht eingerichtet', fEinrichtenText: 'DASHBOARD_SCHLUESSEL setzen (mindestens 24 Zeichen) und neu deployen.',
+      fNichtDa: 'Function nicht gefunden', fNichtDaText: 'Adresse prüfen oder die Function deployen.',
+      fAbfrage: 'Abfrage fehlgeschlagen', fAbfrageText: 'Code {code}. Später noch einmal laden.',
+      fOffline: 'Offline', fOfflineText: 'Keine Netzverbindung.',
+      fNetz: 'Keine Antwort', fNetzText: 'Netz, CORS oder eine Sperre dieser Seite für fremde Adressen. Die Adresse im Browser direkt öffnen zeigt, ob die Function antwortet.',
+      fZeit: 'Zeitüberschreitung', fZeitText: 'Die Function hat nach 20 s nicht geantwortet.',
+      fFormat: 'Unerwartete Antwort', fFormatText: 'Die Function liefert ein anderes Format. Seite und Function passen nicht zusammen.',
+      fAlt: 'Die Zahlen unten sind vom letzten erfolgreichen Laden.',
+      fUrl: 'Die Adresse muss mit https:// beginnen.',
+      ladenTitel: 'Lädt die Zahlen', ladenText: 'Einen Moment.',
+    },
+    en: {
+      titel: 'Numbers', heute: 'Today', bestand: 'Right now', verlauf: 'History',
+      verlaufNeben: 'last {n} days, Berlin time',
+      neu: 'Reload', zugang: 'Access',
+      chipLive: 'Live', chipLaedt: 'Loading', chipFehler: 'Error', chipBeispiel: 'Sample', chipAlt: 'Stale',
+      stand: 'As of {zeit}', standNaechst: 'As of {zeit} · next in {s} s', standNie: 'not loaded yet',
+      zugangTitel: 'Function access', urlLabel: 'Function address', schluesselLabel: 'Key',
+      zugangHinweis: 'Both stay in this browser only.', zugangHinweisFluechtig: 'This browser stores nothing. Access lasts until you close it.',
+      speichern: 'Save and load', abbrechen: 'Cancel', vergessen: 'Delete key',
+      beispielTitel: 'Sample numbers', beispielText: 'Not real data. Enter address and key.',
+      kontenNeu: 'New accounts', aktivHeute: 'Active today', aboStarts: 'Subscription starts', ersteZahlung: 'First payments',
+      kuendigungen: 'Cancellations', lifetime: 'Lifetime', erstattungen: 'Refunds', feed: 'Workouts in feed',
+      rueckmeldungen: 'Feedback', lose: 'Giveaway entries',
+      ios: 'iOS', android: 'Android', ohnePush: 'no push',
+      monat: 'Month', quartal: 'Quarter', jahr: 'Year', gesamt: 'Total',
+      davonProbe: 'trials {n}', geschenkt: 'gifted {n}', vonKonten: 'from {n} accounts', offen: 'open {n}',
+      aktivTeil: '7 days {a} · 30 days {b}', gestern: 'yesterday {n}', schnitt: 'avg {n}',
+      losTeil: 'confirmed {a} · rejected {b} · open {c}',
+      ueberblick: 'Overview', konten: 'Accounts', proGesamt: 'Pro total', nurWerbung: 'promo only {n}', aktiv7: 'Active 7 days', aktiv30: 'Active 30 days',
+      lifetimeGesamt: 'Lifetime', abos: 'Subscriptions', zahlend: 'Paying', apple: 'Apple', play: 'Play', probeLaeuft: 'In trial',
+      gekuendigtLaeuft: 'Cancelled, running out: {a} · cancelled in trial: {b}',
+      mehr: 'More', verbunden: 'Connected apps', verbundenNeu: 'new today {n}', keineVerbunden: 'none',
+      rueckOffen: 'Open feedback', gewinnspielHeute: 'Giveaway today', proGeschenkt: 'Pro gifted today',
+      d1: 'New accounts by platform', d2: 'Subscriptions: starts and first payments',
+      starts: 'Starts (incl. trial)', zahlungen: 'First payments',
+      tabelle: 'All days', tag: 'Day', proben: 'Trials', feedKurz: 'Feed', rueckKurz: 'Feedb.', loseKurz: 'Entries',
+      wie: 'How we count',
+      wie1: 'New accounts: sign-ups that day. Platform from the first push device, unknown without push.',
+      wie2: 'Active: the app saved data that day. Only for today, 7 and 30 days.',
+      wie3: 'Subscription start: purchase via Apple or Play, incl. trial, returns and store switches, not after a failed payment. Trial and first payment are estimated from the expiry date.',
+      wie4: 'For the monthly plan, a trial and a paid first month look the same.',
+      wie5: 'Lifetime counts purchases only, gifts alongside. Pro gifts under More.',
+      wie6: 'Subscription history since 23 Sep 2026. Older ones count as paid.',
+      fehlt: 'Not in this database: {liste}',
+      fSchluessel: 'Key rejected', fSchluesselText: 'Check the key under Access.',
+      fHerkunft: 'Origin not allowed', fHerkunftText: 'The function does not accept requests from this page. Extend DASHBOARD_HERKUNFT.',
+      fFunktion: 'Function missing', fFunktionText: 'dashboard_zahlen does not exist yet. Run 134 in the SQL editor.',
+      fEinrichten: 'Function not set up', fEinrichtenText: 'Set DASHBOARD_SCHLUESSEL (24 characters or more) and redeploy.',
+      fNichtDa: 'Function not found', fNichtDaText: 'Check the address or deploy the function.',
+      fAbfrage: 'Query failed', fAbfrageText: 'Code {code}. Try again later.',
+      fOffline: 'Offline', fOfflineText: 'No network connection.',
+      fNetz: 'No response', fNetzText: 'Network, CORS or this page blocking other addresses. Opening the address directly shows whether the function answers.',
+      fZeit: 'Timeout', fZeitText: 'The function did not answer within 20 s.',
+      fFormat: 'Unexpected response', fFormatText: 'The function returns a different format. Page and function do not match.',
+      fAlt: 'The numbers below are from the last successful load.',
+      fUrl: 'The address must start with https://.',
+      ladenTitel: 'Loading the numbers', ladenText: 'One moment.',
+    },
+  };
+  const t = (k, w) => String(TEXTE[SPRACHE][k] ?? TEXTE.de[k] ?? k).replace(/\{(\w+)\}/g, (_, n) => (w && w[n] != null ? w[n] : ''));
+  const ORT = SPRACHE === 'de' ? 'de-DE' : 'en-GB';
+  const zahlFmt = new Intl.NumberFormat(ORT);
+  const kommaFmt = new Intl.NumberFormat(ORT, { maximumFractionDigits: 1 });
+  const z = (n) => (n == null ? '-' : zahlFmt.format(n));
+
+  // ---------------------------------------------------------------- Speicher
+  let fluechtig = false;
+  function zugangLesen() {
+    try {
+      const roh = localStorage.getItem(SPEICHER);
+      const o = roh ? JSON.parse(roh) : null;
+      return o && typeof o.url === 'string' && typeof o.schluessel === 'string' ? o : null;
+    } catch (_) { fluechtig = true; return null; }
+  }
+  function zugangSchreiben(o) {
+    try { localStorage.setItem(SPEICHER, JSON.stringify(o)); fluechtig = false; }
+    catch (_) { fluechtig = true; }
+  }
+  function zugangLoeschen() { try { localStorage.removeItem(SPEICHER); } catch (_) { /* nichts gespeichert */ } }
+
+  // ---------------------------------------------------------------- Zustand
+  const $ = (id) => document.getElementById(id);
+  let zugang = zugangLesen();
+  let daten = null;          // letzte gueltige Antwort
+  let echt = false;          // daten kommen von der Function
+  let fehler = null;         // {titel, text, knopf?}
+  let laedt = false;
+  let geladenAm = 0;
+  let laufNr = 0;
+
+  // ---------------------------------------------------------------- Beispiel
+  // Fuer den ersten Blick ohne Zugang. Deutlich als Beispiel markiert.
+  function beispiel() {
+    const heute = new Date();
+    const iso = (d) => d.toISOString().slice(0, 10);
+    const welle = (i, a, b) => Math.max(0, Math.round(a + b * Math.sin(i * 1.3) + (i % 3)));
+    const tage = [];
+    for (let i = TAGE - 1; i >= 0; i--) {
+      const d = new Date(Date.UTC(heute.getFullYear(), heute.getMonth(), heute.getDate() - i));
+      const k = 13 - i;
+      const ios = welle(k, 30, 8), andr = welle(k + 2, 11, 4), ohne = welle(k + 1, 6, 2);
+      const teil = i === 0 ? 0.45 : 1;
+      const r = (n) => Math.round(n * teil);
+      tage.push({
+        tag: iso(d), konten_neu: r(ios + andr + ohne), plattform: { ios: r(ios), android: r(andr), unbekannt: r(ohne) },
+        abos_neu: { monat: r(welle(k, 6, 2)), quartal: r(welle(k + 3, 1, 1)), jahr: r(welle(k + 1, 9, 3)) },
+        proben_neu: { monat: r(welle(k, 6, 2)), quartal: r(welle(k + 3, 1, 1)), jahr: r(welle(k + 1, 8, 3)) },
+        erste_zahlungen: { monat: r(welle(k + 4, 2, 1)), quartal: 0, jahr: r(welle(k + 2, 3, 2)) },
+        kuendigungen: { monat: r(welle(k + 5, 2, 1)), quartal: 0, jahr: r(welle(k, 3, 1)) },
+        lifetime: r(welle(k, 1, 1)), geschenke_lifetime: k % 5 === 0 ? 1 : 0, geschenke_pro: k % 3 === 0 ? 1 : 0, erstattungen: k % 4 === 0 ? 1 : 0,
+        feed_trainings: r(welle(k, 180, 30)), feed_konten: r(welle(k, 120, 20)),
+        rueckmeldungen: r(welle(k + 1, 3, 2)), lose: r(welle(k, 9, 4)),
+      });
+    }
+    return {
+      version: 1, stand: new Date().toISOString(), zeitzone: 'Europe/Berlin', datum: tage[TAGE - 1].tag, tage_anzahl: TAGE,
+      tage, heute: tage[TAGE - 1],
+      jetzt: {
+        konten: 41230, aktiv_heute: 3120, aktiv_7_tage: 9870, aktiv_30_tage: 17450, pro: 2310, pro_nur_werbung: 140,
+        zahlende: { monat: 410, quartal: 95, jahr: 860, gesamt: 1365 },
+        zahlende_je_store: [
+          { art: 'jahr', store: 'apple', anzahl: 690 }, { art: 'jahr', store: 'play', anzahl: 170 },
+          { art: 'monat', store: 'apple', anzahl: 320 }, { art: 'monat', store: 'play', anzahl: 90 },
+          { art: 'quartal', store: 'apple', anzahl: 80 }, { art: 'quartal', store: 'play', anzahl: 15 },
+        ],
+        probe_laeuft: { monat: 160, quartal: 30, jahr: 240, gesamt: 430 },
+        gekuendigt_laeuft_aus: 210, probe_gekuendigt: 120, lifetime: 260, lifetime_geschenkt: 12,
+        rueckmeldungen_offen: 18, gewinnspiel_heute: { lose: 4, bestaetigt: 1, abgelehnt: 1, offen: 2 },
+        verbunden: { whoop: 85, strava: 140, polar: 12, garmin: 30 }, verbunden_neu_heute: 3,
+      },
+      fehlt: [],
+    };
+  }
+
+  // ---------------------------------------------------------------- Laden
+  function fehlerAus(status, rumpf) {
+    const f = rumpf && typeof rumpf === 'object' ? rumpf.fehler : null;
+    if (status === 401 || f === 'schluessel') return { titel: t('fSchluessel'), text: t('fSchluesselText'), knopf: 'zugang' };
+    if (status === 403 || f === 'herkunft') return { titel: t('fHerkunft'), text: t('fHerkunftText') };
+    if (f === 'funktion_fehlt' || status === 501) return { titel: t('fFunktion'), text: t('fFunktionText') };
+    if (f === 'nicht_eingerichtet' || status === 503) return { titel: t('fEinrichten'), text: t('fEinrichtenText') };
+    if (status === 404) return { titel: t('fNichtDa'), text: t('fNichtDaText'), knopf: 'zugang' };
+    return { titel: t('fAbfrage'), text: t('fAbfrageText', { code: (rumpf && rumpf.code) || ('HTTP ' + status) }) };
+  }
+
+  function gueltig(j) {
+    return j && j.version === 1 && Array.isArray(j.tage) && j.tage.length > 0 && j.jetzt && typeof j.jetzt === 'object';
+  }
+
+  async function laden() {
+    if (!zugang) { render(); return; }
+    const nr = ++laufNr;
+    laedt = true; render();
+    const abbruch = new AbortController();
+    const uhr = setTimeout(() => abbruch.abort(), 20000);
+    try {
+      const adresse = zugang.url + (zugang.url.includes('?') ? '&' : '?') + 'tage=' + TAGE;
+      const r = await fetch(adresse, {
+        method: 'GET', cache: 'no-store', signal: abbruch.signal,
+        headers: { 'x-dashboard-schluessel': zugang.schluessel },
+      });
+      let rumpf = null;
+      try { rumpf = await r.json(); } catch (_) { rumpf = null; }
+      if (nr !== laufNr) return;
+      if (!r.ok) { fehler = fehlerAus(r.status, rumpf); }
+      else if (!gueltig(rumpf)) { fehler = { titel: t('fFormat'), text: t('fFormatText') }; }
+      else { daten = rumpf; echt = true; fehler = null; }
+    } catch (e) {
+      if (nr !== laufNr) return;
+      if (e && e.name === 'AbortError') fehler = { titel: t('fZeit'), text: t('fZeitText') };
+      else if (navigator.onLine === false) fehler = { titel: t('fOffline'), text: t('fOfflineText') };
+      else fehler = { titel: t('fNetz'), text: t('fNetzText'), knopf: 'zugang' };
+    } finally {
+      clearTimeout(uhr);
+      if (nr === laufNr) { laedt = false; geladenAm = Date.now(); render(); }
+    }
+  }
+
+  // ---------------------------------------------------------------- Helfer
+  const summe = (o) => (o == null ? 0 : typeof o === 'number' ? o : Object.values(o).reduce((a, b) => a + (Number(b) || 0), 0));
+  const zeit = (iso) => {
+    const d = new Date(iso);
+    if (isNaN(d)) return '';
+    return new Intl.DateTimeFormat(ORT, { timeZone: 'Europe/Berlin', hour: '2-digit', minute: '2-digit', second: '2-digit' }).format(d);
+  };
+  const tagDatum = (s) => { const [y, m, d] = s.split('-').map(Number); return new Date(Date.UTC(y, m - 1, d, 12)); };
+  const tagLang = (s) => new Intl.DateTimeFormat(ORT, { timeZone: 'UTC', weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }).format(tagDatum(s));
+  const tagKurz = (s) => new Intl.DateTimeFormat(ORT, { timeZone: 'UTC', weekday: 'short', day: 'numeric', month: 'numeric' }).format(tagDatum(s));
+  const tagZahl = (s) => String(Number(s.slice(8, 10)));
+  const el = (tag, attr, kinder) => {
+    const e = document.createElement(tag);
+    if (attr) for (const [k, v] of Object.entries(attr)) {
+      if (v == null || v === false) continue;
+      if (k === 'text') e.textContent = v; else if (k === 'class') e.className = v; else e.setAttribute(k, v);
+    }
+    for (const k of [].concat(kinder || [])) if (k != null) e.append(k);
+    return e;
+  };
+  const SVGNS = 'http://www.w3.org/2000/svg';
+  const sv = (tag, attr) => {
+    const e = document.createElementNS(SVGNS, tag);
+    for (const [k, v] of Object.entries(attr || {})) e.setAttribute(k, v);
+    return e;
+  };
+  // Saeule mit runden Ecken nur oben (an der Grundlinie eckig)
+  const saeule = (x, y, w, h, r) => {
+    r = Math.max(0, Math.min(r, w / 2, h));
+    return `M${x},${y + h}V${y + r}Q${x},${y} ${x + r},${y}H${x + w - r}Q${x + w},${y} ${x + w},${y + r}V${y + h}Z`;
+  };
+  const schoenMax = (m) => {
+    if (m <= 4) return 4;
+    const p = Math.pow(10, Math.floor(Math.log10(m)));
+    for (const f of [1, 1.5, 2, 2.5, 3, 4, 5, 6, 8, 10]) if (f * p >= m && (f * p) % 2 === 0) return f * p;
+    return 10 * p;
+  };
+
+  // Mini-Saeulen fuer eine Kachel; heute in Akzentfarbe
+  function funke(werte) {
+    const n = werte.length, B = n * 10, H = 30;
+    const max = Math.max(1, ...werte);
+    const s = sv('svg', { class: 'funke', viewBox: `0 0 ${B} ${H}`, preserveAspectRatio: 'none', 'aria-hidden': 'true' });
+    werte.forEach((w, i) => {
+      const h = w > 0 ? Math.max(2, (w / max) * (H - 2)) : 1;
+      const p = sv('path', { d: saeule(i * 10 + 2, H - h, 6, h, w > 0 ? 2 : 0) });
+      p.style.fill = w > 0 ? (i === n - 1 ? 'var(--akzent-zeichen)' : 'var(--balken)') : 'var(--linie)';
+      s.append(p);
+    });
+    return s;
+  }
+
+  // ---------------------------------------------------------------- Kacheln
+  function kachel(name, wert, teil, reihe) {
+    const k = el('article', { class: 'kachel' });
+    k.append(el('div', { class: 'name', text: name }));
+    k.append(el('div', { class: 'wert zahl', text: z(wert) }));
+    k.append(el('div', { class: 'teil zahl', text: teil || '' }));
+    if (reihe) {
+      const vor = reihe.slice(0, -1);
+      const gestern = vor.length ? vor[vor.length - 1] : null;
+      const schnitt = vor.length ? vor.reduce((a, b) => a + b, 0) / vor.length : null;
+      const fuss = el('div', { class: 'fuss' });
+      fuss.append(funke(reihe));
+      fuss.append(el('div', { class: 'vergleich zahl', text: [
+        gestern != null ? t('gestern', { n: z(gestern) }) : '',
+        schnitt != null ? t('schnitt', { n: kommaFmt.format(schnitt) }) : '',
+      ].filter(Boolean).join(' · ') }));
+      k.append(fuss);
+    }
+    return k;
+  }
+
+  function renderKacheln() {
+    const box = $('kacheln');
+    box.replaceChildren();
+    if (!daten) return;
+    const h = daten.heute || daten.tage[daten.tage.length - 1];
+    const j = daten.jetzt;
+    const r = (f) => daten.tage.map(f);
+    const art = (o) => [['monat', o.monat], ['quartal', o.quartal], ['jahr', o.jahr]]
+      .filter(([, n]) => n > 0).map(([k, n]) => t(k) + ' ' + z(n)).join(' · ');
+
+    box.append(kachel(t('kontenNeu'), h.konten_neu,
+      `${t('ios')} ${z(h.plattform.ios)} · ${t('android')} ${z(h.plattform.android)} · ${t('ohnePush')} ${z(h.plattform.unbekannt)}`,
+      r(d => d.konten_neu)));
+    box.append(kachel(t('aktivHeute'), j.aktiv_heute, t('aktivTeil', { a: z(j.aktiv_7_tage), b: z(j.aktiv_30_tage) })));
+    box.append(kachel(t('aboStarts'), summe(h.abos_neu),
+      [art(h.abos_neu), summe(h.proben_neu) ? t('davonProbe', { n: z(summe(h.proben_neu)) }) : ''].filter(Boolean).join(' · '),
+      r(d => summe(d.abos_neu))));
+    box.append(kachel(t('ersteZahlung'), summe(h.erste_zahlungen), art(h.erste_zahlungen), r(d => summe(d.erste_zahlungen))));
+    box.append(kachel(t('kuendigungen'), summe(h.kuendigungen), art(h.kuendigungen), r(d => summe(d.kuendigungen))));
+    box.append(kachel(t('lifetime'), h.lifetime, h.geschenke_lifetime ? t('geschenkt', { n: z(h.geschenke_lifetime) }) : '', r(d => d.lifetime)));
+    box.append(kachel(t('erstattungen'), h.erstattungen, '', r(d => d.erstattungen)));
+    if (h.feed_trainings != null) box.append(kachel(t('feed'), h.feed_trainings, t('vonKonten', { n: z(h.feed_konten) }), r(d => d.feed_trainings || 0)));
+    if (h.rueckmeldungen != null) box.append(kachel(t('rueckmeldungen'), h.rueckmeldungen,
+      j.rueckmeldungen_offen != null ? t('offen', { n: z(j.rueckmeldungen_offen) }) : '', r(d => d.rueckmeldungen || 0)));
+    if (h.lose != null) {
+      const g = j.gewinnspiel_heute;
+      box.append(kachel(t('lose'), h.lose, g ? t('losTeil', { a: z(g.bestaetigt), b: z(g.abgelehnt), c: z(g.offen) }) : '', r(d => d.lose || 0)));
+    }
+  }
+
+  // ---------------------------------------------------------------- Bestand
+  function paar(name, wert, klein) {
+    return el('div', null, [el('dt', { text: name }), el('dd', { class: 'zahl' }, [z(wert), klein ? el('small', { text: klein }) : null])]);
+  }
+
+  function renderBestand() {
+    const box = $('bestand');
+    box.replaceChildren();
+    if (!daten) return;
+    const j = daten.jetzt;
+
+    const k1 = el('div', { class: 'karte' });
+    k1.append(el('h3', { text: t('ueberblick') }));
+    k1.append(el('dl', { class: 'paare' }, [
+      paar(t('konten'), j.konten),
+      paar(t('proGesamt'), j.pro, j.pro_nur_werbung ? t('nurWerbung', { n: z(j.pro_nur_werbung) }) : ''),
+      paar(t('aktiv7'), j.aktiv_7_tage),
+      paar(t('aktiv30'), j.aktiv_30_tage),
+      paar(t('lifetimeGesamt'), j.lifetime, j.lifetime_geschenkt ? t('geschenkt', { n: z(j.lifetime_geschenkt) }) : ''),
+      paar(t('zahlend'), j.zahlende.gesamt),
+    ]));
+    box.append(k1);
+
+    const k2 = el('div', { class: 'karte' });
+    k2.append(el('h3', { text: t('abos') }));
+    const store = {};
+    for (const s of j.zahlende_je_store || []) store[s.art + '/' + s.store] = (store[s.art + '/' + s.store] || 0) + s.anzahl;
+    const zeile = (name, a, cls) => {
+      const ap = a ? (store[a + '/apple'] || 0) : ['monat', 'quartal', 'jahr'].reduce((s, x) => s + (store[x + '/apple'] || 0), 0);
+      const pl = a ? (store[a + '/play'] || 0) : ['monat', 'quartal', 'jahr'].reduce((s, x) => s + (store[x + '/play'] || 0), 0);
+      const za = a ? j.zahlende[a] : j.zahlende.gesamt;
+      const pr = a ? j.probe_laeuft[a] : j.probe_laeuft.gesamt;
+      return el('tr', { class: cls }, [name, za, ap, pl, pr].map((v, i) => el('td', { text: i ? z(v) : v, class: i && !v ? 'null' : null })));
+    };
+    const tab = el('table', null, [
+      el('thead', null, el('tr', null, ['', t('zahlend'), t('apple'), t('play'), t('probeLaeuft')].map(x => el('th', { text: x, scope: 'col' })))),
+      el('tbody', null, [zeile(t('jahr'), 'jahr'), zeile(t('quartal'), 'quartal'), zeile(t('monat'), 'monat'), zeile(t('gesamt'), null, 'summe')]),
+    ]);
+    k2.append(el('div', { class: 'tabelle-huelle' }, tab));
+    k2.append(el('p', { class: 'klein zahl', text: t('gekuendigtLaeuft', { a: z(j.gekuendigt_laeuft_aus), b: z(j.probe_gekuendigt) }) }));
+    box.append(k2);
+
+    const k3 = el('div', { class: 'karte' });
+    k3.append(el('h3', { text: t('mehr') }));
+    const liste = el('ul', { class: 'liste' });
+    if (j.rueckmeldungen_offen != null) liste.append(el('li', null, [el('span', { text: t('rueckOffen') }), el('span', { text: z(j.rueckmeldungen_offen) })]));
+    if (j.gewinnspiel_heute) liste.append(el('li', null, [el('span', { text: t('gewinnspielHeute') }), el('span', { text: z(j.gewinnspiel_heute.lose) })]));
+    const heute = daten.heute || daten.tage[daten.tage.length - 1];
+    liste.append(el('li', null, [el('span', { text: t('proGeschenkt') }), el('span', { text: z(heute.geschenke_pro) })]));
+    k3.append(liste);
+    if (j.verbunden) {
+      k3.append(el('h3', { text: t('verbunden') }));
+      const namen = { whoop: 'WHOOP', strava: 'Strava', polar: 'Polar', garmin: 'Garmin', coros: 'COROS', suunto: 'Suunto' };
+      const v = Object.entries(j.verbunden).filter(([, n]) => n > 0).sort((a, b) => b[1] - a[1]);
+      const l2 = el('ul', { class: 'liste' });
+      if (!v.length) l2.append(el('li', null, [el('span', { text: t('keineVerbunden') }), el('span', { text: '0' })]));
+      for (const [k, n] of v) l2.append(el('li', null, [el('span', { text: namen[k] || k }), el('span', { text: z(n) })]));
+      k3.append(l2);
+      if (j.verbunden_neu_heute) k3.append(el('p', { class: 'klein', text: t('verbundenNeu', { n: z(j.verbunden_neu_heute) }) }));
+    }
+    if (Array.isArray(daten.fehlt) && daten.fehlt.length) k3.append(el('p', { class: 'klein', text: t('fehlt', { liste: daten.fehlt.join(', ') }) }));
+    box.append(k3);
+  }
+
+  // ---------------------------------------------------------------- Diagramme
+  function tippZeigen(huelle, x, zeilen, titel) {
+    let tp = huelle.querySelector('.tipp');
+    if (!tp) { tp = el('div', { class: 'tipp', role: 'status' }); huelle.append(tp); }
+    tp.replaceChildren(el('b', { text: titel }), ...zeilen.map(([n, w]) => el('div', null, [el('span', { text: n }), el('span', { text: z(w) })])));
+    const B = huelle.clientWidth, tw = tp.offsetWidth || 150;
+    tp.style.left = Math.max(0, Math.min(B - tw, x - tw / 2)) + 'px';
+    tp.style.top = '-6px';
+    tp.hidden = false;
+  }
+  function tippWeg(huelle) { const tp = huelle.querySelector('.tipp'); if (tp) tp.hidden = true; }
+
+  // Gemeinsames Achsenkreuz: Raster, y-Beschriftung, Tage unten, Treffflaechen
+  function achsen(svg, tage, B, H, R, max, beiTipp, huelle) {
+    const L = 34, O = 10, U = 24;
+    const iw = B - L - R, ih = H - O - U, n = tage.length, bw = iw / n;
+    const y = (v) => O + ih - (v / max) * ih;
+    for (const v of [0, max / 2, max]) {
+      svg.append(sv('line', { x1: L, x2: B - R, y1: y(v), y2: y(v), stroke: 'var(--linie)', 'stroke-width': 1 }));
+      const tx = sv('text', { x: L - 6, y: y(v) + 4, 'text-anchor': 'end' });
+      tx.textContent = z(v);
+      svg.append(tx);
+    }
+    const jedes = Math.max(1, Math.ceil(26 / bw));
+    tage.forEach((d, i) => {
+      if ((n - 1 - i) % jedes === 0) {
+        const tx = sv('text', { x: L + i * bw + bw / 2, y: H - 6, 'text-anchor': 'middle' });
+        tx.textContent = tagZahl(d.tag);
+        if (i === n - 1) { tx.style.fill = 'var(--tinte)'; tx.style.fontWeight = '700'; }
+        svg.append(tx);
+      }
+    });
+    tage.forEach((d, i) => {
+      const r = sv('rect', { x: L + i * bw, y: O, width: bw, height: ih, fill: 'transparent' });
+      r.style.cursor = 'default';
+      r.addEventListener('pointerenter', () => beiTipp(i, L + i * bw + bw / 2));
+      r.addEventListener('pointerdown', () => beiTipp(i, L + i * bw + bw / 2));
+      svg.append(r);
+    });
+    svg.addEventListener('pointerleave', () => tippWeg(huelle));
+    return { L, O, U, iw, ih, bw, y };
+  }
+
+  function stapel(huelle, tage) {
+    huelle.replaceChildren();
+    const B = Math.max(260, huelle.clientWidth || 600), H = 210, R = 6;
+    const max = schoenMax(Math.max(1, ...tage.map(d => d.konten_neu)));
+    const svg = sv('svg', { width: B, height: H, viewBox: `0 0 ${B} ${H}`, role: 'img', 'aria-label': t('d1') });
+    const teile = [['ios', 'var(--ios)'], ['android', 'var(--android)'], ['unbekannt', 'var(--ohne)']];
+    const tipp = (i, x) => {
+      const d = tage[i];
+      tippZeigen(huelle, x, [[t('ios'), d.plattform.ios], [t('android'), d.plattform.android], [t('ohnePush'), d.plattform.unbekannt], [t('gesamt'), d.konten_neu]], tagKurz(d.tag));
+    };
+    const a = achsen(svg, tage, B, H, R, max, tipp, huelle);
+    const breite = Math.max(4, Math.min(26, a.bw * 0.64));
+    const marken = sv('g');
+    tage.forEach((d, i) => {
+      let unten = a.O + a.ih;
+      const x = a.L + i * a.bw + (a.bw - breite) / 2;
+      const sichtbar = teile.filter(([k]) => d.plattform[k] > 0);
+      sichtbar.forEach(([k, farbe], s) => {
+        const h = (d.plattform[k] / max) * a.ih;
+        const oben = s === sichtbar.length - 1;
+        // 2px Luft zwischen den Teilen, oben runde Ecken
+        const hh = Math.max(1, h - (s > 0 ? 2 : 0));
+        const p = sv('path', { d: oben ? saeule(x, unten - h, breite, hh, 4) : `M${x},${unten}V${unten - hh}H${x + breite}V${unten}Z` });
+        p.style.fill = farbe;
+        marken.append(p);
+        unten -= h;
+      });
+    });
+    svg.insertBefore(marken, svg.querySelector('rect'));
+    huelle.append(svg);
+  }
+
+  function linien(huelle, tage) {
+    huelle.replaceChildren();
+    const B = Math.max(260, huelle.clientWidth || 600), H = 210, R = 10;
+    const reihen = [
+      { name: t('starts'), farbe: 'var(--tinte-2)', werte: tage.map(d => summe(d.abos_neu)) },
+      { name: t('zahlungen'), farbe: 'var(--akzent-zeichen)', werte: tage.map(d => summe(d.erste_zahlungen)) },
+    ];
+    const max = schoenMax(Math.max(1, ...reihen.flatMap(r => r.werte)));
+    const svg = sv('svg', { width: B, height: H, viewBox: `0 0 ${B} ${H}`, role: 'img', 'aria-label': t('d2') });
+    const tipp = (i, x) => tippZeigen(huelle, x, reihen.map(r => [r.name, r.werte[i]]).concat([[t('proben'), summe(tage[i].proben_neu)]]), tagKurz(tage[i].tag));
+    const a = achsen(svg, tage, B, H, R, max, tipp, huelle);
+    const g = sv('g');
+    for (const r of reihen) {
+      const pkt = r.werte.map((v, i) => [a.L + i * a.bw + a.bw / 2, a.y(v)]);
+      const pfad = sv('path', { d: 'M' + pkt.map(p => p.map(v => v.toFixed(1)).join(',')).join('L'), fill: 'none', 'stroke-width': 2, 'stroke-linejoin': 'round', 'stroke-linecap': 'round' });
+      pfad.style.stroke = r.farbe;
+      g.append(pfad);
+      const [lx, ly] = pkt[pkt.length - 1];
+      const c = sv('circle', { cx: lx, cy: ly, r: 4.5, 'stroke-width': 2 });
+      c.style.fill = r.farbe; c.style.stroke = 'var(--flaeche)';
+      g.append(c);
+    }
+    svg.insertBefore(g, svg.querySelector('rect'));
+    huelle.append(svg);
+  }
+
+  function legende(box, eintraege, strich) {
+    box.replaceChildren(...eintraege.map(([n, f]) => {
+      const i = el('i', { class: strich ? 'strich' : null }); i.style.background = f;
+      return el('span', null, [i, n]);
+    }));
+  }
+
+  function renderVerlauf() {
+    if (!daten) return;
+    const tage = daten.tage;
+    $('verlauf-neben').textContent = t('verlaufNeben', { n: tage.length });
+    legende($('d1-legende'), [[t('ios'), 'var(--ios)'], [t('android'), 'var(--android)'], [t('ohnePush'), 'var(--ohne)']]);
+    legende($('d2-legende'), [[t('starts'), 'var(--tinte-2)'], [t('zahlungen'), 'var(--akzent-zeichen)']], true);
+    stapel($('d1'), tage);
+    linien($('d2'), tage);
+
+    // Tagestabelle, neuester Tag oben; Spalten ohne Daten fallen weg
+    const spalten = [
+      [t('tag'), d => tagKurz(d.tag)],
+      [t('kontenNeu'), d => d.konten_neu], [t('ios'), d => d.plattform.ios], [t('android'), d => d.plattform.android], [t('ohnePush'), d => d.plattform.unbekannt],
+      [t('aboStarts'), d => summe(d.abos_neu)], [t('proben'), d => summe(d.proben_neu)], [t('ersteZahlung'), d => summe(d.erste_zahlungen)],
+      [t('kuendigungen'), d => summe(d.kuendigungen)], [t('lifetime'), d => d.lifetime], [t('erstattungen'), d => d.erstattungen],
+      [t('feedKurz'), d => d.feed_trainings], [t('rueckKurz'), d => d.rueckmeldungen], [t('loseKurz'), d => d.lose],
+    ].filter(([, f], i) => i === 0 || tage.some(d => f(d) != null));
+    const tab = el('table', null, [
+      el('thead', null, el('tr', null, spalten.map(([n]) => el('th', { text: n, scope: 'col' })))),
+      el('tbody', null, tage.slice().reverse().map(d => el('tr', null, spalten.map(([, f], i) => {
+        const v = f(d);
+        return el('td', { text: i ? z(v) : v, class: i && !v ? 'null' : null });
+      })))),
+    ]);
+    $('tagestabelle').replaceChildren(tab);
+  }
+
+  // ---------------------------------------------------------------- Rahmen
+  function renderKopf() {
+    const chip = $('chip');
+    let artChip = 'beispiel';
+    if (laedt) artChip = 'laedt';
+    else if (fehler && echt) artChip = 'alt';
+    else if (fehler) artChip = 'fehler';
+    else if (echt) artChip = 'live';
+    chip.dataset.art = artChip;
+    chip.textContent = t({ laedt: 'chipLaedt', alt: 'chipAlt', fehler: 'chipFehler', live: 'chipLive', beispiel: 'chipBeispiel' }[artChip]);
+    $('datum').textContent = daten ? tagLang(daten.datum) : '';
+    standZeigen();
+    $('neu').disabled = laedt || !zugang;
+
+    const m = $('meldung');
+    m.replaceChildren();
+    if (fehler) {
+      m.dataset.art = 'fehler';
+      m.append(el('strong', { text: fehler.titel }), el('p', { text: fehler.text }));
+      if (echt) m.append(el('p', { text: t('fAlt') }));
+      if (fehler.knopf === 'zugang') {
+        const b = el('button', { class: 'knopf', type: 'button', text: t('zugang') });
+        b.addEventListener('click', () => zugangOeffnen());
+        m.append(el('div', { class: 'knopfreihe' }, b));
+      }
+      m.hidden = false;
+    } else if (!echt && zugang) {
+      m.dataset.art = 'beispiel';
+      m.setAttribute('role', 'status');
+      m.append(el('strong', { text: t('ladenTitel') }), el('p', { text: t('ladenText') }));
+      m.hidden = false;
+    } else if (!echt) {
+      m.dataset.art = 'beispiel';
+      m.setAttribute('role', 'status');
+      m.append(el('strong', { text: t('beispielTitel') }), el('p', { text: t('beispielText') }));
+      m.hidden = false;
+    } else {
+      m.hidden = true;
+    }
+    if (fehler) m.setAttribute('role', 'alert');
+  }
+
+  function standZeigen() {
+    const s = $('stand');
+    if (!daten || !echt) { s.textContent = zugang && !echt ? t('standNie') : ''; return; }
+    const rest = Math.max(0, TAKT - Math.round((Date.now() - geladenAm) / 1000));
+    s.textContent = zugang && !laedt ? t('standNaechst', { zeit: zeit(daten.stand), s: rest }) : t('stand', { zeit: zeit(daten.stand) });
+  }
+
+  function render() {
+    if (!daten) daten = beispiel();
+    // Mit Zugang nie Beispielzahlen zeigen, nur echte oder nichts.
+    $('inhalt').hidden = !!zugang && !echt;
+    renderKopf();
+    renderKacheln();
+    renderBestand();
+    renderVerlauf();
+  }
+
+  // ---------------------------------------------------------------- Zugang
+  function zugangOeffnen() {
+    const f = $('zugang');
+    $('url').value = (zugang && zugang.url) || STANDARD_URL;
+    $('schluessel').value = (zugang && zugang.schluessel) || '';
+    $('zugang-hinweis').textContent = fluechtig ? t('zugangHinweisFluechtig') : t('zugangHinweis');
+    $('abbrechen').hidden = !zugang;
+    $('vergessen').hidden = !zugang;
+    f.hidden = false;
+    (zugang ? $('schluessel') : ($('url').value ? $('schluessel') : $('url'))).focus();
+  }
+  function zugangSchliessen() { $('zugang').hidden = true; }
+
+  $('zugang').addEventListener('submit', (ev) => {
+    ev.preventDefault();
+    const url = $('url').value.trim();
+    const schluessel = $('schluessel').value.trim();
+    if (!/^https:\/\//i.test(url) && !/^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?\//i.test(url)) {
+      $('zugang-hinweis').textContent = t('fUrl');
+      $('url').focus();
+      return;
+    }
+    if (!schluessel) { $('schluessel').focus(); return; }
+    zugang = { url, schluessel };
+    zugangSchreiben(zugang);
+    zugangSchliessen();
+    fehler = null;
+    laden();
+  });
+  $('abbrechen').addEventListener('click', zugangSchliessen);
+  $('vergessen').addEventListener('click', () => {
+    zugangLoeschen();
+    zugang = null; daten = null; echt = false; fehler = null;
+    zugangOeffnen();
+    render();
+  });
+  $('zugang-knopf').addEventListener('click', () => ($('zugang').hidden ? zugangOeffnen() : zugangSchliessen()));
+  $('neu').addEventListener('click', () => laden());
+
+  // ---------------------------------------------------------------- Texte
+  $('titel-rest').textContent = t('titel');
+  $('neu').textContent = t('neu');
+  $('zugang-knopf').textContent = t('zugang');
+  $('zugang-titel').textContent = t('zugangTitel');
+  $('url-label').textContent = t('urlLabel');
+  $('schluessel-label').textContent = t('schluesselLabel');
+  $('speichern').textContent = t('speichern');
+  $('abbrechen').textContent = t('abbrechen');
+  $('vergessen').textContent = t('vergessen');
+  $('h-heute').textContent = t('heute');
+  $('h-bestand').textContent = t('bestand');
+  $('h-verlauf').textContent = t('verlauf');
+  $('d1-titel').textContent = t('d1');
+  $('d2-titel').textContent = t('d2');
+  $('tab-titel').textContent = t('tabelle');
+  $('wie-titel').textContent = t('wie');
+  $('wie-liste').replaceChildren(...['wie1', 'wie2', 'wie3', 'wie4', 'wie5', 'wie6'].map(k => el('li', { text: t(k) })));
+  document.documentElement.lang = SPRACHE;
+
+  // ---------------------------------------------------------------- Takt
+  setInterval(() => {
+    standZeigen();
+    if (!zugang || laedt || document.visibilityState !== 'visible') return;
+    if (Date.now() - geladenAm >= TAKT * 1000) laden();
+  }, 1000);
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible' && zugang && !laedt && Date.now() - geladenAm >= TAKT * 1000) laden();
+  });
+  let breiteVorher = 0;
+  const ro = new ResizeObserver(() => {
+    const b = $('d1').clientWidth;
+    if (daten && Math.abs(b - breiteVorher) > 2) { breiteVorher = b; renderVerlauf(); }
+  });
+  ro.observe($('d1'));
+
+  render();
+  if (zugang) laden(); else zugangOeffnen();
+})();
+</script>
+</body></html>
