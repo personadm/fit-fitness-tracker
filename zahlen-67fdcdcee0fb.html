@@ -18,6 +18,7 @@
   --akzent-zeichen: #BA181B;
   --akzent-flaeche: rgba(186, 24, 27, .07);
   --gut: #2B7A12;
+  --gut-spur: #DDEAD9;
   --warn: #9A5800;
   --schlecht: #B3261E;
   --ios: #2a78d6;
@@ -41,6 +42,7 @@
     --akzent-zeichen: #F05A5D;
     --akzent-flaeche: rgba(240, 90, 93, .10);
     --gut: #5BC236;
+    --gut-spur: #243C22;
     --warn: #E0A030;
     --schlecht: #F05A5D;
     --ios: #3987e5;
@@ -63,6 +65,7 @@
   --akzent-zeichen: #F05A5D;
   --akzent-flaeche: rgba(240, 90, 93, .10);
   --gut: #5BC236;
+  --gut-spur: #243C22;
   --warn: #E0A030;
   --schlecht: #F05A5D;
   --ios: #3987e5;
@@ -181,6 +184,45 @@ h2.titel {
 .kachel .vergleich { font-size: 12px; color: var(--tinte-3); }
 .funke { display: block; width: 100%; height: 30px; }
 
+/* Heute ins bezahlte Abo: breite Karte vor den Kacheln. Links die Zahl mit
+   Balken, rechts (ab 760px) die Produkte; schmal klappt die Tabelle auf. */
+.ins {
+  grid-column: 1 / -1;
+  background: var(--flaeche); border: 1px solid var(--linie); border-radius: var(--radius);
+  padding: 16px; display: grid; gap: 12px 32px; min-width: 0;
+}
+.ins-links { display: grid; gap: 6px; align-content: start; min-width: 0; }
+.ins .name { font-size: 13px; font-weight: 600; color: var(--tinte-2); }
+.ins-wert { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 10px; }
+.ins-wert b { font-size: 44px; line-height: 1.05; font-weight: 800; font-stretch: 108%; letter-spacing: -.01em; }
+.ins-wert span { font-size: 20px; font-weight: 650; color: var(--tinte-2); }
+.ins-balken { height: 10px; border-radius: 5px; background: var(--gut-spur); overflow: hidden; margin: 4px 0 2px; }
+.ins-balken i { display: block; height: 100%; border-radius: 5px; background: var(--gut); }
+.ins-teile { display: flex; flex-wrap: wrap; gap: 2px 16px; font-size: 13.5px; color: var(--tinte-2); }
+.ins-teile b { color: var(--tinte); font-weight: 700; }
+.ins-hinweis { font-size: 12.5px; font-weight: 600; color: var(--warn); }
+.ins-schalter {
+  appearance: none; border: 0; background: none; padding: 4px 0; justify-self: start; cursor: pointer;
+  display: inline-flex; align-items: center; gap: 8px; font-size: 13.5px; font-weight: 600; color: var(--tinte);
+}
+.ins-schalter::after {
+  content: ""; width: 6px; height: 6px; border: solid currentColor; border-width: 0 1.5px 1.5px 0;
+  transform: translateY(-2px) rotate(45deg);
+}
+.ins-schalter[aria-expanded="true"]::after { transform: translateY(1px) rotate(-135deg); }
+.ins-tabelle { display: none; min-width: 0; }
+.ins.auf .ins-tabelle { display: block; }
+.ins-tabelle table { font-size: 13.5px; }
+.ins-tabelle th, .ins-tabelle td { padding: 6px 8px; }
+.ins-tabelle tbody th { font-weight: 500; }
+.ins-tabelle tr.summe th { font-weight: 700; }
+.ins-tabelle tbody tr:last-child th { border-bottom: 0; }
+@media (min-width: 760px) {
+  .ins { grid-template-columns: minmax(260px, 1fr) minmax(0, 1.3fr); align-items: start; }
+  .ins-schalter { display: none; }
+  .ins-tabelle { display: block; }
+}
+
 /* Bestand */
 .bestand { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 10px; }
 .karte {
@@ -229,6 +271,11 @@ details.wie ul { margin: 8px 0 0; padding-left: 18px; display: grid; gap: 4px; m
 @media (max-width: 520px) {
   .marke h1 { font-size: 26px; }
   .kachel .wert { font-size: 28px; }
+  .ins-wert b { font-size: 38px; }
+  .ins-tabelle table { font-size: 12.5px; }
+  .ins-tabelle thead th { font-size: 11.5px; }
+  .ins-tabelle th, .ins-tabelle td { padding: 6px 4px; }
+  .ins-tabelle th:first-child { padding-left: 0; }
   .kacheln { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .diagramme { grid-template-columns: minmax(0, 1fr); }
 }
@@ -362,6 +409,11 @@ details.wie ul { margin: 8px 0 0; padding-left: 18px; display: grid; gap: 4px; m
       wie4: 'Beim Monatsabo sehen Probe und sofort bezahlter Monat gleich aus.',
       wie5: 'Lifetime zählt nur Käufe, Geschenke daneben. Pro-Geschenke unter Weiteres.',
       wie6: 'Abo-Historie seit 23.09.2026. Ältere Abos zählen als bezahlt.',
+      wie7: 'Heute ins bezahlte Abo: Proben, deren Gratismonat heute endet. Bezahlt heißt: die erste Zahlung ist da. Nachfrist bei Play zählt als offen. Proben, die vor dem 23.09.2026 begannen, fehlen.',
+      insTitel: 'Heute ins bezahlte Abo', insVon: 'von {n}', insBalken: '{a} von {b} bezahlt',
+      insOffen: 'offen', insGekuendigt: 'gekündigt', insMorgen: 'morgen fällig',
+      insVoll: 'Vollständig ab {tag}', insFehlt: '134 neu einspielen', insProdukt: 'Je Produkt',
+      bezahlt: 'Bezahlt', faellig: 'Fällig', offenK: 'Offen', gekuendigtK: 'Gekündigt', morgen: 'Morgen',
       fehlt: 'Nicht in dieser Datenbank: {liste}',
       fSchluessel: 'Schlüssel abgelehnt', fSchluesselText: 'Prüfe den Schlüssel unter Zugang.',
       fHerkunft: 'Herkunft nicht freigegeben', fHerkunftText: 'Die Function nimmt Anfragen von dieser Seite nicht an. DASHBOARD_HERKUNFT ergänzen.',
@@ -410,6 +462,11 @@ details.wie ul { margin: 8px 0 0; padding-left: 18px; display: grid; gap: 4px; m
       wie4: 'For the monthly plan, a trial and a paid first month look the same.',
       wie5: 'Lifetime counts purchases only, gifts alongside. Pro gifts under More.',
       wie6: 'Subscription history since 23 Sep 2026. Older ones count as paid.',
+      wie7: 'Into paid today: trials whose free month ends today. Paid means the first payment arrived. A Play grace period counts as open. Trials started before 23 Sep 2026 are missing.',
+      insTitel: 'Into paid today', insVon: 'of {n}', insBalken: '{a} of {b} paid',
+      insOffen: 'open', insGekuendigt: 'cancelled', insMorgen: 'due tomorrow',
+      insVoll: 'Complete from {tag}', insFehlt: 'Run 134 again', insProdukt: 'By plan',
+      bezahlt: 'Paid', faellig: 'Due', offenK: 'Open', gekuendigtK: 'Cancelled', morgen: 'Tomorrow',
       fehlt: 'Not in this database: {liste}',
       fSchluessel: 'Key rejected', fSchluesselText: 'Check the key under Access.',
       fHerkunft: 'Origin not allowed', fHerkunftText: 'The function does not accept requests from this page. Extend DASHBOARD_HERKUNFT.',
@@ -496,6 +553,14 @@ details.wie ul { margin: 8px 0 0; padding-left: 18px; display: grid; gap: 4px; m
         gekuendigt_laeuft_aus: 210, probe_gekuendigt: 120, lifetime: 260, lifetime_geschenkt: 12,
         rueckmeldungen_offen: 18, gewinnspiel_heute: { lose: 4, bestaetigt: 1, abgelehnt: 1, offen: 2 },
         verbunden: { whoop: 85, strava: 140, polar: 12, garmin: 30 }, verbunden_neu_heute: 3,
+      },
+      ins_abo: {
+        faellig: { monat: 14, quartal: 3, jahr: 22, gesamt: 39 },
+        bezahlt: { monat: 6, quartal: 1, jahr: 9, gesamt: 16 },
+        offen: { monat: 8, quartal: 2, jahr: 13, gesamt: 23 },
+        gekuendigt: { monat: 5, quartal: 1, jahr: 6, gesamt: 12 },
+        morgen_faellig: { monat: 12, quartal: 2, jahr: 19, gesamt: 33 },
+        vollstaendig_ab: '2026-10-24',
       },
       fehlt: [],
     };
@@ -618,10 +683,55 @@ details.wie ul { margin: 8px 0 0; padding-left: 18px; display: grid; gap: 4px; m
     return k;
   }
 
+  // Heute ins bezahlte Abo (134 ins_abo). Fehlt das Feld, ist 134 noch die
+  // erste Fassung: dann nur der Hinweis.
+  let insAuf = false; // Produkttabelle schmal aufgeklappt (bleibt beim Neuladen)
+  function insKarte() {
+    const ia = daten.ins_abo;
+    const gruppen = ['faellig', 'bezahlt', 'offen', 'gekuendigt', 'morgen_faellig'];
+    const da = ia && gruppen.every(g => ia[g] && typeof ia[g].gesamt === 'number');
+    const k = el('article', { class: 'ins' + (insAuf ? ' auf' : ''), 'aria-labelledby': 'ins-name' });
+    const links = el('div', { class: 'ins-links' });
+    links.append(el('div', { class: 'name', id: 'ins-name', text: t('insTitel') }));
+    k.append(links);
+    if (!da) {
+      links.append(el('div', { class: 'ins-wert' }, el('b', { class: 'zahl', text: '-' })));
+      links.append(el('div', { class: 'ins-hinweis', text: t('insFehlt') }));
+      return k;
+    }
+    const f = ia.faellig.gesamt, b = ia.bezahlt.gesamt;
+    links.append(el('div', { class: 'ins-wert' }, [el('b', { class: 'zahl', text: z(b) }), el('span', { class: 'zahl', text: t('insVon', { n: z(f) }) })]));
+    const fuell = el('i');
+    fuell.style.width = (f > 0 ? Math.min(100, (b / f) * 100) : 0) + '%';
+    links.append(el('div', { class: 'ins-balken', role: 'img', 'aria-label': t('insBalken', { a: z(b), b: z(f) }) }, fuell));
+    const teil = (name, n) => el('span', { class: 'zahl' }, [name + ' ', el('b', { text: z(n) })]);
+    links.append(el('div', { class: 'ins-teile' }, [
+      teil(t('insOffen'), ia.offen.gesamt), teil(t('insGekuendigt'), ia.gekuendigt.gesamt), teil(t('insMorgen'), ia.morgen_faellig.gesamt),
+    ]));
+    if (ia.vollstaendig_ab && daten.datum && daten.datum < ia.vollstaendig_ab) {
+      links.append(el('div', { class: 'ins-hinweis', text: t('insVoll', { tag: tagKurz(ia.vollstaendig_ab) }) }));
+    }
+    const schalter = el('button', { class: 'ins-schalter', type: 'button', 'aria-expanded': String(insAuf), 'aria-controls': 'ins-tabelle', text: t('insProdukt') });
+    schalter.addEventListener('click', () => {
+      insAuf = !insAuf;
+      k.classList.toggle('auf', insAuf);
+      schalter.setAttribute('aria-expanded', String(insAuf));
+    });
+    links.append(schalter);
+    const zeile = (name, a, cls) => el('tr', { class: cls }, [name, ...gruppen.map(g => ia[g][a])]
+      .map((v, i) => el(i ? 'td' : 'th', { text: i ? z(v) : v, scope: i ? null : 'row', class: i && !v ? 'null' : null })));
+    k.append(el('div', { class: 'ins-tabelle tabelle-huelle', id: 'ins-tabelle' }, el('table', null, [
+      el('thead', null, el('tr', null, ['', t('faellig'), t('bezahlt'), t('offenK'), t('gekuendigtK'), t('morgen')].map(x => el('th', { text: x, scope: 'col' })))),
+      el('tbody', null, [zeile(t('jahr'), 'jahr'), zeile(t('quartal'), 'quartal'), zeile(t('monat'), 'monat'), zeile(t('gesamt'), 'gesamt', 'summe')]),
+    ])));
+    return k;
+  }
+
   function renderKacheln() {
     const box = $('kacheln');
     box.replaceChildren();
     if (!daten) return;
+    box.append(insKarte());
     const h = daten.heute || daten.tage[daten.tage.length - 1];
     const j = daten.jetzt;
     const r = (f) => daten.tage.map(f);
@@ -962,7 +1072,7 @@ details.wie ul { margin: 8px 0 0; padding-left: 18px; display: grid; gap: 4px; m
   $('d2-titel').textContent = t('d2');
   $('tab-titel').textContent = t('tabelle');
   $('wie-titel').textContent = t('wie');
-  $('wie-liste').replaceChildren(...['wie1', 'wie2', 'wie3', 'wie4', 'wie5', 'wie6'].map(k => el('li', { text: t(k) })));
+  $('wie-liste').replaceChildren(...['wie1', 'wie2', 'wie3', 'wie4', 'wie5', 'wie6', 'wie7'].map(k => el('li', { text: t(k) })));
   document.documentElement.lang = SPRACHE;
 
   // ---------------------------------------------------------------- Takt
