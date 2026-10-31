@@ -23,9 +23,15 @@
   --schlecht: #B3261E;
   --ios: #2a78d6;
   --android: #1baf7a;
+  --mann: #2a78d6;
+  --frau: #eb6834;
+  --divers: #1baf7a;
   --ohne: #BDB5B7;
   --balken: #C9C1C3;
   --fokus: #2a78d6;
+  /* Creator (148): feste Reihenfolge 1 bis 5, 0 = Rest; Abo und Stand */
+  --k1: #2a78d6; --k2: #eb6834; --k3: #1baf7a; --k4: #eda100; --k5: #e87ba4; --k0: #BDB5B7;
+  --jahr: #BA181B; --monat: #E39A9B; --probe: #857C7E; --frei: #D9D2D3;
   --schrift: 'Archivo', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   --radius: 14px;
 }
@@ -47,9 +53,14 @@
     --schlecht: #F05A5D;
     --ios: #3987e5;
     --android: #199e70;
+    --mann: #3987e5;
+    --frau: #d95926;
+    --divers: #199e70;
     --ohne: #5D5759;
     --balken: #4A4446;
     --fokus: #3987e5;
+    --k1: #3987e5; --k2: #d95926; --k3: #199e70; --k4: #c98500; --k5: #d55181; --k0: #5D5759;
+    --jahr: #F05A5D; --monat: #8E3B3D; --probe: #8A8182; --frei: #3A3536;
     color-scheme: dark;
   }
 }
@@ -70,9 +81,14 @@
   --schlecht: #F05A5D;
   --ios: #3987e5;
   --android: #199e70;
+  --mann: #3987e5;
+  --frau: #d95926;
+  --divers: #199e70;
   --ohne: #5D5759;
   --balken: #4A4446;
   --fokus: #3987e5;
+  --k1: #3987e5; --k2: #d95926; --k3: #199e70; --k4: #c98500; --k5: #d55181; --k0: #5D5759;
+  --jahr: #F05A5D; --monat: #8E3B3D; --probe: #8A8182; --frei: #3A3536;
   color-scheme: dark;
 }
 
@@ -223,8 +239,9 @@ h2.titel {
   .ins-tabelle { display: block; }
 }
 
-/* Bestand */
-.bestand { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 10px; }
+/* Bestand. dense: die breite Karte Geschlecht steht im Code gleich nach dem
+   Ueberblick (schmal also direkt darunter), breit rutscht sie in die naechste Reihe. */
+.bestand { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); grid-auto-flow: dense; gap: 10px; }
 .karte {
   background: var(--flaeche); border: 1px solid var(--linie); border-radius: var(--radius);
   padding: 16px; display: grid; gap: 12px; align-content: start; min-width: 0;
@@ -246,6 +263,29 @@ td.null { color: var(--tinte-3); }
 .liste { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
 .liste li { display: flex; justify-content: space-between; gap: 12px; font-size: 14px; }
 .liste li span:last-child { font-weight: 700; font-variant-numeric: tabular-nums; }
+
+/* Geschlecht (145): je Gruppe ein gestapelter Balken mit 2px Luft, darunter
+   die Zahlen als Tabelle; die Farbfelder dort sind zugleich die Legende. */
+.karte.breit { grid-column: 1 / -1; }
+.g-kopf { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 2px 12px; }
+.g-hinweis { margin: 0; font-size: 12.5px; font-weight: 600; color: var(--warn); }
+.g-leer { margin: 0; font-size: 14px; color: var(--tinte-3); }
+.g-gruppen { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px 32px; }
+.g-gruppe { display: grid; gap: 8px; min-width: 0; align-content: start; }
+.g-name { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+.g-name h4 { margin: 0; font-size: 13.5px; font-weight: 700; }
+.g-name span { font-size: 13px; color: var(--tinte-3); }
+.g-huelle { position: relative; }
+.g-balken { display: flex; gap: 2px; height: 12px; border-radius: 4px; overflow: hidden; }
+.g-balken.leer { background: var(--flaeche-2); }
+.g-balken i { display: block; flex: 0 1 0; min-width: 3px; }
+.g-huelle .tipp { top: 20px; }
+.g-tabelle table { font-size: 13.5px; }
+.g-tabelle th, .g-tabelle td { padding: 5px 8px; }
+.g-tabelle tbody th { font-weight: 500; }
+.g-tabelle tbody tr:last-child th { border-bottom: 0; }
+.g-tabelle tbody td:last-child { font-weight: 650; }
+.g-farbe { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 8px; vertical-align: -1px; }
 
 /* Verlauf */
 .diagramme { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 10px; }
@@ -276,12 +316,161 @@ details.wie ul { margin: 8px 0 0; padding-left: 18px; display: grid; gap: 4px; m
   .ins-tabelle thead th { font-size: 11.5px; }
   .ins-tabelle th, .ins-tabelle td { padding: 6px 4px; }
   .ins-tabelle th:first-child { padding-left: 0; }
+  .g-tabelle table { font-size: 12.5px; }
+  .g-tabelle thead th { font-size: 11.5px; }
+  .g-tabelle th, .g-tabelle td { padding: 5px 4px; }
+  .g-tabelle th:first-child { padding-left: 0; }
   .kacheln { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .diagramme { grid-template-columns: minmax(0, 1fr); }
 }
 @media (prefers-reduced-motion: no-preference) {
   .chip[data-art="laedt"]::before { animation: puls 1s ease-in-out infinite alternate; }
   @keyframes puls { from { opacity: .35; } to { opacity: 1; } }
+}
+
+/* ================================================================ Creator (148, Variante 3)
+   Eigener Bereich nach </main>: Kopf, Steuerleiste, Ueberblick, Karten je
+   Creator, Auszahlungsliste; dazu vier Dialoge (Detail, Anlegen, Auszahlen,
+   Rueckfrage). Bausteine aus pruef-affiliate-dashboard-v3.html. */
+a.knopf { display: inline-flex; align-items: center; text-decoration: none; color: var(--tinte); }
+select, textarea { font: inherit; color: inherit; }
+.creator { gap: 16px; }
+.creator .cr-kopfzeile { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 16px; }
+.creator .cr-titelzeile { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; min-width: 0; }
+.creator .cr-titelzeile .chip { align-self: center; }
+.cr-koerper { display: grid; gap: 24px; min-width: 0; }
+h3.titel {
+  margin: 0; font-size: 13px; font-weight: 700; font-stretch: 88%;
+  letter-spacing: .09em; text-transform: uppercase; color: var(--tinte-2);
+}
+.hinweis { font-size: 13px; font-weight: 600; color: var(--warn); margin: 0; }
+.meldung.erfolg { background: var(--flaeche); border-color: var(--gut); }
+.meldung.erfolg p, .meldung.erfolg { color: var(--tinte); }
+
+.steuerleiste { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 22px; }
+.gruppe { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; min-width: 0; }
+.gruppe > .lbl { font-size: 11.5px; font-weight: 700; font-stretch: 88%; letter-spacing: .09em; text-transform: uppercase; color: var(--tinte-3); }
+.segment { display: inline-flex; flex-wrap: wrap; gap: 2px; padding: 3px; border-radius: 999px; background: var(--flaeche-2); border: 1px solid var(--linie); }
+.segment button { appearance: none; border: 0; background: none; padding: 5px 12px; border-radius: 999px; cursor: pointer; font-size: 13.5px; font-weight: 600; color: var(--tinte-2); white-space: nowrap; }
+.segment button:hover { color: var(--tinte); }
+.segment button[aria-pressed="true"] { background: var(--flaeche); color: var(--tinte); box-shadow: 0 1px 3px rgba(0, 0, 0, .12); }
+.cr-monat { display: inline-flex; align-items: center; gap: 4px; }
+.cr-monat span { min-width: 118px; text-align: center; font-weight: 650; font-size: 14px; }
+.pfeil { appearance: none; width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--linie); background: var(--flaeche); cursor: pointer; font-size: 18px; line-height: 1; padding: 0 0 2px; }
+.pfeil[disabled] { opacity: .35; cursor: default; }
+
+.cr { display: flex; align-items: center; gap: 10px; min-width: 0; text-align: left; }
+.cr-text { display: grid; gap: 1px; min-width: 0; }
+.cr-name { font-weight: 650; font-size: 14px; display: flex; flex-wrap: wrap; align-items: center; gap: 2px 6px; min-width: 0; }
+.cr-name > span:first-child { overflow-wrap: anywhere; }
+.cr-neben { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 6px; font-size: 12.5px; color: var(--tinte-3); overflow-wrap: anywhere; }
+.bild { width: 34px; height: 34px; border-radius: 50%; flex: none; display: inline-grid; place-items: center; overflow: hidden; font-size: 12.5px; font-weight: 750; letter-spacing: .02em; color: var(--tinte); background: var(--flaeche-2); box-shadow: inset 0 0 0 3px var(--kf, var(--k0)); }
+.bild.gross { width: 52px; height: 52px; font-size: 17px; box-shadow: inset 0 0 0 4px var(--kf, var(--k0)); }
+.bild img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; padding: 4px; }
+.code { font-size: 11px; font-weight: 750; letter-spacing: .07em; padding: 0 6px; border-radius: 5px; background: var(--flaeche-2); color: var(--tinte-2); border: 1px solid var(--linie); line-height: 18px; white-space: nowrap; }
+.aus, .tag { font-size: 10.5px; font-weight: 750; letter-spacing: .06em; text-transform: uppercase; padding: 0 6px; border-radius: 5px; color: var(--tinte-3); border: 1px solid var(--linie); line-height: 16px; white-space: nowrap; }
+.tag { color: var(--gut); }
+
+.karten { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 10px; }
+.ckarte { background: var(--flaeche); border: 1px solid var(--linie); border-radius: var(--radius); padding: 16px; display: grid; gap: 12px; align-content: start; min-width: 0; }
+.ckarte.ist-aus { background: var(--flaeche-2); }
+.ckarte.ist-aus .ck-zahlen b { color: var(--tinte-2); }
+.ck-kopf { display: flex; align-items: center; justify-content: space-between; gap: 10px; min-width: 0; }
+.ck-kopf .cr-name { font-size: 15.5px; }
+.ck-zeile { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; }
+.knopf.klein { padding: 4px 11px; font-size: 13px; flex: none; }
+.schalter {
+  appearance: none; border: 1px solid var(--linie); background: var(--flaeche); border-radius: 999px; cursor: pointer;
+  padding: 3px 10px 3px 4px; display: inline-flex; align-items: center; gap: 7px; font-size: 12.5px; font-weight: 700; color: var(--tinte-2); flex: none;
+}
+.schalter:hover { border-color: var(--tinte-3); }
+.schalter i { width: 30px; height: 18px; border-radius: 9px; background: var(--balken); position: relative; display: inline-block; }
+.schalter i::after { content: ""; position: absolute; top: 2px; left: 2px; width: 14px; height: 14px; border-radius: 50%; background: #FFFFFF; box-shadow: 0 1px 2px rgba(0, 0, 0, .25); }
+.schalter[aria-pressed="true"] i { background: var(--gut); }
+.schalter[aria-pressed="true"] i::after { left: 14px; }
+@media (prefers-reduced-motion: no-preference) { .schalter i::after { transition: left .15s ease; } }
+.modell { display: inline-flex; font-size: 12.5px; font-weight: 650; color: var(--tinte-2); background: var(--flaeche-2); border-radius: 8px; padding: 3px 9px; }
+.ck-zahlen { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.ck-zahlen div { display: grid; gap: 0; min-width: 0; align-content: start; }
+.ck-zahlen span { font-size: 12px; color: var(--tinte-2); font-weight: 600; }
+.ck-zahlen b { font-size: 22px; font-weight: 750; font-stretch: 106%; font-variant-numeric: tabular-nums; line-height: 1.2; overflow-wrap: anywhere; }
+.ck-zahlen small { font-size: 12px; color: var(--tinte-3); font-variant-numeric: tabular-nums; }
+.ck-funke { display: grid; gap: 2px; }
+.ck-funke span, .ck-fuss { font-size: 12px; color: var(--tinte-3); }
+.ck-fuss { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 6px 10px; }
+
+.stapel { display: flex; gap: 2px; height: 14px; border-radius: 4px; overflow: hidden; }
+.stapel i { display: block; flex: 0 1 0; min-width: 3px; }
+.stapel.leer { background: var(--flaeche-2); }
+.farbe { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 7px; vertical-align: -1px; flex: none; }
+.cr-legende { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 13px; color: var(--tinte-2); }
+.cr-legende span { display: inline-flex; align-items: center; }
+.cr-legende b { margin-left: 5px; font-variant-numeric: tabular-nums; color: var(--tinte); }
+.status { display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; font-weight: 650; white-space: nowrap; }
+.status::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+.status[data-art="offen"] { color: var(--warn); }
+.status[data-art="aus"] { color: var(--gut); }
+.status[data-art="leer"] { color: var(--tinte-3); font-weight: 500; }
+.status[data-art="leer"]::before { display: none; }
+.minus { color: var(--schlecht); }
+table.cr-tabelle tfoot th, table.cr-tabelle tfoot td { font-weight: 700; border-top: 2px solid var(--linie); border-bottom: 0; }
+table.cr-tabelle tbody tr.leer td { color: var(--tinte-3); }
+table.cr-tabelle td.fett { font-weight: 700; }
+table.cr-tabelle td.leise { color: var(--tinte-3); }
+.ausz-kopf { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 16px; }
+.ausz .cr .bild { width: 28px; height: 28px; font-size: 11px; box-shadow: inset 0 0 0 2.5px var(--kf, var(--k0)); }
+.ausz .cr-neben { display: none; }
+.codes td { white-space: normal; text-align: left; vertical-align: top; }
+.codes th { text-align: left; }
+.notiz { margin: 0; padding: 12px 14px; border-radius: 12px; background: var(--flaeche); border: 1px dashed var(--linie); font-size: 14px; color: var(--tinte-2); white-space: pre-wrap; overflow-wrap: anywhere; }
+
+/* Dialoge */
+dialog.blatt, dialog.cr-dialog { padding: 0; border: 1px solid var(--linie); border-radius: 18px; color: var(--tinte); overflow: auto; overscroll-behavior: contain; }
+dialog.blatt { width: min(1100px, calc(100vw - 32px)); max-height: calc(100vh - 32px); background: var(--bg); }
+dialog.cr-dialog { width: min(720px, calc(100vw - 32px)); max-height: calc(100vh - 32px); background: var(--flaeche); }
+dialog.cr-dialog.eng { width: min(480px, calc(100vw - 32px)); }
+dialog.blatt::backdrop, dialog.cr-dialog::backdrop { background: rgba(11, 9, 10, .5); }
+.blatt-kopf { position: sticky; top: 0; z-index: 4; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 18px; background: var(--flaeche); border-bottom: 1px solid var(--linie); }
+.blatt-kopf .cr-name { font-size: 18px; font-weight: 750; }
+.blatt-kopf .steuer { flex-wrap: nowrap; }
+.blatt-inhalt { padding: 18px; display: grid; gap: 22px; }
+.zu { appearance: none; width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--linie); background: var(--flaeche); cursor: pointer; font-size: 18px; line-height: 1; flex: none; }
+.blatt-zeile { display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: center; font-size: 13px; color: var(--tinte-2); }
+.zweier { display: grid; gap: 10px; }
+@media (min-width: 860px) { .zweier { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
+.cr-form { display: grid; gap: 14px; padding: 18px; }
+.cr-bearbeiten { background: var(--flaeche); border: 1px solid var(--linie); border-radius: var(--radius); }
+.cr-bearbeiten > summary { cursor: pointer; padding: 14px 16px; font-weight: 700; }
+.cr-bearbeiten .cr-form { padding-top: 0; }
+.dialog-kopf { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.dialog-kopf h2 { margin: 0; font-size: 18px; font-weight: 750; }
+.feld select, .feld textarea {
+  width: 100%; min-width: 0; padding: 10px 12px; border-radius: 10px;
+  border: 1px solid var(--linie); background: var(--bg); font-size: 15px;
+}
+.feld textarea { resize: vertical; }
+.feld-paar { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.haken { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; font-weight: 600; }
+.haken input { width: 18px; height: 18px; margin: 2px 0 0; accent-color: var(--akzent); flex: none; }
+.haken input:disabled + label { color: var(--tinte-3); }
+.cr-faellig { margin: 0; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; font-size: 15px; font-weight: 600; }
+.cr-faellig b { font-size: 28px; font-weight: 800; font-stretch: 106%; }
+.frage-text { margin: 0; font-size: 17px; font-weight: 700; }
+
+@media (max-width: 640px) {
+  dialog.blatt { width: 100vw; max-width: 100vw; height: 100dvh; max-height: 100dvh; margin: 0; border-radius: 0; border: 0; }
+  .blatt-inhalt { padding: 14px 12px; }
+  .blatt-kopf { padding: 10px 12px; }
+}
+@media (max-width: 520px) {
+  .ck-zahlen b { font-size: 18px; }
+  .karten { grid-template-columns: minmax(0, 1fr); }
+  .steuerleiste { gap: 10px 14px; }
+  .segment button { padding: 5px 10px; font-size: 13px; }
+  .feld-paar { grid-template-columns: minmax(0, 1fr); }
+  table.cr-tabelle { font-size: 13px; }
+  table.cr-tabelle th, table.cr-tabelle td { padding: 7px 6px; }
+  table.cr-tabelle th:first-child, table.cr-tabelle td:first-child { padding-left: 0; }
 }
 </style>
 
@@ -296,6 +485,7 @@ details.wie ul { margin: 8px 0 0; padding-left: 18px; display: grid; gap: 4px; m
       <span class="stand zahl" id="stand"></span>
       <button class="knopf" id="neu" type="button"></button>
       <button class="knopf" id="zugang-knopf" type="button"></button>
+      <a class="knopf" id="creator-link" href="#h-creator"></a>
     </div>
   </header>
 
@@ -362,7 +552,153 @@ details.wie ul { margin: 8px 0 0; padding-left: 18px; display: grid; gap: 4px; m
     </details>
   </section>
   </main>
+
+  <!-- Creator (148, Variante 3). Ausserhalb von #inhalt: bleibt, auch wenn die Tageszahlen scheitern. -->
+  <section class="creator" id="creator-bereich" aria-labelledby="h-creator">
+    <div class="cr-kopfzeile">
+      <div class="cr-titelzeile">
+        <h2 class="titel" id="h-creator"></h2>
+        <span class="chip" id="cr-chip" data-art="beispiel"></span>
+        <span class="nebenbei" id="cr-nur-du"></span>
+        <span class="stand zahl" id="cr-stand"></span>
+      </div>
+      <button class="knopf voll" id="cr-neu-knopf" type="button" aria-haspopup="dialog" data-f="cr-neu"></button>
+    </div>
+    <div class="meldung" id="cr-meldung" role="alert" hidden></div>
+    <div class="meldung erfolg" id="cr-erfolg" role="status" hidden></div>
+    <div class="cr-koerper" id="cr-koerper" hidden>
+      <div class="steuerleiste" id="cr-steuer"></div>
+      <p class="hinweis" id="cr-summen" hidden></p>
+      <section aria-labelledby="h-cr-ueberblick">
+        <div class="abschnitt-kopf">
+          <h3 class="titel" id="h-cr-ueberblick"></h3>
+          <span class="nebenbei" id="cr-ueberblick-neben"></span>
+        </div>
+        <div class="kacheln" id="cr-kacheln"></div>
+      </section>
+      <section aria-labelledby="h-cr-karten">
+        <div class="abschnitt-kopf">
+          <h3 class="titel" id="h-cr-karten"></h3>
+          <span class="nebenbei" id="cr-karten-neben"></span>
+        </div>
+        <div class="karten" id="cr-karten"></div>
+      </section>
+      <section aria-labelledby="h-cr-ausz">
+        <div class="abschnitt-kopf">
+          <h3 class="titel" id="h-cr-ausz"></h3>
+          <span class="nebenbei" id="cr-ausz-neben"></span>
+        </div>
+        <div class="karte">
+          <div class="ausz-kopf">
+            <div id="cr-ausz-monat"></div>
+            <button class="knopf" id="cr-csv" type="button"></button>
+          </div>
+          <div class="tabelle-huelle ausz" id="cr-ausz"></div>
+        </div>
+      </section>
+      <details class="wie">
+        <summary id="cr-wie-titel"></summary>
+        <ul id="cr-wie-liste"></ul>
+      </details>
+    </div>
+  </section>
 </div>
+
+<dialog class="blatt" id="cr-blatt" aria-labelledby="cr-blatt-name"></dialog>
+
+<dialog class="cr-dialog" id="cr-anlegen" aria-labelledby="cr-a-titel">
+  <form class="cr-form" id="cr-a-form" novalidate>
+    <div class="dialog-kopf">
+      <h2 id="cr-a-titel"></h2>
+      <button class="zu" id="cr-a-zu" type="button">×</button>
+    </div>
+    <div class="feld">
+      <label for="cr-a-name" id="cr-a-name-label"></label>
+      <input id="cr-a-name" type="text" maxlength="60" autocomplete="off" required>
+    </div>
+    <div class="feld">
+      <label for="cr-a-handle" id="cr-a-handle-label"></label>
+      <input id="cr-a-handle" type="text" maxlength="41" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="@mara.lifts">
+    </div>
+    <div class="feld">
+      <label for="cr-a-code" id="cr-a-code-label"></label>
+      <input id="cr-a-code" type="text" maxlength="16" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="MARA" required aria-describedby="cr-a-code-hinweis">
+      <p class="klein" id="cr-a-code-hinweis"></p>
+    </div>
+    <div class="feld">
+      <label for="cr-a-rabatt" id="cr-a-rabatt-label"></label>
+      <select id="cr-a-rabatt"></select>
+    </div>
+    <div class="feld-paar">
+      <div class="feld">
+        <label for="cr-a-prov-jahr" id="cr-a-prov-jahr-label"></label>
+        <input id="cr-a-prov-jahr" type="number" min="0" max="50" step="1" value="25" inputmode="numeric">
+      </div>
+      <div class="feld">
+        <label for="cr-a-prov-monat" id="cr-a-prov-monat-label"></label>
+        <input id="cr-a-prov-monat" type="number" min="0" max="50" step="1" value="15" inputmode="numeric">
+      </div>
+    </div>
+    <div class="feld">
+      <label for="cr-a-notiz" id="cr-a-notiz-label"></label>
+      <textarea id="cr-a-notiz" maxlength="500" rows="3"></textarea>
+    </div>
+    <div class="haken">
+      <input id="cr-a-profil" type="checkbox" disabled aria-describedby="cr-a-profil-hinweis">
+      <label for="cr-a-profil" id="cr-a-profil-label"></label>
+    </div>
+    <p class="klein" id="cr-a-profil-hinweis"></p>
+    <div class="meldung" id="cr-a-fehler" role="alert" hidden></div>
+    <p class="hinweis" id="cr-a-beispiel" hidden></p>
+    <div class="knopfreihe">
+      <button class="knopf voll" id="cr-a-senden" type="submit"></button>
+      <button class="knopf" id="cr-a-abbrechen" type="button"></button>
+    </div>
+  </form>
+</dialog>
+
+<dialog class="cr-dialog eng" id="cr-auszahlen" aria-labelledby="cr-z-titel">
+  <form class="cr-form" id="cr-z-form" novalidate>
+    <div class="dialog-kopf">
+      <h2 id="cr-z-titel"></h2>
+      <button class="zu" id="cr-z-zu" type="button">×</button>
+    </div>
+    <div id="cr-z-creator"></div>
+    <div class="feld">
+      <label for="cr-z-monat" id="cr-z-monat-label"></label>
+      <select id="cr-z-monat"></select>
+    </div>
+    <p class="cr-faellig"><span id="cr-z-faellig-label"></span><b class="zahl" id="cr-z-faellig"></b></p>
+    <p class="klein" id="cr-z-hinweis" hidden></p>
+    <div class="feld">
+      <label for="cr-z-notiz" id="cr-z-notiz-label"></label>
+      <input id="cr-z-notiz" type="text" maxlength="200" autocomplete="off">
+    </div>
+    <div class="haken">
+      <input id="cr-z-ok" type="checkbox">
+      <label for="cr-z-ok" id="cr-z-ok-label"></label>
+    </div>
+    <div class="meldung" id="cr-z-fehler" role="alert" hidden></div>
+    <p class="hinweis" id="cr-z-beispiel" hidden></p>
+    <div class="knopfreihe">
+      <button class="knopf voll" id="cr-z-senden" type="submit"></button>
+      <button class="knopf" id="cr-z-abbrechen" type="button"></button>
+    </div>
+  </form>
+</dialog>
+
+<dialog class="cr-dialog eng" id="cr-frage" aria-labelledby="cr-f-text" aria-describedby="cr-f-neben">
+  <form class="cr-form" id="cr-f-form" novalidate>
+    <p class="frage-text" id="cr-f-text"></p>
+    <p class="klein" id="cr-f-neben"></p>
+    <div class="meldung" id="cr-f-fehler" role="alert" hidden></div>
+    <p class="hinweis" id="cr-f-beispiel" hidden></p>
+    <div class="knopfreihe">
+      <button class="knopf voll" id="cr-f-ja" type="submit"></button>
+      <button class="knopf" id="cr-f-nein" type="button"></button>
+    </div>
+  </form>
+</dialog>
 
 <script>
 (() => {
@@ -414,6 +750,11 @@ details.wie ul { margin: 8px 0 0; padding-left: 18px; display: grid; gap: 4px; m
       insOffen: 'offen', insGekuendigt: 'gekündigt', insMorgen: 'morgen fällig',
       insVoll: 'Vollständig ab {tag}', insFehlt: '134 neu einspielen', insProdukt: 'Je Produkt',
       bezahlt: 'Bezahlt', faellig: 'Fällig', offenK: 'Offen', gekuendigtK: 'Gekündigt', morgen: 'Morgen',
+      gTitel: 'Geschlecht', gAlle: 'Alle Konten', gAktiv: 'Aktiv 30 Tage', gZahlende: 'Zahlende',
+      gM: 'Männer', gW: 'Frauen', gD: 'Divers', gOhne: 'Ohne Angabe',
+      gAnzahl: 'Anzahl', gVonAllen: 'von allen', gMitAngabe: 'mit Angabe',
+      gLaeuft: 'Erfassung läuft: {a} von {b}', gLeer: 'Noch nicht eingerichtet (145)', gFehlt144: '144 neu einspielen',
+      wie8: 'Geschlecht: Angabe im Profil, alle 5 Minuten nachgetragen. Ohne Angabe heißt: nichts gewählt oder noch nicht erfasst.',
       fehlt: 'Nicht in dieser Datenbank: {liste}',
       fSchluessel: 'Schlüssel abgelehnt', fSchluesselText: 'Prüfe den Schlüssel unter Zugang.',
       fHerkunft: 'Herkunft nicht freigegeben', fHerkunftText: 'Die Function nimmt Anfragen von dieser Seite nicht an. DASHBOARD_HERKUNFT ergänzen.',
@@ -428,6 +769,86 @@ details.wie ul { margin: 8px 0 0; padding-left: 18px; display: grid; gap: 4px; m
       fAlt: 'Die Zahlen unten sind vom letzten erfolgreichen Laden.',
       fUrl: 'Die Adresse muss mit https:// beginnen.',
       ladenTitel: 'Lädt die Zahlen', ladenText: 'Einen Moment.',
+      // Creator (148)
+      crLink: 'Creator', crTitel: 'Creator', crNurDu: 'nur für dich, Creator sehen nichts', crAnlegenKnopf: 'Creator anlegen',
+      crStand: 'Stand {zeit}', crZeitraum: 'Zeitraum', crPlattform: 'Plattform', crAlle: 'Alle', crAllePlattformen: 'alle Plattformen',
+      crMonatDavor: 'Monat davor', crMonatDanach: 'Monat danach', crMonat: 'Monat', crCa: 'ca. {x}',
+      crUeberblick: 'Überblick', crUeberblickNeben: '{zeit} · {plattform} · Geld nach Tag der Zahlung · Beträge ca.',
+      crProvision: 'Provision', crProvTeil: 'Jahr {j} × {bj} · Monat {m} × {bm}', crAbzug: 'Abzug {x}', crOhneAbzug: 'ohne Abzug',
+      crErste: 'Erste Zahlungen', crErsteTeil: 'Jahr {j} · Monat {m} · {w} weitere ohne Provision',
+      crGeholt: 'Geholt', crGeholtTeil: 'neu {n} · iOS {i} · Android {a}',
+      crOffen: 'Offen', crOffenTeil: 'ausgezahlt bisher {x}', crAn: 'Creator an', crAnTeil: 'von {n} · aus {m}', crUnbekannt: 'unbekannte Codes {n}',
+      crKarten: 'Creator', crKartenNeben: 'nach Provision im Zeitraum', crLeer: 'Noch kein Creator angelegt.',
+      crDetails: 'Details', crCode: 'Code', crCodeAn: 'an', crCodeAus: 'aus', crSchalterAus: 'Code {code} ausschalten', crSchalterAn: 'Code {code} anschalten',
+      crModell: '{j} % Jahr · {m} % Monat · nur erste Zahlung', crJMKurz: 'J {j} · M {m}', crNeu: 'neu {n}', crFunke: 'Geholt je Woche, 12 Wochen',
+      crStandFuss: 'offen {o} · ausgezahlt {a}', crBuchenKnopf: 'Auszahlung buchen',
+      crNichtsFaellig: 'Nichts fällig.', crMinusVortrag: 'Minus {betrag} wird vorgetragen.', crKeinMonat: 'Noch kein abgeschlossener Monat.',
+      crOhneKonto: 'ohne fin-Konto', crProfilTag: 'Creator-Profil', crSchliessen: 'Schließen',
+      crAnSeit: 'Code an seit {tag}', crAusSeit: 'Code aus seit {tag}', crProfilFrei: 'Creator-Profil in der App', crProfilNicht: 'ohne Creator-Profil',
+      crSeitStart: 'Seit Start', crSeitStartNeben: 'nach Tag der Zuordnung, Geld bis heute',
+      crProbe: 'Probe läuft', crDavonGek: 'davon gekündigt {n}', crKeineGek: 'keine gekündigt',
+      crBezahlt: 'Bezahlt', crJM: 'Jahr {j} · Monat {m}', crKostenlos: 'Nur kostenlos', crKostenlosTeil: 'nie Abo {n} · Probe ohne Zahlung {o}',
+      crUmwandlung: 'Umwandlung', crUmwTeil: '{a} von {b}, Einträge bis {tag}', crZuFrueh: 'noch zu früh',
+      crUmsatz: 'Umsatz netto', crUmsatzTeil: 'erste Zahlungen {e} · {w} weitere',
+      crWasWurde: 'Was aus den Geholten wurde', crTeilJahr: 'Bezahlt, Jahr', crTeilMonat: 'Bezahlt, Monat', crTeilProbe: 'Probe läuft',
+      crTeilOhne: 'Probe ohne Zahlung', crTeilNie: 'Nie Abo', crTeilAnderes: 'anderes',
+      crSummeZeile: '{n} geholt = {a} nur kostenlos + {b} Probe läuft + {c} bezahlt + {d} anderes',
+      crStandBezahlt: 'Stand der Bezahlten', crAktiv: 'Aktiv', crGekuendigt: 'Gekündigt, läuft aus', crBeendet: 'Beendet', crErstattet: 'Erstattet',
+      crMonate: 'Monate', crMonateNeben: 'alle Plattformen, nach Tag der Zahlung',
+      crSpMonat: 'Monat', crSpGeholt: 'Geholt', crSpEJ: 'Erste Zahlung Jahr', crSpEM: 'Erste Zahlung Monat', crSpVerl: 'Verlängert',
+      crSpUmsatz: 'Umsatz netto', crSpProv: 'Provision', crSpAbzug: 'Abzug Erstattung', crSpAusz: 'Auszahlung', crSpStand: 'Stand', crSumme: 'Summe',
+      crSpCreator: 'Creator', crSpErste: 'Erste Zahlungen', crStOffen: 'offen', crStAus: 'ausgezahlt {tag}', crStTeil: 'teilweise offen', crStNichts: 'nichts fällig',
+      crMonateFuss: 'Provision nur auf die erste Zahlung. Verlängerungen zählen zum Umsatz, nicht zur Provision.',
+      crSpVorteil: 'Vorteil', crSpEingeloest: 'Eingelöst', crVorteil: '{r} % aufs erste Jahr', crEingeloest: '{n} Konten · abgelehnt {m}', crNotiz: 'Notiz',
+      crAuszahlungen: 'Auszahlungen', crAuszahlungenNeben: 'Nr. für den SQL-Editor', crSpNr: 'Nr.', crSpAm: 'Am', crSpBetrag: 'Betrag', crKeineAusz: 'Noch keine Auszahlung.',
+      crBearbeiten: 'Bearbeiten', crName: 'Name', crHandle: 'fin-Handle (optional)', crHandleKurz: 'fin-Handle', crCodeHinweis: '3 bis 16 Zeichen, A bis Z und 0 bis 9',
+      crRabatt: 'Vorteil für Follower', crProvJahr: 'Provision Jahr (%)', crProvMonat: 'Provision Monat (%)', crNotizFeld: 'Notiz (nur für dich)',
+      crNeueSaetze: 'Neue Sätze gelten für neue Follower.', crProfilHaken: 'Creator-Profil in der App freischalten', crProfilBraucht: 'Braucht ein fin-Handle',
+      crSpeichern: 'Speichern', crNichtsGeaendert: 'Nichts geändert.', crFrageSpeichern: 'Änderungen an {name} speichern?', crGespeichert: '{name} gespeichert.',
+      crAuszListe: 'Auszahlungsliste', crAuszNeben: 'alle Creator, alle Plattformen', crAuszMonat: 'Auszahlmonat', crCsv: 'Als CSV', crBuchen: 'Buchen',
+      crAuszLeer: 'Keine Buchungen in diesem Monat.', crAuszCreator: '{n} Creator',
+      crCsvName: 'Name', crCsvHandle: 'Handle', crCsvEJ: 'Erste Zahlungen Jahr', crCsvEM: 'Erste Zahlungen Monat', crCsvGutschrift: 'Gutschrift',
+      crCsvZweck: 'Verwendungszweck', crCsvZweckText: 'fin Provision {monat} {code}',
+      crWie: 'So wird gezählt',
+      crWie1: 'Geholt nach Tag der Zuordnung, Geld nach Tag der Zahlung oder Erstattung, Berliner Zeit.',
+      crWie2: 'Provision nur auf die erste Zahlung je Konto, Sätze je Creator (Vorgabe 25 % Jahr, 15 % Monat). Verlängerungen bringen nichts.',
+      crWie3: 'Netto ist geschätzt: Listenpreis DE ohne {mwst} % MwSt und {store} % Store. Jahr {jb} ergibt ca. {jn}, Monat {mb} ca. {mn}.',
+      crWie4: 'Ausgezahlt wird erst nach echter Abbuchung. Erstattung der ersten Zahlung: Abzug mit der nächsten Auszahlung.',
+      crWie5: 'Nur Konten ohne früheres Store-Abo, ein Creator je Konto, der erste Code gilt. Code nur auf der Paywall.',
+      crWie6: 'Monatsabo ohne Probe sieht aus wie eine Probe: Die Provision kommt einen Monat später.',
+      crWie7: 'Play-Nachfrist beim Monatsabo kann wie eine Zahlung aussehen. Gebucht bleibt gebucht.',
+      crWie8: 'Play-Erstattung ohne Widerruf bleibt unsichtbar, also kein Abzug.',
+      crWie9: 'Wird eine Erstattung zurückgenommen, bleibt der Abzug stehen.',
+      crWie10: 'Creator sehen diese Seite nicht.',
+      crWie11: 'Löscht sich ein Konto, sieht fin spätere Erstattungen nicht mehr. Beim Auszahlen steht, wie viel von solchen Konten kommt.',
+      crSummenFalsch: 'Summen stimmen nicht: {liste}',
+      crAnlegenTitel: 'Creator anlegen', crAnlegenSenden: 'Anlegen', crAbbrechen: 'Abbrechen',
+      crBeispielAus: 'Im Beispiel nicht möglich. Erst Zugang eintragen.',
+      crFrageAnlegen: '{name} mit Code {code} anlegen?', crFrageAnlegenProfil: 'Creator-Profil in der App wird freigeschaltet.', crAnlegenJa: 'Anlegen',
+      crAngelegt: '{name} angelegt. Code {code} ist an.', crProfilIstFrei: 'Creator-Profil ist frei.', crProfilWarFrei: 'Creator-Profil war schon frei.',
+      crFrageAus: 'Code {code} ausschalten?', crFrageAusNeben: 'Neue Eingaben werden abgelehnt. Wer schon zugeordnet ist, bleibt.',
+      crFrageAn: 'Code {code} wieder anschalten?', crAusschalten: 'Ausschalten', crAnschalten: 'Anschalten',
+      crCodeIstAus: 'Code {code} ist aus.', crCodeIstAn: 'Code {code} ist an.',
+      crAuszTitel: 'Auszahlung buchen', crBisMonat: 'Bis Monat', crFaellig: 'Fällig:', crNotizAusz: 'Notiz (optional)', crNotizAuszPlatz: 'Überweisung 15.11.',
+      crUeberwiesen: 'Überwiesen', crAuszSenden: 'Als ausgezahlt buchen', crHakenFehlt: 'Erst überweisen, dann Haken setzen.',
+      crAuszOk: 'Auszahlung gebucht: {name} bis {monat}, {betrag}.',
+      crWegHinweis: 'Davon {betrag} von gelöschten Konten. Deren Erstattungen sieht fin nicht mehr.',
+      crF_name_form: 'Name: 1 bis 60 Zeichen.', crF_code_form: 'Code: 3 bis 16 Zeichen, nur A bis Z und 0 bis 9.', crF_code_vergeben: 'Diesen Code gibt es schon.',
+      crF_code_fest: 'Code ist schon eingelöst und bleibt.', crF_handle_form: 'Handle ohne Leerzeichen, bis 40 Zeichen.', crF_handle_unbekannt: 'Kein fin-Konto mit diesem Handle.',
+      crF_handle_vergeben: 'Dieses Konto hat schon einen Code.', crF_handle_fest: 'Konto ist schon verknüpft.', crF_handle_fehlt: 'Creator-Profil braucht ein fin-Handle.',
+      crF_handle_mehrdeutig: 'Mehrere Konten mit diesem Handle (groß/klein). Im SQL-Editor verknüpfen.', crF_handle_eingeloest: 'Dieses Konto hat den Code selbst eingelöst.',
+      crF_rabatt_ohne_angebot: 'Für diesen Rabatt gibt es kein Store-Angebot.', crF_prov_form: 'Provision: 0 bis 50 %.', crF_notiz_form: 'Notiz zu lang.',
+      crF_entziehen_nur_sql: 'Profil entziehen geht nur im SQL-Editor.', crF_monat_form: 'Monat ungültig.', crF_monat_offen: 'Der Monat läuft noch.',
+      crF_nichts_faellig: 'Nichts fällig.', crF_betrag_passt_nicht: 'Betrag hat sich geändert, jetzt {betrag}. Bitte neu prüfen.',
+      crF_betrag_neu: 'Betrag hat sich geändert. Bitte neu prüfen.', crF_betrag_form: 'Betrag ungültig.',
+      crF_unbekannt: 'Creator nicht gefunden. Neu laden.', crF_nichts: 'Nichts geändert.', crF_zeit: 'Keine Antwort. Neu laden und prüfen, ob es geklappt hat.',
+      crF_funktion_fehlt: '148 ist noch nicht eingespielt.', crF_eingabe: 'Eingabe prüfen.', crF_sonst: 'Fehler {code}.',
+      crF_deploy: 'Die Function kennt das noch nicht. Erst deployen.',
+      crFehlt148: 'Funktion fehlt', crLadenZeit: 'Keine Antwort in {s} s. Neu laden.',
+      crAltTitel: 'Function ohne Creator-Teil', crAltText: 'Die Function ist noch die alte Fassung. Erst deployen.',
+      crBsp1: 'Reels Montag und Donnerstag. Code in Bio und Story.', crBsp2: 'YouTube, Ganzkörper-Pläne. Code im Video.',
+      crBsp3: 'TikTok, wenige, aber treue Follower.', crBsp4: 'Laufgruppe, viele Android. Noch ohne fin-Konto.',
+      crBsp6: 'Code aus, Zusammenarbeit pausiert.',
     },
     en: {
       titel: 'Numbers', heute: 'Today', bestand: 'Right now', verlauf: 'History',
@@ -467,6 +888,11 @@ details.wie ul { margin: 8px 0 0; padding-left: 18px; display: grid; gap: 4px; m
       insOffen: 'open', insGekuendigt: 'cancelled', insMorgen: 'due tomorrow',
       insVoll: 'Complete from {tag}', insFehlt: 'Run 134 again', insProdukt: 'By plan',
       bezahlt: 'Paid', faellig: 'Due', offenK: 'Open', gekuendigtK: 'Cancelled', morgen: 'Tomorrow',
+      gTitel: 'Gender', gAlle: 'All accounts', gAktiv: 'Active 30 days', gZahlende: 'Paying',
+      gM: 'Men', gW: 'Women', gD: 'Other', gOhne: 'Not stated',
+      gAnzahl: 'Count', gVonAllen: 'of all', gMitAngabe: 'of stated',
+      gLaeuft: 'Collecting: {a} of {b}', gLeer: 'Not set up yet (145)', gFehlt144: 'Run 144 again',
+      wie8: 'Gender: from the profile, filled in every 5 minutes. Not stated means nothing chosen or not collected yet.',
       fehlt: 'Not in this database: {liste}',
       fSchluessel: 'Key rejected', fSchluesselText: 'Check the key under Access.',
       fHerkunft: 'Origin not allowed', fHerkunftText: 'The function does not accept requests from this page. Extend DASHBOARD_HERKUNFT.',
@@ -481,6 +907,86 @@ details.wie ul { margin: 8px 0 0; padding-left: 18px; display: grid; gap: 4px; m
       fAlt: 'The numbers below are from the last successful load.',
       fUrl: 'The address must start with https://.',
       ladenTitel: 'Loading the numbers', ladenText: 'One moment.',
+      // Creator (148)
+      crLink: 'Creators', crTitel: 'Creators', crNurDu: 'only for you, creators see nothing', crAnlegenKnopf: 'Add creator',
+      crStand: 'As of {zeit}', crZeitraum: 'Period', crPlattform: 'Platform', crAlle: 'All', crAllePlattformen: 'all platforms',
+      crMonatDavor: 'Previous month', crMonatDanach: 'Next month', crMonat: 'Month', crCa: 'approx. {x}',
+      crUeberblick: 'Overview', crUeberblickNeben: '{zeit} · {plattform} · money by payment day · amounts approx.',
+      crProvision: 'Commission', crProvTeil: 'Year {j} × {bj} · Month {m} × {bm}', crAbzug: 'Deduction {x}', crOhneAbzug: 'no deduction',
+      crErste: 'First payments', crErsteTeil: 'Year {j} · Month {m} · {w} more without commission',
+      crGeholt: 'Brought in', crGeholtTeil: 'new {n} · iOS {i} · Android {a}',
+      crOffen: 'Open', crOffenTeil: 'paid out so far {x}', crAn: 'Creators on', crAnTeil: 'of {n} · off {m}', crUnbekannt: 'unknown codes {n}',
+      crKarten: 'Creators', crKartenNeben: 'by commission in the period', crLeer: 'No creator added yet.',
+      crDetails: 'Details', crCode: 'Code', crCodeAn: 'on', crCodeAus: 'off', crSchalterAus: 'Turn code {code} off', crSchalterAn: 'Turn code {code} on',
+      crModell: '{j} % year · {m} % month · first payment only', crJMKurz: 'Y {j} · M {m}', crNeu: 'new {n}', crFunke: 'Brought in per week, 12 weeks',
+      crStandFuss: 'open {o} · paid out {a}', crBuchenKnopf: 'Record payout',
+      crNichtsFaellig: 'Nothing due.', crMinusVortrag: 'Minus {betrag} is carried forward.', crKeinMonat: 'No closed month yet.',
+      crOhneKonto: 'no fin account', crProfilTag: 'Creator profile', crSchliessen: 'Close',
+      crAnSeit: 'Code on since {tag}', crAusSeit: 'Code off since {tag}', crProfilFrei: 'Creator profile in the app', crProfilNicht: 'no creator profile',
+      crSeitStart: 'Since start', crSeitStartNeben: 'by day of assignment, money up to today',
+      crProbe: 'In trial', crDavonGek: 'cancelled {n}', crKeineGek: 'none cancelled',
+      crBezahlt: 'Paid', crJM: 'Year {j} · Month {m}', crKostenlos: 'Free only', crKostenlosTeil: 'never subscribed {n} · trial without payment {o}',
+      crUmwandlung: 'Conversion', crUmwTeil: '{a} of {b}, sign-ups until {tag}', crZuFrueh: 'too early',
+      crUmsatz: 'Net revenue', crUmsatzTeil: 'first payments {e} · {w} more',
+      crWasWurde: 'What became of them', crTeilJahr: 'Paid, year', crTeilMonat: 'Paid, month', crTeilProbe: 'In trial',
+      crTeilOhne: 'Trial without payment', crTeilNie: 'Never subscribed', crTeilAnderes: 'other',
+      crSummeZeile: '{n} brought in = {a} free only + {b} in trial + {c} paid + {d} other',
+      crStandBezahlt: 'Status of the paid', crAktiv: 'Active', crGekuendigt: 'Cancelled, running out', crBeendet: 'Ended', crErstattet: 'Refunded',
+      crMonate: 'Months', crMonateNeben: 'all platforms, by payment day',
+      crSpMonat: 'Month', crSpGeholt: 'Brought in', crSpEJ: 'First payment year', crSpEM: 'First payment month', crSpVerl: 'Renewed',
+      crSpUmsatz: 'Net revenue', crSpProv: 'Commission', crSpAbzug: 'Refund deduction', crSpAusz: 'Payout', crSpStand: 'Status', crSumme: 'Total',
+      crSpCreator: 'Creator', crSpErste: 'First payments', crStOffen: 'open', crStAus: 'paid out {tag}', crStTeil: 'partly open', crStNichts: 'nothing due',
+      crMonateFuss: 'Commission on the first payment only. Renewals count as revenue, not commission.',
+      crSpVorteil: 'Benefit', crSpEingeloest: 'Redeemed', crVorteil: '{r} % off the first year', crEingeloest: '{n} accounts · rejected {m}', crNotiz: 'Note',
+      crAuszahlungen: 'Payouts', crAuszahlungenNeben: 'No. for the SQL editor', crSpNr: 'No.', crSpAm: 'Date', crSpBetrag: 'Amount', crKeineAusz: 'No payout yet.',
+      crBearbeiten: 'Edit', crName: 'Name', crHandle: 'fin handle (optional)', crHandleKurz: 'fin handle', crCodeHinweis: '3 to 16 characters, A to Z and 0 to 9',
+      crRabatt: 'Benefit for followers', crProvJahr: 'Commission year (%)', crProvMonat: 'Commission month (%)', crNotizFeld: 'Note (only for you)',
+      crNeueSaetze: 'New rates apply to new followers.', crProfilHaken: 'Unlock creator profile in the app', crProfilBraucht: 'Needs a fin handle',
+      crSpeichern: 'Save', crNichtsGeaendert: 'Nothing changed.', crFrageSpeichern: 'Save changes to {name}?', crGespeichert: '{name} saved.',
+      crAuszListe: 'Payout list', crAuszNeben: 'all creators, all platforms', crAuszMonat: 'Payout month', crCsv: 'As CSV', crBuchen: 'Record',
+      crAuszLeer: 'No entries in this month.', crAuszCreator: '{n} creators',
+      crCsvName: 'Name', crCsvHandle: 'Handle', crCsvEJ: 'First payments year', crCsvEM: 'First payments month', crCsvGutschrift: 'Credit note',
+      crCsvZweck: 'Reference', crCsvZweckText: 'fin commission {monat} {code}',
+      crWie: 'How we count',
+      crWie1: 'Brought in by day of assignment, money by day of payment or refund, Berlin time.',
+      crWie2: 'Commission on the first payment per account only, rates per creator (default 25 % year, 15 % month). Renewals earn nothing.',
+      crWie3: 'Net is estimated: German list price without {mwst} % VAT and {store} % store fee. Year {jb} gives approx. {jn}, month {mb} approx. {mn}.',
+      crWie4: 'Paid out only after a real charge. Refund of the first payment: deducted from the next payout.',
+      crWie5: 'Only accounts without an earlier store subscription, one creator per account, the first code wins. Code only on the paywall.',
+      crWie6: 'A monthly plan without trial looks like a trial: the commission comes one month later.',
+      crWie7: 'A Play grace period on the monthly plan can look like a payment. Once booked, it stays booked.',
+      crWie8: 'A Play refund without revoking stays invisible, so no deduction.',
+      crWie9: 'If a refund is reversed, the deduction stays.',
+      crWie10: 'Creators do not see this page.',
+      crWie11: 'Once an account is deleted, fin no longer sees later refunds. The payout dialog shows how much comes from such accounts.',
+      crSummenFalsch: 'Totals do not match: {liste}',
+      crAnlegenTitel: 'Add creator', crAnlegenSenden: 'Add', crAbbrechen: 'Cancel',
+      crBeispielAus: 'Not possible in the sample. Enter access first.',
+      crFrageAnlegen: 'Add {name} with code {code}?', crFrageAnlegenProfil: 'The creator profile in the app will be unlocked.', crAnlegenJa: 'Add',
+      crAngelegt: '{name} added. Code {code} is on.', crProfilIstFrei: 'Creator profile is unlocked.', crProfilWarFrei: 'Creator profile was already unlocked.',
+      crFrageAus: 'Turn code {code} off?', crFrageAusNeben: 'New entries are rejected. Accounts already assigned stay.',
+      crFrageAn: 'Turn code {code} back on?', crAusschalten: 'Turn off', crAnschalten: 'Turn on',
+      crCodeIstAus: 'Code {code} is off.', crCodeIstAn: 'Code {code} is on.',
+      crAuszTitel: 'Record payout', crBisMonat: 'Up to month', crFaellig: 'Due:', crNotizAusz: 'Note (optional)', crNotizAuszPlatz: 'Transfer 15 Nov',
+      crUeberwiesen: 'Transferred', crAuszSenden: 'Record as paid out', crHakenFehlt: 'Transfer first, then tick the box.',
+      crAuszOk: 'Payout recorded: {name} up to {monat}, {betrag}.',
+      crWegHinweis: 'Of this, {betrag} from deleted accounts. fin no longer sees their refunds.',
+      crF_name_form: 'Name: 1 to 60 characters.', crF_code_form: 'Code: 3 to 16 characters, only A to Z and 0 to 9.', crF_code_vergeben: 'This code already exists.',
+      crF_code_fest: 'Code was already redeemed and stays.', crF_handle_form: 'Handle without spaces, up to 40 characters.', crF_handle_unbekannt: 'No fin account with this handle.',
+      crF_handle_vergeben: 'This account already has a code.', crF_handle_fest: 'Account is already linked.', crF_handle_fehlt: 'Creator profile needs a fin handle.',
+      crF_handle_mehrdeutig: 'Several accounts with this handle (upper/lower case). Link in the SQL editor.', crF_handle_eingeloest: 'This account redeemed the code itself.',
+      crF_rabatt_ohne_angebot: 'There is no store offer for this discount.', crF_prov_form: 'Commission: 0 to 50 %.', crF_notiz_form: 'Note too long.',
+      crF_entziehen_nur_sql: 'Removing a profile only works in the SQL editor.', crF_monat_form: 'Invalid month.', crF_monat_offen: 'The month is still running.',
+      crF_nichts_faellig: 'Nothing due.', crF_betrag_passt_nicht: 'The amount has changed, now {betrag}. Please check again.',
+      crF_betrag_neu: 'The amount has changed. Please check again.', crF_betrag_form: 'Invalid amount.',
+      crF_unbekannt: 'Creator not found. Reload.', crF_nichts: 'Nothing changed.', crF_zeit: 'No response. Reload and check whether it worked.',
+      crF_funktion_fehlt: '148 has not been run yet.', crF_eingabe: 'Check the input.', crF_sonst: 'Error {code}.',
+      crF_deploy: 'The function does not know this yet. Deploy first.',
+      crFehlt148: 'Function missing', crLadenZeit: 'No response within {s} s. Reload.',
+      crAltTitel: 'Function without creator part', crAltText: 'The function is still the old version. Deploy first.',
+      crBsp1: 'Reels Monday and Thursday. Code in bio and story.', crBsp2: 'YouTube, full-body plans. Code in the video.',
+      crBsp3: 'TikTok, few but loyal followers.', crBsp4: 'Running group, many Android. No fin account yet.',
+      crBsp6: 'Code off, collaboration paused.',
     },
   };
   const t = (k, w) => String(TEXTE[SPRACHE][k] ?? TEXTE.de[k] ?? k).replace(/\{(\w+)\}/g, (_, n) => (w && w[n] != null ? w[n] : ''));
@@ -488,6 +994,16 @@ details.wie ul { margin: 8px 0 0; padding-left: 18px; display: grid; gap: 4px; m
   const zahlFmt = new Intl.NumberFormat(ORT);
   const kommaFmt = new Intl.NumberFormat(ORT, { maximumFractionDigits: 1 });
   const z = (n) => (n == null ? '-' : zahlFmt.format(n));
+  const prozentFmt = new Intl.NumberFormat(ORT, { style: 'percent', maximumFractionDigits: 0 });
+  // Anteil n von basis. Was auf 0 % oder 100 % runden wuerde, ohne es zu sein,
+  // heisst "<1 %" bzw. ">99 %".
+  const prozent = (n, basis) => {
+    if (!basis) return '-';
+    const a = n / basis;
+    if (n > 0 && a < 0.005) return '<' + prozentFmt.format(0.01);
+    if (n < basis && a >= 0.995) return '>' + prozentFmt.format(0.99);
+    return prozentFmt.format(a);
+  };
 
   // ---------------------------------------------------------------- Speicher
   let fluechtig = false;
@@ -553,6 +1069,12 @@ details.wie ul { margin: 8px 0 0; padding-left: 18px; display: grid; gap: 4px; m
         gekuendigt_laeuft_aus: 210, probe_gekuendigt: 120, lifetime: 260, lifetime_geschenkt: 12,
         rueckmeldungen_offen: 18, gewinnspiel_heute: { lose: 4, bestaetigt: 1, abgelehnt: 1, offen: 2 },
         verbunden: { whoop: 85, strava: 140, polar: 12, garmin: 30 }, verbunden_neu_heute: 3,
+        geschlecht: {
+          erfasst: 35880, konten_mit_stand: 35880,
+          alle: { m: 15120, w: 8870, d: 310, ohne: 16930 },
+          aktiv_30_tage: { m: 9020, w: 5170, d: 140, ohne: 3120 },
+          zahlende: { m: 800, w: 470, d: 10, ohne: 85 },
+        },
       },
       ins_abo: {
         faellig: { monat: 14, quartal: 3, jahr: 22, gesamt: 39 },
@@ -763,6 +1285,89 @@ details.wie ul { margin: 8px 0 0; padding-left: 18px; display: grid; gap: 4px; m
     return el('div', null, [el('dt', { text: name }), el('dd', { class: 'zahl' }, [z(wert), klein ? el('small', { text: klein }) : null])]);
   }
 
+  // Geschlecht (145, jetzt.geschlecht). null: konto_geschlecht fehlt, 145 ist
+  // noch nicht eingespielt. Feld ganz weg: dashboard_rechnen ist noch die
+  // Fassung ohne Geschlecht, 144 neu einspielen. Dann jeweils nur der Hinweis.
+  const G_TEILE = [['m', 'gM', 'var(--mann)'], ['w', 'gW', 'var(--frau)'], ['d', 'gD', 'var(--divers)'], ['ohne', 'gOhne', 'var(--ohne)']];
+  function geschlechtKarte(j) {
+    const g = j.geschlecht;
+    const k = el('div', { class: 'karte breit' });
+    const kopf = el('div', { class: 'g-kopf' }, el('h3', { text: t('gTitel') }));
+    k.append(kopf);
+    const gruppen = [['alle', 'gAlle'], ['aktiv_30_tage', 'gAktiv'], ['zahlende', 'gZahlende']]
+      .filter(([s]) => g && g[s] && typeof g[s] === 'object');
+    if (!gruppen.length) {
+      k.append(el('p', { class: 'g-leer', text: t(g === null ? 'gLeer' : 'gFehlt144') }));
+      return k;
+    }
+    const n = (v) => (Number.isFinite(Number(v)) ? Number(v) : 0);
+    // Nach dem Erstbefuellen fehlen nur die Konten seit dem letzten Lauf (alle
+    // 5 Minuten), erfasst liegt also fast immer knapp unter konten_mit_stand.
+    // Der Hinweis kommt deshalb erst ab 1 % Rueckstand.
+    const erfasst = n(g.erfasst), mitStand = n(g.konten_mit_stand);
+    if (mitStand > 0 && erfasst < mitStand * 0.99) {
+      kopf.append(el('p', { class: 'g-hinweis zahl', text: t('gLaeuft', { a: z(erfasst), b: z(mitStand) }) }));
+    }
+    const box = el('div', { class: 'g-gruppen' });
+    for (const [schluessel, name] of gruppen) {
+      const werte = Object.fromEntries(G_TEILE.map(([s]) => [s, n(g[schluessel][s])]));
+      const gesamt = summe(werte);
+      const mitAngabe = werte.m + werte.w + werte.d;
+      const gr = el('div', { class: 'g-gruppe' });
+      gr.append(el('div', { class: 'g-name' }, [el('h4', { text: t(name) }), el('span', { class: 'zahl', text: z(gesamt) })]));
+
+      // Balken: Breite nach Anzahl, 2px Luft zwischen den Teilen
+      const huelle = el('div', { class: 'g-huelle' });
+      const balken = el('div', {
+        class: 'g-balken' + (gesamt ? '' : ' leer'), role: 'img',
+        'aria-label': t(name) + ': ' + G_TEILE.map(([s, tx]) => t(tx) + ' ' + z(werte[s])).join(', '),
+      });
+      for (const [s, tx, farbe] of G_TEILE) {
+        if (!werte[s]) continue;
+        const teil = el('i');
+        teil.style.flexGrow = String(werte[s]);
+        teil.style.background = farbe;
+        const zeigen = () => {
+          let tp = huelle.querySelector('.tipp');
+          if (!tp) { tp = el('div', { class: 'tipp', 'aria-hidden': 'true' }); huelle.append(tp); }
+          const zeilen = [[t('gAnzahl'), z(werte[s])], [t('gVonAllen'), prozent(werte[s], gesamt)]];
+          if (s !== 'ohne') zeilen.push([t('gMitAngabe'), prozent(werte[s], mitAngabe)]);
+          tp.replaceChildren(el('b', { text: t(tx) }), ...zeilen.map(([a, b]) => el('div', null, [el('span', { text: a }), el('span', { text: b })])));
+          tp.hidden = false; // erst zeigen, dann messen (versteckt ist offsetWidth 0)
+          const B = huelle.clientWidth, tw = tp.offsetWidth || 150;
+          const mitte = teil.offsetLeft + teil.offsetWidth / 2;
+          tp.style.left = Math.max(0, Math.min(B - tw, mitte - tw / 2)) + 'px';
+          tp.style.top = '20px';
+        };
+        teil.addEventListener('pointerenter', zeigen);
+        teil.addEventListener('pointerdown', zeigen);
+        balken.append(teil);
+      }
+      huelle.addEventListener('pointerleave', () => { const tp = huelle.querySelector('.tipp'); if (tp) tp.hidden = true; });
+      huelle.append(balken);
+      gr.append(huelle);
+
+      // Zahlen: Anzahl, Anteil an allen, Anteil unter denen mit Angabe
+      const zeile = ([s, tx, farbe]) => {
+        const farbfeld = el('i', { class: 'g-farbe', 'aria-hidden': 'true' });
+        farbfeld.style.background = farbe;
+        return el('tr', null, [
+          el('th', { scope: 'row' }, [farbfeld, t(tx)]),
+          el('td', { text: z(werte[s]), class: werte[s] ? null : 'null' }),
+          el('td', { text: prozent(werte[s], gesamt), class: werte[s] ? null : 'null' }),
+          el('td', { text: s === 'ohne' ? '' : prozent(werte[s], mitAngabe), class: werte[s] ? null : 'null' }),
+        ]);
+      };
+      gr.append(el('div', { class: 'g-tabelle tabelle-huelle' }, el('table', null, [
+        el('thead', null, el('tr', null, ['', t('gAnzahl'), t('gVonAllen'), t('gMitAngabe')].map(x => el('th', { text: x, scope: 'col' })))),
+        el('tbody', null, G_TEILE.map(zeile)),
+      ])));
+      box.append(gr);
+    }
+    k.append(box);
+    return k;
+  }
+
   function renderBestand() {
     const box = $('bestand');
     box.replaceChildren();
@@ -780,6 +1385,7 @@ details.wie ul { margin: 8px 0 0; padding-left: 18px; display: grid; gap: 4px; m
       paar(t('zahlend'), j.zahlende.gesamt),
     ]));
     box.append(k1);
+    box.append(geschlechtKarte(j));
 
     const k2 = el('div', { class: 'karte' });
     k2.append(el('h3', { text: t('abos') }));
@@ -1072,8 +1678,1350 @@ details.wie ul { margin: 8px 0 0; padding-left: 18px; display: grid; gap: 4px; m
   $('d2-titel').textContent = t('d2');
   $('tab-titel').textContent = t('tabelle');
   $('wie-titel').textContent = t('wie');
-  $('wie-liste').replaceChildren(...['wie1', 'wie2', 'wie3', 'wie4', 'wie5', 'wie6', 'wie7'].map(k => el('li', { text: t(k) })));
+  $('wie-liste').replaceChildren(...['wie1', 'wie2', 'wie3', 'wie4', 'wie5', 'wie6', 'wie7', 'wie8'].map(k => el('li', { text: t(k) })));
   document.documentElement.lang = SPRACHE;
+
+  // ================================================================ Creator (148, Variante 3)
+  // Eigener Bereich nach </main> mit eigenem Laden (?teil=creator), nicht im
+  // 60-s-Takt. render() der Tageszahlen fasst ihn nie an. Daten nur per
+  // textContent und setAttribute mit festen Namen. Ist ein Creator-Dialog
+  // offen, zeichnet renderCreator() nicht neu (crAusstehend), damit keine
+  // Eingabe verloren geht. Geschrieben wird nur mit Zugang und nach einer
+  // Rueckfrage bzw. dem Haken "Ueberwiesen".
+  const CR_ANSICHT = 'fin-dashboard-creator-ansicht-v1';
+  const CR_BILD = 'https://feylbgjusxpvaxvcwssd.supabase.co/storage/v1/object/public/avatare/';
+  const CR_NEU_MS = 5 * 60 * 1000;
+  const MONAT_RE = /^\d{4}-(0[1-9]|1[0-2])$/;
+  const TAG_RE = /^\d{4}-\d{2}-\d{2}$/;
+  const STEUER_RE = /[\u0000-\u001f\u007f]/;
+  const STEUER_OHNE_NL_RE = /[\u0000-\u0009\u000b-\u001f\u007f]/;
+  let crDaten = null;        // letzte gueltige Antwort, ohne Zugang das Beispiel
+  let crIx = null;           // Zeilen je Creator
+  let crEcht = false;        // crDaten kommt von der Function
+  let crFehler = null;       // {titel, text, knopf?}
+  let crLaedt = false;
+  let crLaufNr = 0;
+  let crGeladenAm = 0;
+  let crAusstehend = false;  // Neuzeichnen wartet, bis kein Dialog mehr offen ist
+  let crBlattNeu = null;     // nach einer Aktion im Blatt: 'daten' (Formular bleibt) oder 'form'
+  let crBlattId = null;
+  let crBlattForm = null;
+  let crZugang = zugang;     // Zugang, fuer den crDaten gilt
+  let crSummenFehler = [];
+  let crFokus = null;        // data-f des Knopfs, der nach dem Neuzeichnen den Fokus bekommt
+  let crErfolgText = '';
+  const crAnsicht = { zeit: 'monat', monat: null, plattform: 'alle', auszMonat: null };
+  try {
+    const o = JSON.parse(localStorage.getItem(CR_ANSICHT) || 'null');
+    if (o && ['monat', 'gesamt'].includes(o.zeit)) crAnsicht.zeit = o.zeit;
+    if (o && ['alle', 'ios', 'android'].includes(o.plattform)) crAnsicht.plattform = o.plattform;
+  } catch (_) { /* ohne Speicher gilt die Vorgabe */ }
+  function crAnsichtMerken() {
+    try { localStorage.setItem(CR_ANSICHT, JSON.stringify({ zeit: crAnsicht.zeit, plattform: crAnsicht.plattform })); } catch (_) { /* egal */ }
+  }
+
+  // ---------------------------------------------------------------- Creator: Format
+  const zn = (v) => { const x = Number(v); return Number.isFinite(x) ? x : 0; };
+  const euroFmt = new Intl.NumberFormat(ORT, { style: 'currency', currency: 'EUR' });
+  const euroGanzFmt = new Intl.NumberFormat(ORT, { style: 'currency', currency: 'EUR', minimumFractionDigits: 0, maximumFractionDigits: 0 });
+  const eur = (c) => euroFmt.format(zn(c) / 100);
+  const eurG = (c) => euroGanzFmt.format(Math.round(zn(c) / 100) || 0);
+  const eurK = (c) => (Math.abs(zn(c)) < 100000 ? eur(c) : eurG(c)); // Kacheln: bis 1.000 EUR mit Cent
+  function berlinTag(d) {
+    const p = {};
+    for (const x of new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Berlin', year: 'numeric', month: '2-digit', day: '2-digit' }).formatToParts(d)) p[x.type] = x.value;
+    return p.year + '-' + p.month + '-' + p.day;
+  }
+  const tagVonZeit = (s) => {
+    if (typeof s !== 'string') return null;
+    if (TAG_RE.test(s)) return s;
+    const d = new Date(s);
+    return isNaN(d) ? null : berlinTag(d);
+  };
+  const monatVonZeit = (s) => { const x = tagVonZeit(s); return x ? x.slice(0, 7) : null; };
+  const monatPlus = (m, n) => new Date(Date.UTC(+m.slice(0, 4), +m.slice(5, 7) - 1 + n, 1, 12)).toISOString().slice(0, 7);
+  const monatDatum = (m) => new Date(Date.UTC(+m.slice(0, 4), +m.slice(5, 7) - 1, 15, 12));
+  const monatLang = (m) => new Intl.DateTimeFormat(ORT, { timeZone: 'UTC', month: 'long', year: 'numeric' }).format(monatDatum(m));
+  const monatKurz = (m) => new Intl.DateTimeFormat(ORT, { timeZone: 'UTC', month: 'short', year: 'numeric' }).format(monatDatum(m));
+  const tagMonat = (s) => new Intl.DateTimeFormat(ORT, { timeZone: 'UTC', day: 'numeric', month: 'short' }).format(tagDatum(s));
+  const datumKurz = (s) => new Intl.DateTimeFormat(ORT, { timeZone: 'UTC', day: 'numeric', month: 'numeric', year: 'numeric' }).format(tagDatum(s));
+  const tagPlus = (s, n) => { const d = tagDatum(s); d.setUTCDate(d.getUTCDate() + n); return d.toISOString().slice(0, 10); };
+  const montagVon = (s) => tagPlus(s, -((tagDatum(s).getUTCDay() + 6) % 7));
+
+  // Netto-Schaetzung wie 148: brutto / 1,19 x 0,85, Werte aus annahmen
+  function crAnnahmen() {
+    const a = (crDaten && crDaten.annahmen) || {};
+    const zahl = (v, w) => (Number.isFinite(Number(v)) && Number(v) >= 0 ? Number(v) : w);
+    return { mwst: zahl(a.mwst_prozent, 19), store: zahl(a.store_prozent, 15), jahr: zahl(a.liste_jahr_cent, 4999), monat: zahl(a.liste_monat_cent, 799) };
+  }
+  const crNetto = (brutto, a) => Math.round(brutto / (1 + a.mwst / 100) * (1 - a.store / 100));
+  // Provision je erster Zahlung nach den aktuellen Saetzen (nur, solange im Zeitraum keine erste Zahlung gebucht ist; gebucht wird mit dem Schnappschuss der Zuordnung)
+  function crBetraege(c) {
+    const a = crAnnahmen();
+    const jb = Math.round(a.jahr * (100 - zn(c.rabatt)) / 100);
+    return { jahr: Math.round(crNetto(jb, a) * zn(c.prov_jahr) / 100), monat: Math.round(crNetto(a.monat, a) * zn(c.prov_monat) / 100) };
+  }
+
+  // ---------------------------------------------------------------- Creator: Daten
+  function crGueltig(j) {
+    return !!j && typeof j === 'object' && j.version === 1 && j.teil === 'creator'
+      && Array.isArray(j.creator) && Array.isArray(j.monate) && Array.isArray(j.stand_konten);
+  }
+  function crNormal(j) {
+    const heute = typeof j.heute === 'string' && TAG_RE.test(j.heute) ? j.heute : berlinTag(new Date());
+    const zeilen = (x) => (Array.isArray(x) ? x.filter((r) => r && typeof r === 'object' && typeof r.a === 'string') : []);
+    return {
+      ...j, heute,
+      monat_offen: typeof j.monat_offen === 'string' && MONAT_RE.test(j.monat_offen) ? j.monat_offen : heute.slice(0, 7),
+      rabatte: Array.isArray(j.rabatte) && j.rabatte.some(Number.isInteger) ? j.rabatte.filter(Number.isInteger) : [33],
+      creator: j.creator.filter((c) => c && typeof c === 'object' && typeof c.id === 'string' && typeof c.name === 'string' && typeof c.code === 'string'),
+      monate: zeilen(j.monate).filter((r) => typeof r.m === 'string' && MONAT_RE.test(r.m)),
+      wochen: zeilen(j.wochen).filter((r) => typeof r.w === 'string' && TAG_RE.test(r.w)),
+      stand_konten: zeilen(j.stand_konten),
+      auszahlungen: zeilen(j.auszahlungen),
+      reif_bis: typeof j.reif_bis === 'string' && TAG_RE.test(j.reif_bis) ? j.reif_bis : null,
+    };
+  }
+  function crIndex(d) {
+    const ix = { monate: new Map(), wochen: new Map(), stand: new Map() };
+    const rein = (map, r) => { if (!map.has(r.a)) map.set(r.a, []); map.get(r.a).push(r); };
+    d.monate.forEach((r) => rein(ix.monate, r));
+    d.wochen.forEach((r) => rein(ix.wochen, r));
+    d.stand_konten.forEach((r) => rein(ix.stand, r));
+    return ix;
+  }
+  // Summenregeln aus 1.9: Geholt = nur kostenlos + Probe + bezahlt + anderes,
+  // bezahlt = Jahr + Monat, Probe = Jahr + Monat + Quartal (Glücksrad),
+  // Buch = offen + ausgezahlt = Summe der Auszahlungen
+  function crSummenPruefen(d) {
+    const fehler = new Set();
+    const geholt = new Map();
+    for (const r of d.monate) {
+      const k = r.a + '|' + r.p;
+      geholt.set(k, (geholt.get(k) || 0) + zn(r.geholt));
+      if (zn(r.prov_cent) + zn(r.abzug_cent) !== zn(r.offen_cent) + zn(r.aus_cent)) fehler.add('buch');
+    }
+    const mitStand = new Set();
+    for (const s of d.stand_konten) {
+      const k = s.a + '|' + s.p;
+      mitStand.add(k);
+      const bez = zn(s.aktiv) + zn(s.gekuendigt) + zn(s.beendet) + zn(s.erstattet);
+      if (zn(s.nie) + zn(s.ohne) + zn(s.probe) + zn(s.probe_gekuendigt) + bez + zn(s.anderes) !== (geholt.get(k) || 0)) fehler.add('geholt');
+      if (bez !== zn(s.jahr) + zn(s.monat)) fehler.add('bezahlt');
+      if (zn(s.probe) + zn(s.probe_gekuendigt) !== zn(s.probe_j) + zn(s.probe_m) + zn(s.probe_q)) fehler.add('probe');
+    }
+    for (const [k, n] of geholt) if (n && !mitStand.has(k)) fehler.add('geholt');
+    for (const c of d.creator) {
+      let offen = 0, aus = 0, ausz = 0;
+      for (const r of d.monate) if (r.a === c.id) { offen += zn(r.offen_cent); aus += zn(r.aus_cent); }
+      for (const x of d.auszahlungen) if (x.a === c.id) ausz += zn(x.betrag_cent);
+      if (offen !== zn(c.offen_cent) || aus !== zn(c.ausgezahlt_cent)) fehler.add('offen');
+      if (ausz !== zn(c.ausgezahlt_cent)) fehler.add('auszahlungen');
+    }
+    return [...fehler];
+  }
+  function crSetzen(j) {
+    crDaten = crNormal(j);
+    crIx = crIndex(crDaten);
+    crSummenFehler = crSummenPruefen(crDaten);
+    if (crSummenFehler.length) console.warn('fin Creator: Summen stimmen nicht', crSummenFehler);
+  }
+  const crCreator = (id) => (crDaten ? crDaten.creator.find((c) => c.id === id) || null : null);
+  const crPasstP = (r) => crAnsicht.plattform === 'alle' || r.p === crAnsicht.plattform;
+  const crPasstZ = (r) => crAnsicht.zeit === 'gesamt' || r.m === crAnsicht.monat;
+  const M_FELDER = ['geholt', 'neu', 'erst_j', 'erst_m', 'weitere', 'netto_erst_cent', 'umsatz_cent', 'prov_cent', 'prov_j_cent', 'prov_m_cent',
+    'abzug_cent', 'abzug_n', 'offen_cent', 'aus_cent', 'weg_offen_cent'];
+  const S_FELDER = ['nie', 'ohne', 'probe', 'probe_gekuendigt', 'probe_j', 'probe_m', 'probe_q', 'aktiv', 'gekuendigt', 'beendet', 'erstattet', 'anderes', 'jahr', 'monat', 'reif', 'reif_bezahlt'];
+  function crSumme(zeilen) {
+    const s = { ios: 0, android: 0, ausgezahlt_am: null };
+    for (const f of M_FELDER) s[f] = 0;
+    for (const r of zeilen) {
+      for (const f of M_FELDER) s[f] += zn(r[f]);
+      if (r.p === 'ios') s.ios += zn(r.geholt);
+      else if (r.p === 'android') s.android += zn(r.geholt);
+      if (typeof r.ausgezahlt_am === 'string' && TAG_RE.test(r.ausgezahlt_am) && (!s.ausgezahlt_am || r.ausgezahlt_am > s.ausgezahlt_am)) s.ausgezahlt_am = r.ausgezahlt_am;
+    }
+    s.erst = s.erst_j + s.erst_m;
+    s.provNach = s.prov_cent + s.abzug_cent; // Provision nach Abzug
+    return s;
+  }
+  function crStandSumme(zeilen) {
+    const s = {};
+    for (const f of S_FELDER) s[f] = 0;
+    for (const r of zeilen) for (const f of S_FELDER) s[f] += zn(r[f]);
+    s.probeAlle = s.probe + s.probe_gekuendigt;
+    s.bezahlt = s.aktiv + s.gekuendigt + s.beendet + s.erstattet;
+    s.kostenlos = s.nie + s.ohne;
+    s.summe = s.kostenlos + s.probeAlle + s.bezahlt + s.anderes;
+    return s;
+  }
+  // Faellig bis Monat m: offene Buchungen aller Plattformen mit Monat <= m (wie affiliate_auszahlung_buchen)
+  function crFaellig(id, bis) {
+    let s = 0;
+    for (const r of (crIx.monate.get(id) || [])) if (r.m <= bis) s += zn(r.offen_cent);
+    return s;
+  }
+  // Davon offene Provision von Konten, die weg sind (148 weg_offen_cent): deren Erstattung sieht fin nicht mehr
+  function crWeg(id, bis) {
+    let s = 0;
+    for (const r of (crIx.monate.get(id) || [])) if (r.m <= bis) s += zn(r.weg_offen_cent);
+    return s;
+  }
+  function crMonatStand(s) {
+    if (!s.erst && !s.abzug_n && !s.prov_cent && !s.abzug_cent) return { art: 'leer', text: t('crStNichts') };
+    if (!s.ausgezahlt_am) return { art: 'offen', text: t('crStOffen') };
+    if (s.offen_cent !== 0) return { art: 'offen', text: t('crStTeil') };
+    return { art: 'aus', text: t('crStAus', { tag: tagMonat(s.ausgezahlt_am) }) };
+  }
+  // Monate von der ersten Zuordnung bzw. dem ersten Creator bis zum laufenden Monat
+  function crMonate() {
+    const offen = crDaten.monat_offen;
+    let erster = offen;
+    for (const c of crDaten.creator) { const m = monatVonZeit(c.angelegt); if (m && m < erster) erster = m; }
+    for (const r of crDaten.monate) if (r.m < erster) erster = r.m;
+    const liste = [];
+    for (let m = erster; m <= offen && liste.length < 240; m = monatPlus(m, 1)) liste.push(m);
+    return liste;
+  }
+  function crCreatorMonate(c) {
+    const offen = crDaten.monat_offen;
+    let erster = monatVonZeit(c.angelegt) || offen;
+    for (const r of (crIx.monate.get(c.id) || [])) if (r.m < erster) erster = r.m;
+    const liste = [];
+    for (let m = erster; m <= offen && liste.length < 240; m = monatPlus(m, 1)) liste.push(m);
+    return liste;
+  }
+  function crAnsichtPruefen() {
+    const liste = crMonate();
+    if (!liste.includes(crAnsicht.monat)) crAnsicht.monat = crDaten.monat_offen;
+    const letzter = monatPlus(crDaten.monat_offen, -1);
+    if (!liste.includes(crAnsicht.auszMonat)) crAnsicht.auszMonat = liste.includes(letzter) ? letzter : crDaten.monat_offen;
+    return liste;
+  }
+  function crWochen12() {
+    const mo = montagVon(crDaten.heute);
+    return Array.from({ length: 12 }, (_, i) => tagPlus(mo, -7 * (11 - i)));
+  }
+  function crWochenReihe(zeilen, feld, wochen) {
+    const m = new Map(wochen.map((w) => [w, 0]));
+    for (const r of zeilen) if (m.has(r.w) && crPasstP(r)) m.set(r.w, m.get(r.w) + zn(r[feld]));
+    return wochen.map((w) => m.get(w));
+  }
+
+  // ---------------------------------------------------------------- Creator: Beispiel
+  // Ohne Zugang: erfundene Creator aus festem Zufallskeim, genau in der Form
+  // von dashboard_affiliate() (148, 1.8), gleicher Zeichenweg wie echte Daten.
+  function crBeispiel() {
+    const TAG_MS = 86400000;
+    const heute = berlinTag(new Date());
+    const iso = (n) => new Date(n * TAG_MS).toISOString().slice(0, 10);
+    const H = Math.floor(tagDatum(heute).getTime() / TAG_MS);
+    const mon = (n) => iso(n).slice(0, 7);
+    const montag = (n) => n - ((n + 3) % 7);
+    let keim = 20261031;
+    const R = () => {
+      keim = (keim + 0x6D2B79F5) | 0;
+      let x = Math.imul(keim ^ (keim >>> 15), 1 | keim);
+      x = (x + Math.imul(x ^ (x >>> 7), 61 | x)) ^ x;
+      return ((x ^ (x >>> 14)) >>> 0) / 4294967296;
+    };
+    const ganz = (a, b) => a + Math.floor(R() * (b - a + 1));
+    const poisson = (l) => { const L = Math.exp(-l); let k = 0, p = 1; do { k++; p *= R(); } while (p > L); return k - 1; };
+    const ann = { mwst: 19, store: 15, jahr: 4999, monat: 799 };
+    const P = {};
+    for (const [art, brutto, satz] of [['jahr', Math.round(ann.jahr * 67 / 100), 25], ['monat', ann.monat, 15]]) {
+      const netto = crNetto(brutto, ann);
+      P[art] = { netto, prov: Math.round(netto * satz / 100) };
+    }
+    const CR = [
+      { name: 'Mara Stein', handle: '@mara.lifts', code: 'MARA', vor: 240, rate: 14, ios: 0.71, probe: 0.57, jahr: 0.73, zj: 0.61, zm: 0.66, konto: true, profil: true, notiz: 'crBsp1' },
+      { name: 'Jonas Brandt', handle: '@jonas.brandt', code: 'JONAS', vor: 226, rate: 10, ios: 0.63, probe: 0.49, jahr: 0.63, zj: 0.56, zm: 0.62, konto: true, profil: true, notiz: 'crBsp2' },
+      { name: 'Lea Kraus', handle: '@lea.kraus.fit', code: 'LEA', vor: 198, rate: 7, ios: 0.78, probe: 0.63, jahr: 0.79, zj: 0.66, zm: 0.70, konto: true, profil: false, notiz: 'crBsp3' },
+      { name: 'Timo Reiter', handle: null, code: 'RUN', vor: 178, rate: 6, ios: 0.57, probe: 0.51, jahr: 0.52, zj: 0.57, zm: 0.64, konto: false, profil: false, notiz: 'crBsp4' },
+      { name: 'Selin Aydin', handle: '@selin.lifts', code: 'SELIN', vor: 150, rate: 8, ios: 0.67, probe: 0.41, jahr: 0.66, zj: 0.49, zm: 0.55, konto: true, profil: true, notiz: null },
+      { name: 'Hannah Wolf', handle: '@hannahwolf', code: 'HANNAH', vor: 117, aus: 19, rate: 4, ios: 0.74, probe: 0.47, jahr: 0.70, zj: 0.55, zm: 0.60, konto: true, profil: false, notiz: 'crBsp6' },
+    ];
+    const ids = CR.map((_, i) => 'b5e1a000-0000-4000-8000-' + String(i + 1).padStart(12, '0'));
+    const konten = [], buch = [], weitere = [], abgelehnt = CR.map(() => 0);
+
+    function konto(ci, c, e) {
+      const k = { ci, e, p: R() < c.ios ? 'ios' : 'android', neu: R() < 0.81, s: 'nie', produkt: null, erst: null };
+      konten.push(k);
+      if (R() < 0.012) { k.s = 'anderes'; return; }   // Lifetime vor der ersten Zahlung
+      if (R() >= c.probe) return;                       // nie ein Abo
+      const ps = e + (R() < 0.78 ? 0 : ganz(1, 6));
+      if (ps > H) return;
+      k.produkt = R() < c.jahr ? 'jahr' : 'monat';
+      const pe = ps + 30;                               // 30 Tage gratis
+      const zahlt = R() < (k.produkt === 'jahr' ? c.zj : c.zm);
+      if (!zahlt) { const tk = ps + ganz(0, 29); k.s = pe > H ? (tk <= H ? 'probe_gekuendigt' : 'probe') : 'ohne'; return; }
+      if (pe > H) { k.s = 'probe'; return; }
+      const x = P[k.produkt];
+      k.erst = pe;
+      buch.push({ ci, p: k.p, tag: pe, art: 'provision', produkt: k.produkt, betrag: x.prov, netto: x.netto, aus: null, ausAm: null });
+      if (R() < 0.035) {
+        const rd = pe + ganz(1, 12);
+        if (rd <= H) {
+          k.s = 'erstattet';
+          buch.push({ ci, p: k.p, tag: rd, art: 'abzug', produkt: k.produkt, betrag: -x.prov, netto: -x.netto, aus: null, ausAm: null });
+          return;
+        }
+      }
+      if (k.produkt === 'jahr') {
+        const r = R();
+        let kd = null;
+        if (r < 0.16) kd = pe + ganz(0, 20); else if (r < 0.27) kd = pe + ganz(21, 180); else if (r < 0.35) kd = pe + ganz(181, 340);
+        k.s = kd != null && kd <= H ? 'gekuendigt' : 'aktiv';
+        return;
+      }
+      for (let n = 0; ; n++) {                          // Monat: verlaengert alle 30 Tage, ohne Provision
+        const anfang = pe + 30 * n;
+        if (R() < (n === 0 ? 0.2 : 0.12)) {
+          const kd = anfang + ganz(0, 29);
+          k.s = kd <= H ? (anfang + 30 > H ? 'gekuendigt' : 'beendet') : 'aktiv';
+          return;
+        }
+        if (anfang + 30 > H) { k.s = 'aktiv'; return; }
+        weitere.push({ ci, p: k.p, tag: anfang + 30 });
+      }
+    }
+
+    CR.forEach((c, ci) => {
+      const von = H - c.vor, bis = c.aus ? H - c.aus - 1 : H;
+      for (let d = von; d <= H; d++) {
+        if (d > bis) { abgelehnt[ci] += poisson(c.rate / 7 * 0.5); continue; }
+        const anlauf = 0.65 + 0.35 * Math.min(1, (d - von) / 56);
+        const welle = 1 + 0.9 * Math.max(0, Math.sin((d + ci * 17) / 9));
+        const n = poisson(c.rate / 7 * anlauf * welle);
+        for (let i = 0; i < n; i++) konto(ci, c, d);
+        abgelehnt[ci] += poisson(c.rate / 7 * 0.1);
+      }
+    });
+
+    // Auszahlungen am 15. fuer alles bis zum Vormonat, Minus wird vorgetragen
+    const auszahlungen = [];
+    let ausId = 0;
+    CR.forEach((c, ci) => {
+      const eigene = buch.filter((b) => b.ci === ci);
+      for (let m = mon(H - c.vor); m < mon(H); m = monatPlus(m, 1)) {
+        const am = monatPlus(m, 1) + '-15';
+        if (am > heute) break;
+        const offen = eigene.filter((b) => b.aus == null && mon(b.tag) <= m);
+        const summe = offen.reduce((s, b) => s + b.betrag, 0);
+        if (summe <= 0) continue;
+        ausId++;
+        offen.forEach((b) => { b.aus = ausId; b.ausAm = am; });
+        auszahlungen.push({ id: ausId, a: ids[ci], am, bis_monat: m, betrag_cent: summe, zeilen: offen.length, notiz: null });
+      }
+    });
+    auszahlungen.sort((x, y) => (x.am < y.am ? -1 : x.am > y.am ? 1 : x.id - y.id));
+
+    const monate = new Map(), wochen = new Map(), stand = new Map();
+    const mz = (ci, m, p) => {
+      const k = ci + '|' + m + '|' + p;
+      if (!monate.has(k)) monate.set(k, { a: ids[ci], m, p, geholt: 0, neu: 0, erst_j: 0, erst_m: 0, weitere: 0, netto_erst_cent: 0, umsatz_cent: 0, prov_cent: 0, prov_j_cent: 0, prov_m_cent: 0, abzug_cent: 0, abzug_n: 0, offen_cent: 0, aus_cent: 0, weg_offen_cent: 0, ausgezahlt_am: null });
+      return monate.get(k);
+    };
+    const W0 = montag(H) - 7 * 11;
+    const wz = (ci, n, p) => {
+      if (n < W0) return null;
+      const w = iso(montag(n)), k = ci + '|' + w + '|' + p;
+      if (!wochen.has(k)) wochen.set(k, { a: ids[ci], w, p, geholt: 0, erst: 0, prov_cent: 0 });
+      return wochen.get(k);
+    };
+    const sz = (ci, p) => {
+      const k = ci + '|' + p;
+      if (!stand.has(k)) stand.set(k, { a: ids[ci], p, nie: 0, ohne: 0, probe: 0, probe_gekuendigt: 0, probe_j: 0, probe_m: 0, probe_q: 0, aktiv: 0, gekuendigt: 0, beendet: 0, erstattet: 0, anderes: 0, jahr: 0, monat: 0, reif: 0, reif_bezahlt: 0 });
+      return stand.get(k);
+    };
+    for (const k of konten) {
+      const m = mz(k.ci, mon(k.e), k.p);
+      m.geholt++;
+      if (k.neu) m.neu++;
+      const w = wz(k.ci, k.e, k.p);
+      if (w) w.geholt++;
+      const s = sz(k.ci, k.p);
+      s[k.s]++;
+      if (k.s === 'probe' || k.s === 'probe_gekuendigt') s[k.produkt === 'jahr' ? 'probe_j' : 'probe_m']++;
+      if (['aktiv', 'gekuendigt', 'beendet', 'erstattet'].includes(k.s)) s[k.produkt]++;
+      if (k.e <= H - 37) { s.reif++; if (k.erst != null) s.reif_bezahlt++; }
+    }
+    for (const b of buch) {
+      const m = mz(b.ci, mon(b.tag), b.p);
+      if (b.art === 'provision') {
+        m[b.produkt === 'jahr' ? 'erst_j' : 'erst_m']++; m.netto_erst_cent += b.netto; m.prov_cent += b.betrag;
+        m[b.produkt === 'jahr' ? 'prov_j_cent' : 'prov_m_cent'] += b.betrag;
+      }
+      else { m.abzug_cent += b.betrag; m.abzug_n++; }
+      m.umsatz_cent += b.netto;
+      if (b.aus) { m.aus_cent += b.betrag; if (!m.ausgezahlt_am || b.ausAm > m.ausgezahlt_am) m.ausgezahlt_am = b.ausAm; }
+      else m.offen_cent += b.betrag;
+      const w = wz(b.ci, b.tag, b.p);
+      if (w) { if (b.art === 'provision') w.erst++; w.prov_cent += b.betrag; }
+    }
+    for (const x of weitere) { const m = mz(x.ci, mon(x.tag), x.p); m.weitere++; m.umsatz_cent += P.monat.netto; }
+
+    const creator = CR.map((c, ci) => {
+      const eigene = buch.filter((b) => b.ci === ci);
+      const ausz = auszahlungen.filter((x) => x.a === ids[ci]);
+      const letzte = ausz.length ? ausz[ausz.length - 1] : null;
+      return {
+        id: ids[ci], name: c.name, handle: c.handle, bild: null, code: c.code,
+        aktiv: !c.aus, aktiv_seit: iso(H - (c.aus || c.vor)) + 'T09:00:00+00:00', angelegt: iso(H - c.vor) + 'T08:00:00+00:00',
+        rabatt: 33, prov_jahr: 25, prov_monat: 15, notiz: c.notiz ? t(c.notiz) : null,
+        konto: c.konto, creator_profil: c.profil, zuordnungen: konten.filter((k) => k.ci === ci).length,
+        offen_cent: eigene.filter((b) => !b.aus).reduce((s, b) => s + b.betrag, 0),
+        ausgezahlt_cent: eigene.filter((b) => b.aus).reduce((s, b) => s + b.betrag, 0),
+        letzte_auszahlung: letzte ? { am: letzte.am, bis_monat: letzte.bis_monat, betrag_cent: letzte.betrag_cent } : null,
+        abgelehnt: abgelehnt[ci],
+      };
+    });
+    return {
+      version: 1, teil: 'creator', stand: new Date().toISOString(), zeitzone: 'Europe/Berlin', heute, monat_offen: mon(H), geschaetzt: true,
+      annahmen: { mwst_prozent: 19, store_prozent: 15, liste_jahr_cent: 4999, liste_monat_cent: 799, preis_quelle: 'liste_de' },
+      rabatte: [33], creator, monate: [...monate.values()], wochen: [...wochen.values()], stand_konten: [...stand.values()],
+      reif_bis: iso(H - 37), auszahlungen, abgelehnt_unbekannt: ganz(80, 140),
+    };
+  }
+
+  // ---------------------------------------------------------------- Creator: Laden und Senden
+  function crFehlerLaden(status, rumpf) {
+    const f = rumpf && typeof rumpf === 'object' ? rumpf.fehler : null;
+    if (status === 501 || f === 'funktion_fehlt') return { titel: t('crFehlt148'), text: t('crF_funktion_fehlt') };
+    if (status === 504 || f === 'zeit') return { titel: t('fZeit'), text: t('crLadenZeit', { s: rumpf && Number.isFinite(rumpf.sekunden) ? rumpf.sekunden : 12 }) };
+    if (status === 400 && f === 'teil') return { titel: t('crAltTitel'), text: t('crAltText') };
+    return fehlerAus(status, rumpf);
+  }
+
+  async function crLaden() {
+    if (!zugang) {
+      crLaufNr++;
+      crLaedt = false; crFehler = null; crEcht = false;
+      crSetzen(crBeispiel());
+      crGeladenAm = Date.now();
+      renderCreator();
+      return;
+    }
+    const nr = ++crLaufNr;
+    const fuer = zugang;
+    crLaedt = true;
+    renderCreator();
+    const abbruch = new AbortController();
+    const uhr = setTimeout(() => abbruch.abort(), 20000);
+    try {
+      const adresse = fuer.url + (fuer.url.includes('?') ? '&' : '?') + 'teil=creator';
+      const r = await fetch(adresse, {
+        method: 'GET', cache: 'no-store', signal: abbruch.signal,
+        headers: { 'x-dashboard-schluessel': fuer.schluessel },
+      });
+      let rumpf = null;
+      try { rumpf = await r.json(); } catch (_) { rumpf = null; }
+      if (nr !== crLaufNr) return;
+      if (!r.ok) crFehler = crFehlerLaden(r.status, rumpf);
+      else if (crGueltig(rumpf)) { crSetzen(rumpf); crEcht = true; crFehler = null; }
+      else if (rumpf && rumpf.version === 1 && Array.isArray(rumpf.tage)) crFehler = { titel: t('crAltTitel'), text: t('crAltText') };
+      else crFehler = { titel: t('fFormat'), text: t('fFormatText') };
+    } catch (e) {
+      if (nr !== crLaufNr) return;
+      if (e && e.name === 'AbortError') crFehler = { titel: t('fZeit'), text: t('fZeitText') };
+      else if (navigator.onLine === false) crFehler = { titel: t('fOffline'), text: t('fOfflineText') };
+      else crFehler = { titel: t('fNetz'), text: t('fNetzText'), knopf: 'zugang' };
+    } finally {
+      clearTimeout(uhr);
+      if (nr === crLaufNr) { crLaedt = false; crGeladenAm = Date.now(); renderCreator(); }
+    }
+  }
+
+  // POST an die Function. Schluessel nur im Kopf, nie in der Adresse.
+  async function crSenden(rumpf) {
+    if (!zugang || !crEcht) return { ok: false, status: 0, rumpf: { fehler: 'beispiel' } };
+    const abbruch = new AbortController();
+    const uhr = setTimeout(() => abbruch.abort(), 20000);
+    try {
+      const r = await fetch(zugang.url, {
+        method: 'POST', cache: 'no-store', signal: abbruch.signal,
+        headers: { 'x-dashboard-schluessel': zugang.schluessel, 'content-type': 'application/json' },
+        body: JSON.stringify(rumpf),
+      });
+      let j = null;
+      try { j = await r.json(); } catch (_) { j = null; }
+      if (r.ok && j && j.ok === true) return { ok: true, daten: j };
+      return { ok: false, status: r.status, rumpf: j };
+    } catch (e) {
+      return { ok: false, status: 0, netz: e && e.name === 'AbortError' ? 'zeit' : 'netz' };
+    } finally {
+      clearTimeout(uhr);
+    }
+  }
+
+  // Fehlerwort der Function -> Text (148, 3.5). Nur feste Woerter, nie eine Meldung der Datenbank.
+  const CR_WOERTER = new Set(['name_form', 'code_form', 'code_vergeben', 'code_fest', 'handle_form', 'handle_unbekannt', 'handle_vergeben',
+    'handle_mehrdeutig', 'handle_eingeloest', 'handle_fest', 'handle_fehlt', 'rabatt_ohne_angebot', 'prov_form', 'notiz_form', 'entziehen_nur_sql', 'monat_form', 'monat_offen',
+    'nichts_faellig', 'betrag_form', 'unbekannt', 'nichts', 'eingabe']);
+  const CR_NEU_LADEN = new Set(['unbekannt', 'nichts_faellig', 'betrag_passt_nicht', 'code_fest', 'handle_fest', 'zeit']);
+  function crFehlerText(r) {
+    if (r.netz === 'zeit') return { wort: 'zeit', text: t('crF_zeit'), neuLaden: true };
+    if (r.netz) return { wort: 'netz', text: navigator.onLine === false ? t('fOfflineText') : t('fNetzText') };
+    const b = r.rumpf && typeof r.rumpf === 'object' ? r.rumpf : {};
+    const f = typeof b.fehler === 'string' ? b.fehler : null;
+    const feld = typeof b.feld === 'string' ? b.feld : null;
+    const mit = (wort, text) => ({ wort, text, feld, neuLaden: CR_NEU_LADEN.has(wort) });
+    if (f === 'beispiel') return mit(f, t('crBeispielAus'));
+    if (f === 'betrag_passt_nicht') {
+      return mit(f, Number.isFinite(b.faellig_cent) ? t('crF_betrag_passt_nicht', { betrag: eur(b.faellig_cent) }) : t('crF_betrag_neu'));
+    }
+    if (f === 'zeit' || r.status === 504) return mit('zeit', t('crF_zeit'));
+    if (f && CR_WOERTER.has(f)) return mit(f, t('crF_' + f));
+    if (f === 'funktion_fehlt' || r.status === 501) return mit('funktion_fehlt', t('crF_funktion_fehlt'));
+    if (f === 'methode' || r.status === 405) return mit('methode', t('crF_deploy'));
+    if (f === 'schluessel' || f === 'herkunft' || f === 'nicht_eingerichtet' || [401, 403, 503].includes(r.status) || (r.status === 404 && !f)) {
+      const x = fehlerAus(r.status, b);
+      return mit(f || 'http', x.titel + '. ' + x.text);
+    }
+    if (r.status === 200) return mit('format', t('fFormatText'));
+    const code = typeof b.code === 'string' && b.code ? b.code : (f || 'HTTP ' + r.status);
+    return mit(f || 'http', t('crF_sonst', { code: String(code).slice(0, 40) }));
+  }
+
+  // ---------------------------------------------------------------- Creator: Dialoge
+  const CR_DIALOGE = ['cr-blatt', 'cr-anlegen', 'cr-auszahlen', 'cr-frage'];
+  const crZurueck = new Map(); // Dialog-id -> {f, el}: Fokus nach dem Schliessen
+  const crDialogOffen = () => CR_DIALOGE.some((id) => $(id).hasAttribute('open'));
+  function dlgAuf(d, ausloeser) {
+    const a = ausloeser && ausloeser.nodeType === 1 ? ausloeser : null;
+    crZurueck.set(d.id, { f: a && a.dataset ? a.dataset.f || null : null, el: a });
+    if (d.hasAttribute('open')) return;
+    if (typeof d.showModal === 'function') d.showModal(); else d.setAttribute('open', '');
+  }
+  function dlgZu(d) {
+    if (!d.hasAttribute('open')) return;
+    if (typeof d.close === 'function') d.close();
+    else { d.removeAttribute('open'); d.dispatchEvent(new Event('close')); }
+  }
+  function crFokusAuf(f, el0) {
+    let ziel = el0 && el0.isConnected ? el0 : null;
+    if (!ziel && f) ziel = Array.from(document.querySelectorAll('[data-f]')).find((x) => x.dataset.f === f) || null;
+    if (ziel && ziel.disabled && ziel.parentElement) ziel = ziel.parentElement.querySelector('button:not([disabled])');
+    if (ziel && typeof ziel.focus === 'function') ziel.focus();
+  }
+  function crMeldung(box, text) { box.textContent = text || ''; box.hidden = !text; }
+  function crErfolg(text) {
+    crErfolgText = text || '';
+    crMeldung($('cr-erfolg'), crErfolgText);
+    const b = $('cr-blatt-erfolg');
+    if (b) crMeldung(b, crErfolgText);
+  }
+  // Waehrend des Sendens sind alle Knoepfe des Dialogs aus und Esc schliesst nicht
+  function crSendet(d, an) {
+    d.dataset.sendet = an ? '1' : '0';
+    d.setAttribute('aria-busy', an ? 'true' : 'false');
+    for (const b of d.querySelectorAll('button')) {
+      if (an) { b.dataset.warAus = b.disabled ? '1' : '0'; b.disabled = true; }
+      else if (b.dataset.warAus != null) { b.disabled = b.dataset.warAus === '1'; delete b.dataset.warAus; }
+    }
+  }
+  for (const id of CR_DIALOGE) {
+    const d = $(id);
+    d.addEventListener('close', () => {
+      if (id === 'cr-frage') crFrageEnde(false);
+      if (id === 'cr-blatt') { crBlattId = null; crBlattForm = null; crBlattNeu = null; }
+      if (crAusstehend && !crDialogOffen()) renderCreator();
+      const z0 = crZurueck.get(id);
+      crZurueck.delete(id);
+      if (z0) crFokusAuf(z0.f, z0.el);
+    });
+    d.addEventListener('cancel', (ev) => { if (d.dataset.sendet === '1') ev.preventDefault(); });
+  }
+  $('cr-blatt').addEventListener('click', (ev) => { if (ev.target === $('cr-blatt') && $('cr-blatt').dataset.sendet !== '1') dlgZu($('cr-blatt')); });
+  // Esc fuer Browser ohne showModal (dort schliesst der Browser selbst)
+  document.addEventListener('keydown', (ev) => {
+    if (ev.key !== 'Escape' || (window.HTMLDialogElement && typeof HTMLDialogElement.prototype.showModal === 'function')) return;
+    const offen = CR_DIALOGE.map((id) => $(id)).filter((d) => d.hasAttribute('open') && d.dataset.sendet !== '1');
+    if (offen.length) dlgZu(offen[offen.length - 1]);
+  });
+
+  // Rueckfrage vor jedem Schreiben. beiJa: async () => null (geklappt) oder Fehlertext (Dialog bleibt offen).
+  let crFrageLoesen = null, crFrageBeiJa = null;
+  function crFrageEnde(wert) { const l = crFrageLoesen; crFrageLoesen = null; crFrageBeiJa = null; if (l) l(wert); }
+  function frage(o, ausloeser) {
+    return new Promise((loesen) => {
+      crFrageEnde(false);
+      crFrageLoesen = loesen;
+      crFrageBeiJa = o.beiJa || null;
+      $('cr-f-text').textContent = o.text;
+      crMeldung($('cr-f-neben'), o.neben || '');
+      $('cr-f-ja').textContent = o.ja;
+      crMeldung($('cr-f-fehler'), '');
+      $('cr-f-ja').disabled = !crEcht;
+      crMeldung($('cr-f-beispiel'), crEcht ? '' : t('crBeispielAus'));
+      dlgAuf($('cr-frage'), ausloeser || document.activeElement);
+      (crEcht ? $('cr-f-ja') : $('cr-f-nein')).focus();
+    });
+  }
+  $('cr-f-form').addEventListener('submit', async (ev) => {
+    ev.preventDefault();
+    const d = $('cr-frage');
+    if (!crEcht || !crFrageLoesen || d.dataset.sendet === '1') return;
+    const beiJa = crFrageBeiJa;
+    if (beiJa) {
+      crMeldung($('cr-f-fehler'), '');
+      crSendet(d, true);
+      let f = null;
+      try { f = await beiJa(); } catch (_) { f = t('crF_sonst', { code: 'js' }); }
+      crSendet(d, false);
+      if (f) { crMeldung($('cr-f-fehler'), f); $('cr-f-nein').focus(); return; }
+    }
+    const l = crFrageLoesen;
+    crFrageLoesen = null; crFrageBeiJa = null;
+    dlgZu(d);
+    if (l) l(true);
+  });
+  $('cr-f-nein').addEventListener('click', () => { if ($('cr-frage').dataset.sendet !== '1') dlgZu($('cr-frage')); });
+
+  // ---------------------------------------------------------------- Creator: Bausteine
+  const crKuerzel = (name) => String(name || '').trim().split(/\s+/).filter(Boolean).slice(0, 2)
+    .map((w) => Array.from(w)[0] || '').join('').toUpperCase() || '?';
+  // Bild nur von fins Speicher (kein fremder Host, kein data:, kein Zaehlpixel), sonst Kuerzel
+  function crBild(c, i, gross) {
+    const b = el('span', { class: 'bild' + (gross ? ' gross' : ''), 'aria-hidden': 'true' });
+    b.style.setProperty('--kf', i >= 0 && i < 5 ? 'var(--k' + (i + 1) + ')' : 'var(--k0)');
+    if (typeof c.bild === 'string' && c.bild.startsWith(CR_BILD) && c.bild.length <= 1000) {
+      b.append(el('img', { alt: '', referrerpolicy: 'no-referrer', loading: 'lazy', decoding: 'async', src: c.bild }));
+    } else b.textContent = crKuerzel(c.name);
+    return b;
+  }
+  function crZelle(c, i, opt = {}) {
+    const neben = [];
+    if (typeof c.handle === 'string' && c.handle) neben.push(el('span', { text: c.handle }));
+    else if (!c.konto) neben.push(el('span', { text: t('crOhneKonto') }));
+    if (c.creator_profil === true && !opt.kurz) neben.push(el('span', { class: 'tag', text: t('crProfilTag') }));
+    return el('div', { class: 'cr' }, [
+      crBild(c, i, opt.gross),
+      el('div', { class: 'cr-text' }, [
+        el('div', { class: 'cr-name' }, [
+          el('span', { id: opt.nameId || null, text: c.name }),
+          el('span', { class: 'code', text: c.code }),
+          opt.mitAus && c.aktiv !== true ? el('span', { class: 'aus', text: t('crCodeAus') }) : null,
+        ]),
+        neben.length ? el('div', { class: 'cr-neben' }, neben) : null,
+      ]),
+    ]);
+  }
+  function crKachel(name, wert, teil, reihe) {
+    const k = el('article', { class: 'kachel' });
+    k.append(el('div', { class: 'name', text: name }), el('div', { class: 'wert zahl', text: wert }), el('div', { class: 'teil zahl', text: teil || '' }));
+    if (reihe) k.append(el('div', { class: 'fuss' }, funke(reihe)));
+    return k;
+  }
+  function crFarbe(f, muster) {
+    const i = el('i', { class: 'farbe', 'aria-hidden': 'true' });
+    i.style.background = muster ? 'repeating-linear-gradient(135deg, ' + f + ' 0 2px, transparent 2px 4px)' : f;
+    if (muster) i.style.boxShadow = 'inset 0 0 0 1px ' + f;
+    return i;
+  }
+  // Gestapelter Balken; teile: [name, wert, farbe, muster]
+  function crStapel(teile, name) {
+    const ges = teile.reduce((a, x) => a + x[1], 0);
+    const b = el('div', { class: 'stapel' + (ges ? '' : ' leer'), role: 'img', 'aria-label': name + ': ' + teile.map((x) => x[0] + ' ' + z(x[1])).join(', ') });
+    for (const [n, w, f, muster] of teile) {
+      if (!w) continue;
+      const i = el('i', { title: n + ': ' + z(w) });
+      i.style.flexGrow = String(w);
+      i.style.background = muster ? 'repeating-linear-gradient(135deg, ' + f + ' 0 3px, transparent 3px 6px)' : f;
+      if (muster) i.style.boxShadow = 'inset 0 0 0 1.5px ' + f;
+      b.append(i);
+    }
+    return b;
+  }
+  const crLegende = (teile) => el('div', { class: 'cr-legende' }, teile.map(([n, w, f, muster]) => el('span', null, [crFarbe(f, muster), n, el('b', { text: z(w) })])));
+  function crSegment(name, optionen, wert, schluessel, beiWahl) {
+    const box = el('div', { class: 'segment', role: 'group', 'aria-label': name });
+    for (const [w, text] of optionen) {
+      const b = el('button', { type: 'button', 'aria-pressed': String(w === wert), text, 'data-f': schluessel + ':' + w });
+      b.addEventListener('click', () => { crFokus = b.dataset.f; beiWahl(w); });
+      box.append(b);
+    }
+    return box;
+  }
+  function crMonatWahl(wert, liste, beiWahl, name, schluessel) {
+    const i = liste.indexOf(wert);
+    const zurueck = el('button', { type: 'button', class: 'pfeil', 'aria-label': t('crMonatDavor'), text: '‹', disabled: i <= 0 ? '' : null, 'data-f': schluessel + ':zurueck' });
+    const vor = el('button', { type: 'button', class: 'pfeil', 'aria-label': t('crMonatDanach'), text: '›', disabled: i < 0 || i >= liste.length - 1 ? '' : null, 'data-f': schluessel + ':vor' });
+    zurueck.addEventListener('click', () => { crFokus = zurueck.dataset.f; if (i > 0) beiWahl(liste[i - 1]); });
+    vor.addEventListener('click', () => { crFokus = vor.dataset.f; if (i >= 0 && i < liste.length - 1) beiWahl(liste[i + 1]); });
+    return el('div', { class: 'cr-monat', role: 'group', 'aria-label': name }, [zurueck, el('span', { class: 'zahl', text: monatLang(wert) }), vor]);
+  }
+  function crSchalter(c, wo) {
+    const an = c.aktiv === true;
+    const b = el('button', {
+      type: 'button', class: 'schalter', 'aria-pressed': String(an), 'aria-haspopup': 'dialog',
+      title: t(an ? 'crSchalterAus' : 'crSchalterAn', { code: c.code }), 'data-f': 'cr-schalter-' + wo + ':' + c.id,
+    }, [el('i', { 'aria-hidden': 'true' }), el('span', { text: t('crCode') }), el('span', { 'aria-hidden': 'true', text: an ? t('crCodeAn') : t('crCodeAus') })]);
+    b.addEventListener('click', () => crSchalten(c.id, b));
+    return b;
+  }
+  const crZeitText = () => (crAnsicht.zeit === 'gesamt' ? t('gesamt') : monatLang(crAnsicht.monat));
+  const crPlattformText = () => (crAnsicht.plattform === 'alle' ? t('crAllePlattformen') : t(crAnsicht.plattform));
+  const crModell = (c) => t('crModell', { j: z(zn(c.prov_jahr)), m: z(zn(c.prov_monat)) });
+  // Betrag je erster Zahlung: Durchschnitt der gebuchten Provisionen (Sätze aus dem Schnappschuss der Zuordnung).
+  // Ohne erste Zahlung im Zeitraum der aktuelle Satz des ersten Creators.
+  function crMittel(s, art, creator) {
+    const n = art === 'jahr' ? s.erst_j : s.erst_m;
+    const summe = art === 'jahr' ? s.prov_j_cent : s.prov_m_cent;
+    if (n) return Math.round(summe / n);
+    return creator.length ? crBetraege(creator[0])[art] : 0;
+  }
+
+  // ---------------------------------------------------------------- Creator: Zeichnen
+  function renderCrKopf() {
+    const chip = $('cr-chip');
+    let art = 'beispiel';
+    if (zugang) art = crLaedt ? 'laedt' : crFehler ? (crEcht ? 'alt' : 'fehler') : (crEcht ? 'live' : 'laedt');
+    chip.dataset.art = art;
+    chip.textContent = t({ laedt: 'chipLaedt', alt: 'chipAlt', fehler: 'chipFehler', live: 'chipLive', beispiel: 'chipBeispiel' }[art]);
+    $('cr-stand').textContent = crEcht && crDaten && crDaten.stand ? t('crStand', { zeit: zeit(crDaten.stand) }) : '';
+    $('cr-neu-knopf').disabled = !crDaten || (!!zugang && !crEcht);
+    const m = $('cr-meldung');
+    m.replaceChildren();
+    if (crFehler) {
+      m.append(el('strong', { text: crFehler.titel }), el('p', { text: crFehler.text }));
+      if (crEcht) m.append(el('p', { text: t('fAlt') }));
+      if (crFehler.knopf === 'zugang') {
+        const b = el('button', { class: 'knopf', type: 'button', text: t('zugang') });
+        b.addEventListener('click', () => zugangOeffnen());
+        m.append(el('div', { class: 'knopfreihe' }, b));
+      }
+      m.hidden = false;
+    } else m.hidden = true;
+    crMeldung($('cr-erfolg'), crErfolgText);
+  }
+
+  function renderCreator() {
+    renderCrKopf();
+    if (crDialogOffen()) { crAusstehend = true; crOffeneAuffrischen(); return; }
+    crAusstehend = false;
+    const zeigen = !!crDaten && (crEcht || !zugang);
+    $('cr-koerper').hidden = !zeigen;
+    if (!zeigen) return;
+    const akt = document.activeElement;
+    const fokus = crFokus || (akt && akt.dataset && $('cr-koerper').contains(akt) ? akt.dataset.f || null : null);
+    crFokus = null;
+    const monate = crAnsichtPruefen();
+    renderCrSteuer(monate);
+    crMeldung($('cr-summen'), crSummenFehler.length ? t('crSummenFalsch', { liste: crSummenFehler.join(', ') }) : '');
+    renderCrUeberblick();
+    renderCrKarten();
+    renderCrAusz(monate);
+    renderCrWie();
+    if (fokus) crFokusAuf(fokus, null);
+  }
+  // Offene Dialoge: nur Rechenwerte auffrischen, nie Eingaben
+  function crOffeneAuffrischen() {
+    if (!crDaten || crLaedt) return;
+    if ($('cr-auszahlen').hasAttribute('open')) crAuszAuffrischen();
+    if ($('cr-blatt').hasAttribute('open') && crBlattNeu) {
+      if (crBlattNeu === 'form') crBlattForm = null;
+      crBlattNeu = null;
+      renderBlatt();
+    }
+  }
+
+  function renderCrSteuer(monate) {
+    const g1 = el('div', { class: 'gruppe' }, [el('span', { class: 'lbl', text: t('crZeitraum') }),
+      crSegment(t('crZeitraum'), [['monat', t('monat')], ['gesamt', t('gesamt')]], crAnsicht.zeit, 'cr-zeit',
+        (w) => { crAnsicht.zeit = w; crAnsichtMerken(); renderCreator(); })]);
+    if (crAnsicht.zeit === 'monat') g1.append(crMonatWahl(crAnsicht.monat, monate, (m) => { crAnsicht.monat = m; renderCreator(); }, t('crMonat'), 'cr-m'));
+    const g2 = el('div', { class: 'gruppe' }, [el('span', { class: 'lbl', text: t('crPlattform') }),
+      crSegment(t('crPlattform'), [['alle', t('crAlle')], ['ios', t('ios')], ['android', t('android')]], crAnsicht.plattform, 'cr-pl',
+        (w) => { crAnsicht.plattform = w; crAnsichtMerken(); renderCreator(); })]);
+    $('cr-steuer').replaceChildren(g1, g2);
+  }
+
+  function renderCrUeberblick() {
+    const d = crDaten;
+    const imZeitraum = (r) => crPasstP(r) && crPasstZ(r);
+    const s = crSumme(d.monate.filter(imZeitraum));
+    const wochen = crWochen12();
+    const bj = crMittel(s, 'jahr', d.creator), bm = crMittel(s, 'monat', d.creator);
+    const offen = d.creator.reduce((x, c) => x + zn(c.offen_cent), 0);
+    const aus = d.creator.reduce((x, c) => x + zn(c.ausgezahlt_cent), 0);
+    const an = d.creator.filter((c) => c.aktiv === true).length;
+    const unbekannt = zn(d.abgelehnt_unbekannt);
+    $('cr-kacheln').replaceChildren(
+      crKachel(t('crProvision'), eurK(s.provNach),
+        [t('crProvTeil', { j: z(s.erst_j), bj: eur(bj), m: z(s.erst_m), bm: eur(bm) }), s.abzug_cent ? t('crAbzug', { x: eur(s.abzug_cent) }) : ''].filter(Boolean).join(' · '),
+        crWochenReihe(d.wochen, 'prov_cent', wochen)),
+      crKachel(t('crErste'), z(s.erst), t('crErsteTeil', { j: z(s.erst_j), m: z(s.erst_m), w: z(s.weitere) }), crWochenReihe(d.wochen, 'erst', wochen)),
+      crKachel(t('crGeholt'), z(s.geholt), t('crGeholtTeil', { n: z(s.neu), i: z(s.ios), a: z(s.android) }), crWochenReihe(d.wochen, 'geholt', wochen)),
+      crKachel(t('crOffen'), eurK(offen), t('crOffenTeil', { x: eurG(aus) })),
+      crKachel(t('crAn'), z(an), [t('crAnTeil', { n: z(d.creator.length), m: z(d.creator.length - an) }), unbekannt ? t('crUnbekannt', { n: z(unbekannt) }) : ''].filter(Boolean).join(' · ')),
+    );
+    $('cr-ueberblick-neben').textContent = t('crUeberblickNeben', { zeit: crZeitText(), plattform: crPlattformText() });
+  }
+
+  function renderCrKarten() {
+    const d = crDaten, wochen = crWochen12(), letzter = monatPlus(d.monat_offen, -1);
+    $('cr-karten-neben').textContent = t('crKartenNeben');
+    if (!d.creator.length) { $('cr-karten').replaceChildren(el('p', { class: 'klein', text: t('crLeer') })); return; }
+    const reihen = d.creator.map((c, i) => ({ c, i, s: crSumme((crIx.monate.get(c.id) || []).filter((r) => crPasstP(r) && crPasstZ(r))) }))
+      .sort((x, y) => y.s.provNach - x.s.provNach || y.s.geholt - x.s.geholt || x.i - y.i);
+    $('cr-karten').replaceChildren(...reihen.map(({ c, i, s }) => {
+      const nameId = 'cr-k-' + i;
+      const k = el('article', { class: 'ckarte' + (c.aktiv === true ? '' : ' ist-aus'), 'aria-labelledby': nameId });
+      const details = el('button', { type: 'button', class: 'knopf klein', 'aria-haspopup': 'dialog', 'aria-describedby': nameId, text: t('crDetails'), 'data-f': 'cr-details:' + c.id });
+      details.addEventListener('click', () => crBlattOeffnen(c.id, details));
+      const f = crFaellig(c.id, letzter);
+      const buchen = el('button', { type: 'button', class: 'knopf klein', 'aria-haspopup': 'dialog', 'aria-describedby': nameId, text: t('crBuchenKnopf'), 'data-f': 'cr-buchen:' + c.id });
+      if (f <= 0) { buchen.disabled = true; buchen.title = f === 0 ? t('crNichtsFaellig') : t('crMinusVortrag', { betrag: eur(-f) }); }
+      buchen.addEventListener('click', () => crAuszahlenOeffnen(c.id, null, buchen));
+      k.append(
+        el('div', { class: 'ck-kopf' }, [crZelle(c, i, { gross: true, nameId }), details]),
+        el('div', { class: 'ck-zeile' }, [el('span', { class: 'modell', text: crModell(c) }), crSchalter(c, 'karte')]),
+        el('div', { class: 'ck-zahlen' }, [
+          el('div', null, [el('span', { text: t('crGeholt') }), el('b', { text: z(s.geholt) }), el('small', { text: t('crNeu', { n: z(s.neu) }) })]),
+          el('div', null, [el('span', { text: t('crErste') }), el('b', { text: z(s.erst) }), el('small', { text: t('crJMKurz', { j: z(s.erst_j), m: z(s.erst_m) }) })]),
+          el('div', null, [el('span', { text: t('crProvision') }), el('b', { text: eur(s.provNach) }), el('small', { text: s.abzug_cent ? t('crAbzug', { x: eur(s.abzug_cent) }) : t('crOhneAbzug') })]),
+        ]),
+        el('div', { class: 'ck-funke' }, [funke(crWochenReihe(crIx.wochen.get(c.id) || [], 'geholt', wochen)), el('span', { text: t('crFunke') })]),
+        el('div', { class: 'ck-fuss' }, [el('span', { class: 'zahl', text: t('crStandFuss', { o: eur(c.offen_cent), a: eur(c.ausgezahlt_cent) }) }), buchen]),
+      );
+      return k;
+    }));
+  }
+
+  function crAuszZeilen(m) {
+    return crDaten.creator.map((c, i) => ({ c, i, s: crSumme((crIx.monate.get(c.id) || []).filter((r) => r.m === m)) }))
+      .filter(({ s }) => s.erst || s.abzug_n || s.prov_cent || s.abzug_cent)
+      .sort((a, b) => b.s.provNach - a.s.provNach || a.i - b.i);
+  }
+  function renderCrAusz(monate) {
+    const m = crAnsicht.auszMonat, offen = crDaten.monat_offen;
+    $('cr-ausz-neben').textContent = t('crAuszNeben');
+    $('cr-ausz-monat').replaceChildren(crMonatWahl(m, monate, (n) => { crAnsicht.auszMonat = n; renderCreator(); }, t('crAuszMonat'), 'cr-am'));
+    const zeilen = crAuszZeilen(m);
+    const ges = zeilen.reduce((x, { s }) => ({ p: x.p + s.prov_cent, a: x.a + s.abzug_cent, n: x.n + s.provNach }), { p: 0, a: 0, n: 0 });
+    const kopf = el('tr', null, [t('crSpCreator'), t('crSpErste'), t('crSpProv'), t('crSpAbzug'), t('crSpAusz'), t('crSpStand'), ''].map((x) => el('th', { scope: 'col', text: x })));
+    const koerper = zeilen.length ? zeilen.map(({ c, i, s }) => {
+      const st = crMonatStand(s);
+      let knopf = null;
+      if (m < offen && s.offen_cent !== 0 && crFaellig(c.id, m) > 0) {
+        knopf = el('button', { type: 'button', class: 'knopf klein', 'aria-haspopup': 'dialog', 'aria-label': t('crBuchen') + ' ' + c.name, text: t('crBuchen'), 'data-f': 'cr-buchen-' + m + ':' + c.id });
+        knopf.addEventListener('click', () => crAuszahlenOeffnen(c.id, m, knopf));
+      }
+      return el('tr', null, [
+        el('td', null, crZelle(c, i, { mitAus: true, kurz: true })),
+        el('td', { text: t('crJM', { j: z(s.erst_j), m: z(s.erst_m) }) }),
+        el('td', { text: eur(s.prov_cent) }),
+        el('td', { text: eur(s.abzug_cent), class: s.abzug_cent ? 'minus' : 'null' }),
+        el('td', { text: eur(s.provNach), class: 'fett' }),
+        el('td', null, el('span', { class: 'status', 'data-art': st.art, text: st.text })),
+        el('td', null, knopf),
+      ]);
+    }) : [el('tr', null, el('td', { colspan: '7', class: 'null', text: t('crAuszLeer') }))];
+    $('cr-ausz').replaceChildren(el('table', { class: 'cr-tabelle' }, [
+      el('thead', null, kopf), el('tbody', null, koerper),
+      el('tfoot', null, el('tr', null, [el('th', { scope: 'row', text: t('crSumme') }), el('td', { text: t('crAuszCreator', { n: z(zeilen.length) }) }),
+        el('td', { text: eur(ges.p) }), el('td', { text: eur(ges.a), class: ges.a ? 'minus' : null }), el('td', { text: eur(ges.n), class: 'fett' }), el('td'), el('td')])),
+    ]));
+    $('cr-csv').disabled = !zeilen.length;
+  }
+
+  // CSV fuer Ueberweisung und Gutschrift, ohne Bankdaten. Textfelder mit
+  // = + - @ Tab CR am Anfang bekommen ein ' (keine Formeln), Zahlen nicht.
+  function crCsv(m) {
+    const zahl = (c) => (zn(c) / 100).toFixed(2).replace('.', ',');
+    const feld = (v, istZahl) => {
+      let s = v == null ? '' : String(v);
+      if (!istZahl && /^[=+\-@\t\r]/.test(s)) s = "'" + s;
+      return /[;"\n\r]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
+    };
+    const zeilen = [[t('crSpMonat'), t('crCsvName'), t('crCsvHandle'), t('crCode'), t('crCsvEJ'), t('crCsvEM'), t('crSpProv'), t('crSpAbzug'),
+      t('crSpAusz'), t('crSpStand'), t('crCsvGutschrift'), t('crCsvZweck')].map((x) => feld(x))];
+    for (const { c, s } of crAuszZeilen(m)) {
+      zeilen.push([
+        feld(m), feld(c.name), feld(c.handle || ''), feld(c.code),
+        feld(s.erst_j, true), feld(s.erst_m, true), feld(zahl(s.prov_cent), true), feld(zahl(s.abzug_cent), true), feld(zahl(s.provNach), true),
+        feld(crMonatStand(s).text), feld('G-' + m + '-' + c.code), feld(t('crCsvZweckText', { monat: monatLang(m), code: c.code })),
+      ]);
+    }
+    return '﻿' + zeilen.map((r) => r.join(';')).join('\r\n') + '\r\n';
+  }
+  $('cr-csv').addEventListener('click', () => {
+    if (!crDaten || typeof URL.createObjectURL !== 'function') return;
+    const m = crAnsicht.auszMonat;
+    const url = URL.createObjectURL(new Blob([crCsv(m)], { type: 'text/csv;charset=utf-8' }));
+    const a = el('a', { href: url, download: 'fin-provision-' + m + '.csv' });
+    document.body.append(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  });
+
+  function renderCrWie() {
+    const a = crAnnahmen();
+    const jb = Math.round(a.jahr * (100 - (crDaten.rabatte[0] || 33)) / 100);
+    const w = { mwst: z(a.mwst), store: z(a.store), jb: eur(jb), jn: eur(crNetto(jb, a)), mb: eur(a.monat), mn: eur(crNetto(a.monat, a)) };
+    $('cr-wie-liste').replaceChildren(...['crWie1', 'crWie2', 'crWie3', 'crWie4', 'crWie5', 'crWie6', 'crWie7', 'crWie8', 'crWie9', 'crWie10', 'crWie11'].map((k) => el('li', { text: t(k, w) })));
+  }
+
+  // ---------------------------------------------------------------- Creator: Detail (Blatt)
+  function crBlattOeffnen(id, knopf) {
+    crBlattId = id;
+    crBlattForm = null;
+    crBlattNeu = null;
+    crErfolg('');
+    renderBlatt();
+    const b = $('cr-blatt');
+    dlgAuf(b, knopf);
+    b.scrollTop = 0;
+    const zu = b.querySelector('.zu');
+    if (zu) zu.focus();
+  }
+  function renderBlatt() {
+    const b = $('cr-blatt');
+    const c = crCreator(crBlattId);
+    if (!c) { dlgZu(b); return; }
+    const akt = document.activeElement;
+    const fokus = akt && akt.dataset && b.contains(akt) ? akt.dataset.f || null : null;
+    const oben = b.scrollTop;
+    const i = crDaten.creator.indexOf(c);
+    const zu = el('button', { type: 'button', class: 'zu', 'aria-label': t('crSchliessen'), text: '×', 'data-f': 'cr-blatt-zu' });
+    zu.addEventListener('click', () => { if (b.dataset.sendet !== '1') dlgZu(b); });
+    const kopf = el('div', { class: 'blatt-kopf' }, [crZelle(c, i, { gross: true, nameId: 'cr-blatt-name' }), el('div', { class: 'steuer' }, [crSchalter(c, 'blatt'), zu])]);
+    const abschnitt = (titel, neben, inhalt) => el('section', null, [
+      el('div', { class: 'abschnitt-kopf' }, [el('h3', { class: 'titel', text: titel }), neben ? el('span', { class: 'nebenbei', text: neben }) : null]), inhalt]);
+
+    const alle = crIx.monate.get(c.id) || [];
+    const s = crSumme(alle.filter(crPasstP));
+    const st = crStandSumme((crIx.stand.get(c.id) || []).filter(crPasstP));
+    const seit = tagVonZeit(c.aktiv_seit);
+    const seitText = seit ? t(c.aktiv === true ? 'crAnSeit' : 'crAusSeit', { tag: datumKurz(seit) }) : '';
+    const zeile = el('div', { class: 'blatt-zeile' }, [
+      el('span', { class: 'modell', text: crModell(c) }),
+      seitText ? el('span', { text: seitText }) : null,
+      el('span', { text: '· ' + crPlattformText() }),
+      el('span', { text: '· ' + (c.creator_profil === true ? t('crProfilFrei') : c.konto ? t('crProfilNicht') : t('crOhneKonto')) }),
+    ]);
+    const kacheln = el('div', { class: 'kacheln' }, [
+      crKachel(t('crGeholt'), z(s.geholt), t('crGeholtTeil', { n: z(s.neu), i: z(s.ios), a: z(s.android) })),
+      crKachel(t('crProbe'), z(st.probeAlle), st.probe_gekuendigt ? t('crDavonGek', { n: z(st.probe_gekuendigt) }) : t('crKeineGek')),
+      crKachel(t('crBezahlt'), z(st.bezahlt), t('crJM', { j: z(st.jahr), m: z(st.monat) })),
+      crKachel(t('crKostenlos'), z(st.kostenlos), t('crKostenlosTeil', { n: z(st.nie), o: z(st.ohne) })),
+      crKachel(t('crUmwandlung'), st.reif ? prozent(st.reif_bezahlt, st.reif) : '-',
+        st.reif ? t('crUmwTeil', { a: z(st.reif_bezahlt), b: z(st.reif), tag: crDaten.reif_bis ? datumKurz(crDaten.reif_bis) : '' }) : t('crZuFrueh')),
+      crKachel(t('crUmsatz'), t('crCa', { x: eurG(s.umsatz_cent) }), t('crUmsatzTeil', { e: eurG(s.netto_erst_cent), w: z(s.weitere) })),
+      crKachel(t('crProvision'), eurK(s.provNach), t('crStandFuss', { o: eur(s.offen_cent), a: eur(s.aus_cent) })),
+    ]);
+    const teile = [[t('crTeilJahr'), st.jahr, 'var(--jahr)'], [t('crTeilMonat'), st.monat, 'var(--monat)'], [t('crTeilProbe'), st.probeAlle, 'var(--probe)', true],
+      [t('crTeilOhne'), st.ohne, 'var(--ohne)'], [t('crTeilNie'), st.nie, 'var(--frei)'], [t('crTeilAnderes'), st.anderes, 'var(--balken)']];
+    const stand = [[t('crAktiv'), st.aktiv, 'var(--gut)'], [t('crGekuendigt'), st.gekuendigt, 'var(--warn)'], [t('crBeendet'), st.beendet, 'var(--ohne)'], [t('crErstattet'), st.erstattet, 'var(--schlecht)']];
+    const zweier = el('div', { class: 'zweier' }, [
+      el('div', { class: 'karte' }, [el('h3', { text: t('crWasWurde') }), crStapel(teile, t('crWasWurde')), crLegende(teile),
+        el('p', { class: 'klein zahl' + (st.summe === s.geholt ? '' : ' hinweis'), text: t('crSummeZeile', { n: z(s.geholt), a: z(st.kostenlos), b: z(st.probeAlle), c: z(st.bezahlt), d: z(st.anderes) }) })]),
+      el('div', { class: 'karte' }, [el('h3', { text: t('crStandBezahlt') }), crStapel(stand, t('crStandBezahlt')),
+        el('ul', { class: 'liste' }, stand.map(([n, v, f]) => el('li', null, [el('span', null, [crFarbe(f), n]), el('span', { text: z(v) + ' · ' + prozent(v, st.bezahlt) })])))]),
+    ]);
+
+    // Monatsliste: alle Plattformen, neueste oben (so wird ausgezahlt)
+    const td = (v, f, cls) => el('td', { text: (f || z)(v), class: cls !== undefined ? cls : (v ? null : 'null') });
+    const proM = crCreatorMonate(c).reverse().map((m) => ({ m, x: crSumme(alle.filter((r) => r.m === m)) }));
+    const sum = crSumme(alle);
+    const tab = el('table', { class: 'cr-tabelle' }, [
+      el('thead', null, el('tr', null, ['crSpMonat', 'crSpGeholt', 'crSpEJ', 'crSpEM', 'crSpVerl', 'crSpUmsatz', 'crSpProv', 'crSpAbzug', 'crSpAusz', 'crSpStand']
+        .map((k) => el('th', { scope: 'col', text: t(k) })))),
+      el('tbody', null, proM.map(({ m, x }) => {
+        const sx = crMonatStand(x);
+        return el('tr', { class: sx.art === 'leer' ? 'leer' : null }, [
+          el('th', { scope: 'row', text: monatKurz(m) }), td(x.geholt), td(x.erst_j), td(x.erst_m), td(x.weitere, z, 'leise'),
+          td(x.umsatz_cent, eur), td(x.prov_cent, eur), td(x.abzug_cent, eur, x.abzug_cent ? 'minus' : 'null'), td(x.provNach, eur, 'fett'),
+          el('td', null, el('span', { class: 'status', 'data-art': sx.art, text: sx.text })),
+        ]);
+      })),
+      el('tfoot', null, el('tr', null, [el('th', { scope: 'row', text: t('crSumme') }), td(sum.geholt), td(sum.erst_j), td(sum.erst_m), td(sum.weitere, z, 'leise'),
+        td(sum.umsatz_cent, eur), td(sum.prov_cent, eur), td(sum.abzug_cent, eur, sum.abzug_cent ? 'minus' : 'null'), td(sum.provNach, eur, 'fett'), el('td')])),
+    ]);
+    const codeTab = el('table', { class: 'cr-tabelle codes' }, [
+      el('thead', null, el('tr', null, ['crCode', 'crSpVorteil', 'crSpStand', 'crSpEingeloest'].map((k) => el('th', { scope: 'col', text: t(k) })))),
+      el('tbody', null, el('tr', null, [
+        el('td', null, el('span', { class: 'code', text: c.code })),
+        el('td', { text: t('crVorteil', { r: z(zn(c.rabatt)) }) }),
+        el('td', { text: seitText }),
+        el('td', { text: t('crEingeloest', { n: z(zn(c.zuordnungen)), m: z(zn(c.abgelehnt)) }) }),
+      ])),
+    ]);
+    // Auszahlungen mit Nr. (fuer das Zuruecknehmen im SQL-Editor, Anleitung Schritt 6)
+    const ausz = crDaten.auszahlungen.filter((x) => x.a === c.id)
+      .sort((x, y) => (String(x.am) < String(y.am) ? 1 : String(x.am) > String(y.am) ? -1 : zn(y.id) - zn(x.id)));
+    const amTag = (x) => (typeof x.am === 'string' && TAG_RE.test(x.am.slice(0, 10)) ? datumKurz(x.am.slice(0, 10)) : '');
+    const auszTab = ausz.length ? el('table', { class: 'cr-tabelle' }, [
+      el('thead', null, el('tr', null, ['crSpNr', 'crSpAm', 'crBisMonat', 'crSpBetrag', 'crNotiz'].map((k) => el('th', { scope: 'col', text: t(k) })))),
+      el('tbody', null, ausz.map((x) => el('tr', null, [
+        el('th', { scope: 'row', text: String(zn(x.id)) }),
+        el('td', { text: amTag(x) }),
+        el('td', { text: typeof x.bis_monat === 'string' && MONAT_RE.test(x.bis_monat) ? monatKurz(x.bis_monat) : '' }),
+        el('td', { text: eur(x.betrag_cent), class: 'fett' }),
+        el('td', { text: typeof x.notiz === 'string' ? x.notiz : '', class: 'leise' }),
+      ]))),
+    ]) : el('p', { class: 'klein', text: t('crKeineAusz') });
+    if (!crBlattForm || crBlattForm.dataset.id !== c.id) crBlattForm = crBearbeiten(c);
+    const erfolg = el('div', { class: 'meldung erfolg', id: 'cr-blatt-erfolg', role: 'status' });
+    crMeldung(erfolg, crErfolgText);
+    b.replaceChildren(kopf, el('div', { class: 'blatt-inhalt' }, [
+      erfolg, zeile,
+      abschnitt(t('crSeitStart'), t('crSeitStartNeben'), kacheln),
+      zweier,
+      abschnitt(t('crMonate'), t('crMonateNeben'), el('div', { class: 'karte' }, [el('div', { class: 'tabelle-huelle' }, tab), el('p', { class: 'klein', text: t('crMonateFuss') })])),
+      abschnitt(t('crCode'), null, el('div', { class: 'karte' }, el('div', { class: 'tabelle-huelle' }, codeTab))),
+      abschnitt(t('crAuszahlungen'), ausz.length ? t('crAuszahlungenNeben') : null, el('div', { class: 'karte' }, ausz.length ? el('div', { class: 'tabelle-huelle' }, auszTab) : auszTab)),
+      typeof c.notiz === 'string' && c.notiz.trim() ? abschnitt(t('crNotiz'), null, el('p', { class: 'notiz', text: c.notiz })) : null,
+      crBlattForm,
+    ]));
+    b.scrollTop = oben;
+    if (fokus) crFokusAuf(fokus, null);
+  }
+
+  // Bearbeiten im Blatt: nur geaenderte Felder gehen an "aendern"
+  function crBearbeiten(c) {
+    const det = el('details', { class: 'cr-bearbeiten', 'data-id': c.id });
+    const fehler = el('div', { class: 'meldung', role: 'alert', hidden: '' });
+    const feld = (id, text, eingabe, hinweis) => el('div', { class: 'feld' }, [el('label', { for: id, text }), eingabe, hinweis ? el('p', { class: 'klein', text: hinweis }) : null]);
+    const F = {};
+    F.name = el('input', { id: 'cr-b-name', type: 'text', maxlength: '60', autocomplete: 'off' });
+    F.name.value = c.name;
+    F.provJ = el('input', { id: 'cr-b-prov-jahr', type: 'number', min: '0', max: '50', step: '1', inputmode: 'numeric' });
+    F.provJ.value = String(zn(c.prov_jahr));
+    F.provM = el('input', { id: 'cr-b-prov-monat', type: 'number', min: '0', max: '50', step: '1', inputmode: 'numeric' });
+    F.provM.value = String(zn(c.prov_monat));
+    F.notiz = el('textarea', { id: 'cr-b-notiz', maxlength: '500', rows: '3' });
+    F.notiz.value = typeof c.notiz === 'string' ? c.notiz : '';
+    const teile = [
+      feld('cr-b-name', t('crName'), F.name),
+      el('div', { class: 'feld-paar' }, [feld('cr-b-prov-jahr', t('crProvJahr'), F.provJ), feld('cr-b-prov-monat', t('crProvMonat'), F.provM)]),
+      el('p', { class: 'klein', text: t('crNeueSaetze') }),
+      feld('cr-b-notiz', t('crNotizFeld'), F.notiz),
+    ];
+    if (!zn(c.zuordnungen)) {
+      F.code = el('input', { id: 'cr-b-code', type: 'text', maxlength: '16', autocomplete: 'off', autocapitalize: 'characters', spellcheck: 'false' });
+      F.code.value = c.code;
+      F.code.addEventListener('input', () => { const n = crCodeNormal(F.code.value); if (n !== F.code.value) F.code.value = n; });
+      teile.push(feld('cr-b-code', t('crCode'), F.code, t('crCodeHinweis')));
+    }
+    if (!c.konto) {
+      F.handle = el('input', { id: 'cr-b-handle', type: 'text', maxlength: '41', autocomplete: 'off', autocapitalize: 'off', spellcheck: 'false', placeholder: '@mara.lifts' });
+      teile.push(feld('cr-b-handle', t('crHandle'), F.handle));
+    }
+    if (c.konto && c.creator_profil !== true) {
+      F.profil = el('input', { id: 'cr-b-profil', type: 'checkbox' });
+      teile.push(el('div', { class: 'haken' }, [F.profil, el('label', { for: 'cr-b-profil', text: t('crProfilHaken') })]));
+    }
+    const senden = el('button', { class: 'knopf voll', type: 'submit', text: t('crSpeichern'), 'data-f': 'cr-b-senden' });
+    senden.disabled = !crEcht;
+    const bsp = el('p', { class: 'hinweis', text: t('crBeispielAus') });
+    bsp.hidden = crEcht;
+    const form = el('form', { class: 'cr-form', novalidate: '' }, [...teile, fehler, bsp, el('div', { class: 'knopfreihe' }, senden)]);
+    form.addEventListener('submit', async (ev) => {
+      ev.preventDefault();
+      const b = $('cr-blatt');
+      if (!crEcht || b.dataset.sendet === '1') return;
+      crMeldung(fehler, '');
+      const c0 = crCreator(c.id) || c;
+      const w = crAendernWerte(c0, F);
+      if (w.fehler) { crMeldung(fehler, w.fehler); w.feld.focus(); return; }
+      if (!w.geaendert.length) { crMeldung(fehler, t('crNichtsGeaendert')); return; }
+      const ja = await frage({ text: t('crFrageSpeichern', { name: c0.name }), neben: w.geaendert.join(' · '), ja: t('crSpeichern') }, senden);
+      if (!ja || !b.hasAttribute('open')) return;
+      crSendet(b, true);
+      const r = await crSenden(w.rumpf);
+      crSendet(b, false);
+      if (r.ok) {
+        const neu = r.daten.creator && typeof r.daten.creator === 'object' ? r.daten.creator : {};
+        const p = r.daten.creator_profil;
+        const text = [t('crGespeichert', { name: typeof neu.name === 'string' ? neu.name : c0.name })];
+        if (w.rumpf.creator_profil && p && typeof p === 'object') text.push(t(p.neu === false ? 'crProfilWarFrei' : 'crProfilIstFrei'));
+        crErfolg(text.join(' '));
+        crBlattNeu = 'form';
+        crLaden();
+        return;
+      }
+      const x = crFehlerText(r);
+      crMeldung(fehler, x.text);
+      const ziel = {
+        name_form: F.name, prov_form: F.provJ, notiz_form: F.notiz, code_form: F.code, code_vergeben: F.code, code_fest: F.code,
+        handle_form: F.handle, handle_unbekannt: F.handle, handle_vergeben: F.handle, handle_mehrdeutig: F.handle, handle_eingeloest: F.handle,
+        handle_fest: F.handle, handle_fehlt: F.handle || F.profil,
+      }[x.wort];
+      if (ziel) ziel.focus();
+      if (x.neuLaden) { crBlattNeu = crBlattNeu || 'daten'; crLaden(); }
+    });
+    det.append(el('summary', { text: t('crBearbeiten') }), form);
+    return det;
+  }
+  function crAendernWerte(c, F) {
+    const r = { aktion: 'aendern', id: c.id }, g = [];
+    const name = F.name.value.trim();
+    if (name !== c.name) {
+      if (!name || name.length > 60 || STEUER_RE.test(name)) return { fehler: t('crF_name_form'), feld: F.name };
+      r.name = name; g.push(t('crName'));
+    }
+    const pj = crGanz(F.provJ.value), pm = crGanz(F.provM.value);
+    if (pj == null || pj > 50) return { fehler: t('crF_prov_form'), feld: F.provJ };
+    if (pm == null || pm > 50) return { fehler: t('crF_prov_form'), feld: F.provM };
+    if (pj !== zn(c.prov_jahr)) { r.prov_jahr = pj; g.push(t('crProvJahr')); }
+    if (pm !== zn(c.prov_monat)) { r.prov_monat = pm; g.push(t('crProvMonat')); }
+    const notiz = F.notiz.value.trim();
+    if (notiz !== (typeof c.notiz === 'string' ? c.notiz.trim() : '')) {
+      if (notiz.length > 500 || STEUER_OHNE_NL_RE.test(notiz)) return { fehler: t('crF_notiz_form'), feld: F.notiz };
+      r.notiz = notiz; g.push(t('crNotiz'));  // '' loescht die Notiz
+    }
+    if (F.code) {
+      const code = crCodeNormal(F.code.value.trim());
+      if (code !== c.code) {
+        if (!/^[A-Z0-9]{3,16}$/.test(code)) return { fehler: t('crF_code_form'), feld: F.code };
+        r.code = code; g.push(t('crCode'));
+      }
+    }
+    if (F.handle) {
+      const h = F.handle.value.trim();
+      if (h) {
+        const x = h.replace(/^@/, '');
+        if (!x || x.length > 40 || /\s/.test(x) || STEUER_RE.test(x)) return { fehler: t('crF_handle_form'), feld: F.handle };
+        r.handle = h; g.push(t('crHandleKurz'));
+      }
+    }
+    if (F.profil && F.profil.checked) { r.creator_profil = true; g.push(t('crProfilTag')); }
+    return { rumpf: r, geaendert: g };
+  }
+
+  // ---------------------------------------------------------------- Creator: Code an/aus
+  function crSchalten(id, knopf) {
+    const c = crCreator(id);
+    if (!c) return;
+    const aus = c.aktiv === true;
+    frage({
+      text: t(aus ? 'crFrageAus' : 'crFrageAn', { code: c.code }),
+      neben: aus ? t('crFrageAusNeben') : '',
+      ja: t(aus ? 'crAusschalten' : 'crAnschalten'),
+      beiJa: async () => {
+        const r = await crSenden({ aktion: 'aendern', id: c.id, aktiv: !aus });
+        if (r.ok) {
+          crErfolg(t(aus ? 'crCodeIstAus' : 'crCodeIstAn', { code: c.code }));
+          if (crBlattId && !crBlattNeu) crBlattNeu = 'daten';
+          crLaden();
+          return null;
+        }
+        const x = crFehlerText(r);
+        if (x.neuLaden) { if (crBlattId && !crBlattNeu) crBlattNeu = 'daten'; crLaden(); }
+        return x.text;
+      },
+    }, knopf);
+  }
+
+  // ---------------------------------------------------------------- Creator: Anlegen
+  const A = {
+    d: $('cr-anlegen'), form: $('cr-a-form'), name: $('cr-a-name'), handle: $('cr-a-handle'), code: $('cr-a-code'),
+    rabatt: $('cr-a-rabatt'), provJ: $('cr-a-prov-jahr'), provM: $('cr-a-prov-monat'), notiz: $('cr-a-notiz'),
+    profil: $('cr-a-profil'), profilHinweis: $('cr-a-profil-hinweis'), fehler: $('cr-a-fehler'), beispiel: $('cr-a-beispiel'), senden: $('cr-a-senden'),
+  };
+  const crGanz = (s) => { const x = String(s == null ? '' : s).trim(); return /^\d{1,3}$/.test(x) ? Number(x) : null; };
+  const crCodeNormal = (s) => String(s || '').toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 16);
+  A.code.addEventListener('input', () => { const n = crCodeNormal(A.code.value); if (n !== A.code.value) A.code.value = n; });
+  function crProfilHaken() {
+    const hat = A.handle.value.trim().replace(/^@/, '').length > 0;
+    A.profil.disabled = !hat;
+    if (!hat) A.profil.checked = false;
+    crMeldung(A.profilHinweis, hat ? '' : t('crProfilBraucht'));
+  }
+  A.handle.addEventListener('input', crProfilHaken);
+  function crRabattOptionen() {
+    const liste = crDaten && crDaten.rabatte.length ? crDaten.rabatte : [33];
+    const vorher = A.rabatt.value;
+    if (A.rabatt.options.length === liste.length && Array.from(A.rabatt.options).every((o, k) => o.value === String(liste[k]))) return;
+    A.rabatt.replaceChildren(...liste.map((r) => el('option', { value: String(r), text: t('crVorteil', { r: z(r) }) })));
+    if (liste.map(String).includes(vorher)) A.rabatt.value = vorher;
+  }
+  function crAnlegenOeffnen(knopf) {
+    if (!crDaten) return;
+    if (!A.d.hasAttribute('open')) crMeldung(A.fehler, '');
+    crRabattOptionen();
+    crProfilHaken();
+    A.senden.disabled = !crEcht;
+    crMeldung(A.beispiel, crEcht ? '' : t('crBeispielAus'));
+    dlgAuf(A.d, knopf);
+    A.name.focus();
+  }
+  function crAnlegenWerte() {
+    const name = A.name.value.trim();
+    if (!name || name.length > 60 || STEUER_RE.test(name)) return { fehler: t('crF_name_form'), feld: A.name };
+    const handle = A.handle.value.trim();
+    if (handle) {
+      const h = handle.replace(/^@/, '');
+      if (!h || h.length > 40 || /\s/.test(h) || STEUER_RE.test(h)) return { fehler: t('crF_handle_form'), feld: A.handle };
+    }
+    const code = crCodeNormal(A.code.value.trim());
+    if (!/^[A-Z0-9]{3,16}$/.test(code)) return { fehler: t('crF_code_form'), feld: A.code };
+    const rabatt = Number(A.rabatt.value);
+    if (!Number.isInteger(rabatt) || rabatt < 1 || rabatt > 90) return { fehler: t('crF_rabatt_ohne_angebot'), feld: A.rabatt };
+    const pj = crGanz(A.provJ.value), pm = crGanz(A.provM.value);
+    if (pj == null || pj > 50) return { fehler: t('crF_prov_form'), feld: A.provJ };
+    if (pm == null || pm > 50) return { fehler: t('crF_prov_form'), feld: A.provM };
+    const notiz = A.notiz.value.trim();
+    if (notiz.length > 500 || STEUER_OHNE_NL_RE.test(notiz)) return { fehler: t('crF_notiz_form'), feld: A.notiz };
+    return { rumpf: {
+      aktion: 'anlegen', name, handle: handle || null, code, rabatt, prov_jahr: pj, prov_monat: pm,
+      creator_profil: !!handle && A.profil.checked, notiz: notiz || null,
+    } };
+  }
+  const A_FEHLERFELD = { name_form: 'name', code_form: 'code', code_vergeben: 'code', handle_form: 'handle', handle_unbekannt: 'handle',
+    handle_vergeben: 'handle', handle_mehrdeutig: 'handle', handle_fehlt: 'handle', rabatt_ohne_angebot: 'rabatt', prov_form: 'provJ', notiz_form: 'notiz' };
+  const A_EINGABEFELD = { name: 'name', handle: 'handle', code: 'code', rabatt: 'rabatt', prov_jahr: 'provJ', prov_monat: 'provM', notiz: 'notiz', creator_profil: 'profil' };
+  A.form.addEventListener('submit', async (ev) => {
+    ev.preventDefault();
+    if (!crEcht || A.d.dataset.sendet === '1') return;
+    crMeldung(A.fehler, '');
+    const w = crAnlegenWerte();
+    if (w.fehler) { crMeldung(A.fehler, w.fehler); w.feld.focus(); return; }
+    const ja = await frage({
+      text: t('crFrageAnlegen', { name: w.rumpf.name, code: w.rumpf.code }),
+      neben: w.rumpf.creator_profil ? t('crFrageAnlegenProfil') : '',
+      ja: t('crAnlegenJa'),
+    }, A.senden);
+    if (!ja || !A.d.hasAttribute('open')) return;
+    crSendet(A.d, true);
+    const r = await crSenden(w.rumpf);
+    crSendet(A.d, false);
+    if (r.ok) {
+      const c = r.daten.creator && typeof r.daten.creator === 'object' ? r.daten.creator : {};
+      const p = r.daten.creator_profil;
+      const text = [t('crAngelegt', { name: typeof c.name === 'string' ? c.name : w.rumpf.name, code: typeof c.code === 'string' ? c.code : w.rumpf.code })];
+      if (p && typeof p === 'object') text.push(t(p.neu === false ? 'crProfilWarFrei' : 'crProfilIstFrei'));
+      A.form.reset();
+      crProfilHaken();
+      dlgZu(A.d);
+      crErfolg(text.join(' '));
+      crLaden();
+      return;
+    }
+    const x = crFehlerText(r);
+    crMeldung(A.fehler, x.text);
+    (A[A_FEHLERFELD[x.wort]] || (x.wort === 'eingabe' && A[A_EINGABEFELD[x.feld]]) || A.name).focus();
+    if (x.neuLaden) crLaden();
+  });
+  const crAnlegenZu = () => { if (A.d.dataset.sendet !== '1') dlgZu(A.d); };
+  $('cr-a-abbrechen').addEventListener('click', crAnlegenZu);
+  $('cr-a-zu').addEventListener('click', crAnlegenZu);
+
+  // ---------------------------------------------------------------- Creator: Auszahlung buchen
+  const Z = {
+    d: $('cr-auszahlen'), form: $('cr-z-form'), creator: $('cr-z-creator'), monat: $('cr-z-monat'), faellig: $('cr-z-faellig'),
+    hinweis: $('cr-z-hinweis'), notiz: $('cr-z-notiz'), ok: $('cr-z-ok'), fehler: $('cr-z-fehler'), beispiel: $('cr-z-beispiel'), senden: $('cr-z-senden'),
+  };
+  let crZId = null;
+  function crAuszAuffrischen() {
+    const c = crCreator(crZId);
+    if (!c) { dlgZu(Z.d); return; }
+    Z.creator.replaceChildren(crZelle(c, crDaten.creator.indexOf(c), { mitAus: true }));
+    const monate = crCreatorMonate(c).filter((m) => m < crDaten.monat_offen).reverse(); // nur abgeschlossene, neueste zuerst
+    const vorher = Z.monat.value;
+    if (Z.monat.options.length !== monate.length || Array.from(Z.monat.options).some((o, k) => o.value !== monate[k])) {
+      Z.monat.replaceChildren(...monate.map((m) => el('option', { value: m, text: monatLang(m) })));
+      if (monate.includes(vorher)) Z.monat.value = vorher;
+    }
+    const bis = Z.monat.value;
+    const f = bis ? crFaellig(c.id, bis) : 0;
+    Z.faellig.textContent = eur(f);
+    const weg = bis && f > 0 ? crWeg(c.id, bis) : 0;
+    crMeldung(Z.hinweis, !bis ? t('crKeinMonat') : f > 0 ? (weg > 0 ? t('crWegHinweis', { betrag: eur(weg) }) : '')
+      : f === 0 ? t('crNichtsFaellig') : t('crMinusVortrag', { betrag: eur(-f) }));
+    Z.d.dataset.faellig = String(f);
+    if (Z.d.dataset.sendet !== '1') Z.senden.disabled = !crEcht || !bis || f <= 0;
+  }
+  function crAuszahlenOeffnen(id, bis, knopf) {
+    crZId = id;
+    Z.monat.replaceChildren();
+    Z.notiz.value = '';
+    Z.ok.checked = false;
+    crMeldung(Z.fehler, '');
+    crMeldung(Z.beispiel, crEcht ? '' : t('crBeispielAus'));
+    crAuszAuffrischen();
+    if (bis && Array.from(Z.monat.options).some((o) => o.value === bis)) { Z.monat.value = bis; crAuszAuffrischen(); }
+    dlgAuf(Z.d, knopf);
+    Z.monat.focus();
+  }
+  Z.monat.addEventListener('change', () => { crMeldung(Z.fehler, ''); crAuszAuffrischen(); });
+  Z.form.addEventListener('submit', async (ev) => {
+    ev.preventDefault();
+    if (!crEcht || Z.d.dataset.sendet === '1') return;
+    const c = crCreator(crZId), bis = Z.monat.value, f = Number(Z.d.dataset.faellig);
+    if (!c || !bis || !(f > 0)) return;
+    if (!Z.ok.checked) { crMeldung(Z.fehler, t('crHakenFehlt')); Z.ok.focus(); return; }
+    const notiz = Z.notiz.value.trim();
+    if (notiz.length > 200 || STEUER_RE.test(notiz)) { crMeldung(Z.fehler, t('crF_notiz_form')); Z.notiz.focus(); return; }
+    crMeldung(Z.fehler, '');
+    crSendet(Z.d, true);
+    const r = await crSenden({ aktion: 'auszahlung', id: c.id, bis_monat: bis, betrag_cent: f, notiz: notiz || null });
+    crSendet(Z.d, false);
+    if (r.ok) {
+      const a = r.daten.auszahlung && typeof r.daten.auszahlung === 'object' ? r.daten.auszahlung : {};
+      dlgZu(Z.d);
+      crErfolg(t('crAuszOk', { name: c.name, monat: monatLang(bis), betrag: eur(Number.isFinite(a.betrag_cent) ? a.betrag_cent : f) }));
+      crLaden();
+      return;
+    }
+    const x = crFehlerText(r);
+    crMeldung(Z.fehler, x.text);
+    crAuszAuffrischen();
+    if (x.neuLaden) crLaden();
+  });
+  const crAuszZu = () => { if (Z.d.dataset.sendet !== '1') dlgZu(Z.d); };
+  $('cr-z-abbrechen').addEventListener('click', crAuszZu);
+  $('cr-z-zu').addEventListener('click', crAuszZu);
+
+  // ---------------------------------------------------------------- Creator: Texte und Ausloeser
+  $('creator-link').textContent = t('crLink');
+  $('h-creator').textContent = t('crTitel');
+  $('cr-nur-du').textContent = t('crNurDu');
+  $('cr-neu-knopf').textContent = t('crAnlegenKnopf');
+  $('h-cr-ueberblick').textContent = t('crUeberblick');
+  $('h-cr-karten').textContent = t('crKarten');
+  $('h-cr-ausz').textContent = t('crAuszListe');
+  $('cr-csv').textContent = t('crCsv');
+  $('cr-wie-titel').textContent = t('crWie');
+  $('cr-a-titel').textContent = t('crAnlegenTitel');
+  $('cr-a-name-label').textContent = t('crName');
+  $('cr-a-handle-label').textContent = t('crHandle');
+  $('cr-a-code-label').textContent = t('crCode');
+  $('cr-a-code-hinweis').textContent = t('crCodeHinweis');
+  $('cr-a-rabatt-label').textContent = t('crRabatt');
+  $('cr-a-prov-jahr-label').textContent = t('crProvJahr');
+  $('cr-a-prov-monat-label').textContent = t('crProvMonat');
+  $('cr-a-notiz-label').textContent = t('crNotizFeld');
+  $('cr-a-profil-label').textContent = t('crProfilHaken');
+  $('cr-a-senden').textContent = t('crAnlegenSenden');
+  $('cr-a-abbrechen').textContent = t('crAbbrechen');
+  $('cr-z-titel').textContent = t('crAuszTitel');
+  $('cr-z-monat-label').textContent = t('crBisMonat');
+  $('cr-z-faellig-label').textContent = t('crFaellig');
+  $('cr-z-notiz-label').textContent = t('crNotizAusz');
+  $('cr-z-notiz').setAttribute('placeholder', t('crNotizAuszPlatz'));
+  $('cr-z-ok-label').textContent = t('crUeberwiesen');
+  $('cr-z-senden').textContent = t('crAuszSenden');
+  $('cr-z-abbrechen').textContent = t('crAbbrechen');
+  $('cr-f-nein').textContent = t('crAbbrechen');
+  $('cr-a-zu').setAttribute('aria-label', t('crSchliessen'));
+  $('cr-z-zu').setAttribute('aria-label', t('crSchliessen'));
+
+  $('cr-neu-knopf').addEventListener('click', () => crAnlegenOeffnen($('cr-neu-knopf')));
+  // Laden: beim Start nach dem ersten laden() (siehe unten), bei "Neu laden",
+  // nach jeder Aktion, bei neuem Zugang und wenn der Tab nach ueber 5 Minuten wieder sichtbar wird
+  $('neu').addEventListener('click', () => crLaden());
+  $('zugang').addEventListener('submit', () => {
+    if (zugang && zugang !== crZugang) { crZugang = zugang; crDaten = null; crIx = null; crEcht = false; crFehler = null; crLaden(); }
+  });
+  $('vergessen').addEventListener('click', () => { crZugang = null; crDaten = null; crIx = null; crEcht = false; crFehler = null; crLaden(); });
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible' && zugang && !crLaedt && Date.now() - crGeladenAm > CR_NEU_MS) crLaden();
+  });
+  renderCreator();
 
   // ---------------------------------------------------------------- Takt
   setInterval(() => {
@@ -1092,7 +3040,7 @@ details.wie ul { margin: 8px 0 0; padding-left: 18px; display: grid; gap: 4px; m
   ro.observe($('d1'));
 
   render();
-  if (zugang) laden(); else zugangOeffnen();
+  if (zugang) laden().finally(crLaden); else { zugangOeffnen(); crLaden(); }
 })();
 </script>
 </body></html>
