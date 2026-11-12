@@ -368,8 +368,9 @@ h3.titel {
 .bild.gross { width: 52px; height: 52px; font-size: 17px; box-shadow: inset 0 0 0 4px var(--kf, var(--k0)); }
 .bild img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; padding: 4px; }
 .code { font-size: 11px; font-weight: 750; letter-spacing: .07em; padding: 0 6px; border-radius: 5px; background: var(--flaeche-2); color: var(--tinte-2); border: 1px solid var(--linie); line-height: 18px; white-space: nowrap; }
-.aus, .tag { font-size: 10.5px; font-weight: 750; letter-spacing: .06em; text-transform: uppercase; padding: 0 6px; border-radius: 5px; color: var(--tinte-3); border: 1px solid var(--linie); line-height: 16px; white-space: nowrap; }
+.aus, .tag, .sofort { font-size: 10.5px; font-weight: 750; letter-spacing: .06em; text-transform: uppercase; padding: 0 6px; border-radius: 5px; color: var(--tinte-3); border: 1px solid var(--linie); line-height: 16px; white-space: nowrap; }
 .tag { color: var(--gut); }
+.sofort { color: var(--warn); }
 
 .karten { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 10px; }
 .ckarte { background: var(--flaeche); border: 1px solid var(--linie); border-radius: var(--radius); padding: 16px; display: grid; gap: 12px; align-content: start; min-width: 0; }
@@ -486,6 +487,7 @@ dialog.blatt::backdrop, dialog.cr-dialog::backdrop { background: rgba(11, 9, 10,
       <button class="knopf" id="neu" type="button"></button>
       <button class="knopf" id="zugang-knopf" type="button"></button>
       <a class="knopf" id="creator-link" href="#h-creator"></a>
+      <a class="knopf" id="aktionen-link" href="#h-aktionen"></a>
     </div>
   </header>
 
@@ -602,6 +604,28 @@ dialog.blatt::backdrop, dialog.cr-dialog::backdrop { background: rgba(11, 9, 10,
       </details>
     </div>
   </section>
+
+  <!-- Aktionen (162, Black Friday). Wie der Creator-Bereich: eigenes Laden (?teil=aktionen), bleibt, auch wenn die Tageszahlen scheitern. -->
+  <section class="creator" id="ak-bereich" aria-labelledby="h-aktionen">
+    <div class="cr-kopfzeile">
+      <div class="cr-titelzeile">
+        <h2 class="titel" id="h-aktionen"></h2>
+        <span class="chip" id="ak-chip" data-art="beispiel"></span>
+        <span class="nebenbei" id="ak-neben"></span>
+        <span class="stand zahl" id="ak-stand"></span>
+      </div>
+      <button class="knopf voll" id="ak-neu-knopf" type="button" aria-haspopup="dialog"></button>
+    </div>
+    <div class="meldung" id="ak-meldung" role="alert" hidden></div>
+    <div class="meldung erfolg" id="ak-erfolg" role="status" hidden></div>
+    <div class="cr-koerper" id="ak-koerper" hidden>
+      <div class="karten" id="ak-karten"></div>
+      <details class="wie">
+        <summary id="ak-wie-titel"></summary>
+        <ul id="ak-wie-liste"></ul>
+      </details>
+    </div>
+  </section>
 </div>
 
 <dialog class="blatt" id="cr-blatt" aria-labelledby="cr-blatt-name"></dialog>
@@ -629,6 +653,11 @@ dialog.blatt::backdrop, dialog.cr-dialog::backdrop { background: rgba(11, 9, 10,
       <label for="cr-a-rabatt" id="cr-a-rabatt-label"></label>
       <select id="cr-a-rabatt"></select>
     </div>
+    <div class="haken" id="cr-a-gratis-zeile" hidden>
+      <input id="cr-a-gratis" type="checkbox" checked aria-describedby="cr-a-gratis-hinweis">
+      <label for="cr-a-gratis" id="cr-a-gratis-label"></label>
+    </div>
+    <p class="klein" id="cr-a-gratis-hinweis" hidden></p>
     <div class="feld-paar">
       <div class="feld">
         <label for="cr-a-prov-jahr" id="cr-a-prov-jahr-label"></label>
@@ -669,6 +698,7 @@ dialog.blatt::backdrop, dialog.cr-dialog::backdrop { background: rgba(11, 9, 10,
       <select id="cr-z-monat"></select>
     </div>
     <p class="cr-faellig"><span id="cr-z-faellig-label"></span><b class="zahl" id="cr-z-faellig"></b></p>
+    <p class="klein" id="cr-z-gehalten" hidden></p>
     <p class="klein" id="cr-z-hinweis" hidden></p>
     <div class="feld">
       <label for="cr-z-notiz" id="cr-z-notiz-label"></label>
@@ -696,6 +726,88 @@ dialog.blatt::backdrop, dialog.cr-dialog::backdrop { background: rgba(11, 9, 10,
     <div class="knopfreihe">
       <button class="knopf voll" id="cr-f-ja" type="submit"></button>
       <button class="knopf" id="cr-f-nein" type="button"></button>
+    </div>
+  </form>
+</dialog>
+
+<dialog class="cr-dialog" id="ak-dialog" aria-labelledby="ak-d-titel">
+  <form class="cr-form" id="ak-d-form" novalidate>
+    <div class="dialog-kopf">
+      <h2 id="ak-d-titel"></h2>
+      <button class="zu" id="ak-d-zu" type="button">×</button>
+    </div>
+    <div class="feld">
+      <label for="ak-d-name" id="ak-d-name-label"></label>
+      <input id="ak-d-name" type="text" maxlength="60" autocomplete="off" required>
+    </div>
+    <div class="feld">
+      <label for="ak-d-code" id="ak-d-code-label"></label>
+      <input id="ak-d-code" type="text" maxlength="16" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="BLACKFRIDAY" required aria-describedby="ak-d-code-hinweis ak-d-code-neu">
+      <p class="klein" id="ak-d-code-hinweis"></p>
+      <p class="hinweis" id="ak-d-code-neu" hidden></p>
+    </div>
+    <div id="ak-d-mehr">
+      <div class="feld">
+        <label for="ak-d-rabatt" id="ak-d-rabatt-label"></label>
+        <select id="ak-d-rabatt"></select>
+      </div>
+      <div class="haken" id="ak-d-gratis-zeile" hidden>
+        <input id="ak-d-gratis" type="checkbox" checked aria-describedby="ak-d-gratis-hinweis">
+        <label for="ak-d-gratis" id="ak-d-gratis-label"></label>
+      </div>
+      <p class="klein" id="ak-d-gratis-hinweis" hidden></p>
+      <div class="feld-paar">
+        <div class="feld">
+          <label for="ak-d-start" id="ak-d-start-label"></label>
+          <input id="ak-d-start" type="datetime-local" min="2026-01-01T00:00" max="2030-12-31T23:59" step="60" required>
+        </div>
+        <div class="feld">
+          <label for="ak-d-ende" id="ak-d-ende-label"></label>
+          <input id="ak-d-ende" type="datetime-local" min="2026-01-01T00:00" max="2030-12-31T23:59" step="60" required>
+        </div>
+      </div>
+      <div class="feld-paar">
+        <div class="feld">
+          <label for="ak-d-nachlauf" id="ak-d-nachlauf-label"></label>
+          <input id="ak-d-nachlauf" type="number" min="0" max="336" step="1" value="0" inputmode="numeric" aria-describedby="ak-d-nachlauf-hinweis">
+        </div>
+        <div class="feld">
+          <label for="ak-d-plattformen" id="ak-d-plattformen-label"></label>
+          <select id="ak-d-plattformen"></select>
+        </div>
+      </div>
+      <p class="klein" id="ak-d-nachlauf-hinweis"></p>
+      <div class="feld">
+        <label for="ak-d-zielgruppe" id="ak-d-zielgruppe-label"></label>
+        <select id="ak-d-zielgruppe" aria-describedby="ak-d-ziel"></select>
+      </div>
+      <p class="klein" id="ak-d-ziel"></p>
+      <div class="haken" id="ak-d-aktiv-zeile">
+        <input id="ak-d-aktiv" type="checkbox" checked>
+        <label for="ak-d-aktiv" id="ak-d-aktiv-label"></label>
+      </div>
+      <div class="feld">
+        <label for="ak-d-notiz" id="ak-d-notiz-label"></label>
+        <textarea id="ak-d-notiz" maxlength="500" rows="3"></textarea>
+      </div>
+    </div>
+    <div class="meldung" id="ak-d-fehler" role="alert" hidden></div>
+    <p class="hinweis" id="ak-d-beispiel" hidden></p>
+    <div class="knopfreihe">
+      <button class="knopf voll" id="ak-d-senden" type="submit"></button>
+      <button class="knopf" id="ak-d-abbrechen" type="button"></button>
+    </div>
+  </form>
+</dialog>
+
+<dialog class="cr-dialog eng" id="ak-frage" aria-labelledby="ak-f-text" aria-describedby="ak-f-neben">
+  <form class="cr-form" id="ak-f-form" novalidate>
+    <p class="frage-text" id="ak-f-text"></p>
+    <p class="klein" id="ak-f-neben"></p>
+    <p class="hinweis" id="ak-f-beispiel" hidden></p>
+    <div class="knopfreihe">
+      <button class="knopf voll" id="ak-f-ja" type="submit"></button>
+      <button class="knopf" id="ak-f-nein" type="button"></button>
     </div>
   </form>
 </dialog>
@@ -849,6 +961,11 @@ dialog.blatt::backdrop, dialog.cr-dialog::backdrop { background: rgba(11, 9, 10,
       crBsp1: 'Reels Montag und Donnerstag. Code in Bio und Story.', crBsp2: 'YouTube, Ganzkörper-Pläne. Code im Video.',
       crBsp3: 'TikTok, wenige, aber treue Follower.', crBsp4: 'Laufgruppe, viele Android. Noch ohne fin-Konto.',
       crBsp6: 'Code aus, Zusammenarbeit pausiert.',
+      // Sofort zahlen (174)
+      crGratis: 'Gratismonat', crGratisHinweis: 'Aus: Jahr wird sofort bezahlt. Provision 15 Tage später frei.',
+      crOhneGratis: 'Ohne Gratismonat', crGehalten: 'Gehalten {betrag} bis {datum}', crZGehalten: 'Davon gehalten: {betrag}',
+      crSofortOhne: 'Ohne Gratismonat geht nur 33 und 50 %.', crGratisNachher: 'Angelegt, Gratismonat bleibt an. Nochmal umstellen.',
+      crGratisFehlt: 'Erst 174 einspielen.',
     },
     en: {
       titel: 'Numbers', heute: 'Today', bestand: 'Right now', verlauf: 'History',
@@ -987,6 +1104,11 @@ dialog.blatt::backdrop, dialog.cr-dialog::backdrop { background: rgba(11, 9, 10,
       crBsp1: 'Reels Monday and Thursday. Code in bio and story.', crBsp2: 'YouTube, full-body plans. Code in the video.',
       crBsp3: 'TikTok, few but loyal followers.', crBsp4: 'Running group, many Android. No fin account yet.',
       crBsp6: 'Code off, collaboration paused.',
+      // Pay at once (174)
+      crGratis: 'Free month', crGratisHinweis: 'Off: year is paid at once. Commission free 15 days later.',
+      crOhneGratis: 'No free month', crGehalten: 'Held {betrag} until {datum}', crZGehalten: 'Held: {betrag}',
+      crSofortOhne: 'No free month works with 33 and 50 % only.', crGratisNachher: 'Created, free month stays on. Switch again.',
+      crGratisFehlt: 'Apply 174 first.',
     },
   };
   const t = (k, w) => String(TEXTE[SPRACHE][k] ?? TEXTE.de[k] ?? k).replace(/\{(\w+)\}/g, (_, n) => (w && w[n] != null ? w[n] : ''));
@@ -1710,6 +1832,14 @@ dialog.blatt::backdrop, dialog.cr-dialog::backdrop { background: rgba(11, 9, 10,
   let crSummenFehler = [];
   let crFokus = null;        // data-f des Knopfs, der nach dem Neuzeichnen den Fokus bekommt
   let crErfolgText = '';
+  // Sofort zahlen (174): Schalter "Gratismonat" je Creator und je Aktion, Vorgabe an.
+  // Aus heisst: das Jahr wird ohne Gratismonat sofort bezahlt, die Provision ist
+  // erst 15 Tage nach der Abbuchung auszahlbar (frei_ab, gehalten). Sichtbar nur,
+  // wenn die geladenen Daten das Feld tragen (174 eingespielt), sonst wie 1111.
+  // Tim, 12.11.2026 abends: "dass ich %33 und 50% habe und mit Gratismonat und ohne
+  // Gratismonat". 33 und 50 % gehen ohne Gratismonat (Stufen d33, d50), keine Sperre bei 50.
+  const SOFORT_RABATTE = [33, 50];
+  let akGratisFeld = false;  // eine Aktion der letzten Antwort traegt gratismonat (akLaden)
   const crAnsicht = { zeit: 'monat', monat: null, plattform: 'alle', auszMonat: null };
   try {
     const o = JSON.parse(localStorage.getItem(CR_ANSICHT) || 'null');
@@ -1774,13 +1904,20 @@ dialog.blatt::backdrop, dialog.cr-dialog::backdrop { background: rgba(11, 9, 10,
       ...j, heute,
       monat_offen: typeof j.monat_offen === 'string' && MONAT_RE.test(j.monat_offen) ? j.monat_offen : heute.slice(0, 7),
       rabatte: Array.isArray(j.rabatte) && j.rabatte.some(Number.isInteger) ? j.rabatte.filter(Number.isInteger) : [33],
-      creator: j.creator.filter((c) => c && typeof c === 'object' && typeof c.id === 'string' && typeof c.name === 'string' && typeof c.code === 'string'),
+      creator: j.creator.filter((c) => c && typeof c === 'object' && typeof c.id === 'string' && typeof c.name === 'string' && typeof c.code === 'string')
+        .map((c) => ({ ...c, gehalten: crGehaltenNormal(c.gehalten) })),
       monate: zeilen(j.monate).filter((r) => typeof r.m === 'string' && MONAT_RE.test(r.m)),
       wochen: zeilen(j.wochen).filter((r) => typeof r.w === 'string' && TAG_RE.test(r.w)),
       stand_konten: zeilen(j.stand_konten),
       auszahlungen: zeilen(j.auszahlungen),
       reif_bis: typeof j.reif_bis === 'string' && TAG_RE.test(j.reif_bis) ? j.reif_bis : null,
     };
+  }
+  // 174: gehalten = [{ m, cent, frei_ab }] je Berliner Monat; fehlt es, gilt []
+  function crGehaltenNormal(x) {
+    return (Array.isArray(x) ? x : [])
+      .filter((g) => g && typeof g === 'object' && typeof g.m === 'string' && MONAT_RE.test(g.m) && Number.isFinite(Number(g.cent)))
+      .map((g) => ({ m: g.m, cent: zn(g.cent), frei_ab: typeof g.frei_ab === 'string' ? g.frei_ab : null }));
   }
   function crIndex(d) {
     const ix = { monate: new Map(), wochen: new Map(), stand: new Map() };
@@ -1855,11 +1992,43 @@ dialog.blatt::backdrop, dialog.cr-dialog::backdrop { background: rgba(11, 9, 10,
     s.summe = s.kostenlos + s.probeAlle + s.bezahlt + s.anderes;
     return s;
   }
-  // Faellig bis Monat m: offene Buchungen aller Plattformen mit Monat <= m (wie affiliate_auszahlung_buchen)
+  // Faellig bis Monat m: offene Buchungen aller Plattformen mit Monat <= m (wie affiliate_auszahlung_buchen),
+  // 174: ohne Gehaltenes (frei_ab noch nicht erreicht, oder eine gehaltene Provision, deren Abzug in einem
+  // spaeteren Monat liegt: affiliate_meta fuehrt das Paar als + und -), das ist Teil von offen_cent
   function crFaellig(id, bis) {
     let s = 0;
     for (const r of (crIx.monate.get(id) || [])) if (r.m <= bis) s += zn(r.offen_cent);
+    return s - crGehaltenBis(id, bis);
+  }
+  function crGehaltenBis(id, bis) {
+    const c = crCreator(id);
+    let s = 0;
+    for (const g of (c ? c.gehalten : [])) if (g.m <= bis) s += g.cent;
     return s;
+  }
+  // 174: Schalter nur, wenn die Daten das Feld tragen (ein Creator oder eine Aktion mit boolean gratismonat)
+  const crHatGratis = () => !!crDaten && crDaten.creator.some((c) => typeof c.gratismonat === 'boolean');
+  const gratisDa = () => crHatGratis() || akGratisFeld;
+  const sofortGeht = (rabatt) => SOFORT_RABATTE.includes(Number(rabatt));
+  // Kaestchen Gratismonat: ohne Sofort-Rabatt angehakt und gesperrt
+  function gratisKaestchen(box, rabatt) {
+    const geht = sofortGeht(rabatt);
+    if (!geht) box.checked = true;
+    box.disabled = !geht;
+  }
+  const gratisSatz = (gratis) => (gratis === false ? t('crOhneGratis') : gratis === true ? t('crGratis') : '');
+  // Reihenfolge beim Aendern (174): an = erst gratismonat, dann aendern; aus = erst aendern,
+  // dann gratismonat; nur das Kaestchen = nur gratismonat. Ein rumpf nur mit aktion und id gilt als leer.
+  function gratisSchritte(rumpf, id, gratis) {
+    const leer = Object.keys(rumpf).every((k) => k === 'aktion' || k === 'id');
+    if (typeof gratis !== 'boolean') return [rumpf];
+    const g = { aktion: 'gratismonat', id, gratismonat: gratis };
+    if (leer) return [g];
+    return gratis ? [g, rumpf] : [rumpf, g];
+  }
+  function crGehaltenText(c) {
+    const frei = c.gehalten.map((g) => tagVonZeit(g.frei_ab)).filter(Boolean).sort()[0] || null;
+    return t('crGehalten', { betrag: eur(c.gehalten_cent), datum: frei ? datumKurz(frei) : '-' });
   }
   // Davon offene Provision von Konten, die weg sind (148 weg_offen_cent): deren Erstattung sieht fin nicht mehr
   function crWeg(id, bis) {
@@ -1938,7 +2107,7 @@ dialog.blatt::backdrop, dialog.cr-dialog::backdrop { background: rgba(11, 9, 10,
       { name: 'Jonas Brandt', handle: '@jonas.brandt', code: 'JONAS', vor: 226, rate: 10, ios: 0.63, probe: 0.49, jahr: 0.63, zj: 0.56, zm: 0.62, konto: true, profil: true, notiz: 'crBsp2' },
       { name: 'Lea Kraus', handle: '@lea.kraus.fit', code: 'LEA', vor: 198, rate: 7, ios: 0.78, probe: 0.63, jahr: 0.79, zj: 0.66, zm: 0.70, konto: true, profil: false, notiz: 'crBsp3' },
       { name: 'Timo Reiter', handle: null, code: 'RUN', vor: 178, rate: 6, ios: 0.57, probe: 0.51, jahr: 0.52, zj: 0.57, zm: 0.64, konto: false, profil: false, notiz: 'crBsp4' },
-      { name: 'Selin Aydin', handle: '@selin.lifts', code: 'SELIN', vor: 150, rate: 8, ios: 0.67, probe: 0.41, jahr: 0.66, zj: 0.49, zm: 0.55, konto: true, profil: true, notiz: null },
+      { name: 'Selin Aydin', handle: '@selin.lifts', code: 'SELIN', vor: 150, rate: 8, ios: 0.67, probe: 0.41, jahr: 0.66, zj: 0.49, zm: 0.55, konto: true, profil: true, notiz: null, sofort: true },
       { name: 'Hannah Wolf', handle: '@hannahwolf', code: 'HANNAH', vor: 117, aus: 19, rate: 4, ios: 0.74, probe: 0.47, jahr: 0.70, zj: 0.55, zm: 0.60, konto: true, profil: false, notiz: 'crBsp6' },
     ];
     const ids = CR.map((_, i) => 'b5e1a000-0000-4000-8000-' + String(i + 1).padStart(12, '0'));
@@ -1952,18 +2121,26 @@ dialog.blatt::backdrop, dialog.cr-dialog::backdrop { background: rgba(11, 9, 10,
       const ps = e + (R() < 0.78 ? 0 : ganz(1, 6));
       if (ps > H) return;
       k.produkt = R() < c.jahr ? 'jahr' : 'monat';
-      const pe = ps + 30;                               // 30 Tage gratis
+      const sofort = c.sofort === true && k.produkt === 'jahr'; // 174: Jahr ohne Gratismonat, gleich bezahlt
+      const pe = ps + (sofort ? 0 : 30);                // sonst 30 Tage gratis
+      const frei = sofort ? pe + 15 : null;             // Haltefrist 15 Tage (frei_ab)
       const zahlt = R() < (k.produkt === 'jahr' ? c.zj : c.zm);
-      if (!zahlt) { const tk = ps + ganz(0, 29); k.s = pe > H ? (tk <= H ? 'probe_gekuendigt' : 'probe') : 'ohne'; return; }
+      if (!zahlt) {
+        const tk = ps + ganz(0, 29);
+        if (sofort) { k.produkt = null; return; }       // ohne Gratismonat: nie ein Abo
+        k.s = pe > H ? (tk <= H ? 'probe_gekuendigt' : 'probe') : 'ohne';
+        return;
+      }
       if (pe > H) { k.s = 'probe'; return; }
       const x = P[k.produkt];
       k.erst = pe;
-      buch.push({ ci, p: k.p, tag: pe, art: 'provision', produkt: k.produkt, betrag: x.prov, netto: x.netto, aus: null, ausAm: null });
+      const pv = { ci, p: k.p, tag: pe, art: 'provision', produkt: k.produkt, betrag: x.prov, netto: x.netto, aus: null, ausAm: null, frei };
+      buch.push(pv);
       if (R() < 0.035) {
         const rd = pe + ganz(1, 12);
         if (rd <= H) {
           k.s = 'erstattet';
-          buch.push({ ci, p: k.p, tag: rd, art: 'abzug', produkt: k.produkt, betrag: -x.prov, netto: -x.netto, aus: null, ausAm: null });
+          buch.push({ ci, p: k.p, tag: rd, art: 'abzug', produkt: k.produkt, betrag: -x.prov, netto: -x.netto, aus: null, ausAm: null, frei, bezug: pv });
           return;
         }
       }
@@ -1996,6 +2173,11 @@ dialog.blatt::backdrop, dialog.cr-dialog::backdrop { background: rgba(11, 9, 10,
         for (let i = 0; i < n; i++) konto(ci, c, d);
         abgelehnt[ci] += poisson(c.rate / 7 * 0.1);
       }
+      if (c.sofort) {  // 174: ein Jahr vor 2 Tagen gleich bezahlt, damit das Beispiel immer Gehaltenes zeigt
+        const e = H - 2;
+        konten.push({ ci, e, p: 'ios', neu: true, s: 'aktiv', produkt: 'jahr', erst: e });
+        buch.push({ ci, p: 'ios', tag: e, art: 'provision', produkt: 'jahr', betrag: P.jahr.prov, netto: P.jahr.netto, aus: null, ausAm: null, frei: e + 15 });
+      }
     });
 
     // Auszahlungen am 15. fuer alles bis zum Vormonat, Minus wird vorgetragen
@@ -2006,7 +2188,10 @@ dialog.blatt::backdrop, dialog.cr-dialog::backdrop { background: rgba(11, 9, 10,
       for (let m = mon(H - c.vor); m < mon(H); m = monatPlus(m, 1)) {
         const am = monatPlus(m, 1) + '-15';
         if (am > heute) break;
-        const offen = eigene.filter((b) => b.aus == null && mon(b.tag) <= m);
+        const amN = Math.floor(tagDatum(am).getTime() / TAG_MS);
+        // 174: Gehaltenes bleibt offen, eine gehaltene Provision wartet auf ihren Abzug aus einem spaeteren Monat (wie affiliate_auszahlung_buchen)
+        const wartet = (b) => b.frei != null && eigene.some((x) => x.bezug === b && x.aus == null && mon(x.tag) > m);
+        const offen = eigene.filter((b) => b.aus == null && mon(b.tag) <= m && !(b.frei != null && b.frei > amN) && !wartet(b));
         const summe = offen.reduce((s, b) => s + b.betrag, 0);
         if (summe <= 0) continue;
         ausId++;
@@ -2065,7 +2250,23 @@ dialog.blatt::backdrop, dialog.cr-dialog::backdrop { background: rgba(11, 9, 10,
       const eigene = buch.filter((b) => b.ci === ci);
       const ausz = auszahlungen.filter((x) => x.a === ids[ci]);
       const letzte = ausz.length ? ausz[ausz.length - 1] : null;
+      // 174: gehalten wie affiliate_meta: offen und frei_ab nach heute, je Monat, frei_ab = max;
+      // dazu jedes wartende Paar (Provision frei, offener Abzug in einem spaeteren Monat): + und - je Monat, frei_ab leer
+      const geh = eigene.filter((b) => !b.aus && b.frei != null && b.frei > H);
+      const gm = new Map();
+      const dazu = (m, cent, frei) => {
+        const g = gm.get(m) || { m, cent: 0, frei: null };
+        g.cent += cent; if (frei != null) g.frei = Math.max(g.frei ?? 0, frei);
+        gm.set(m, g);
+      };
+      for (const b of geh) dazu(mon(b.tag), b.betrag, b.frei);
+      for (const x of eigene) {
+        const b = x.bezug;
+        if (b && !x.aus && !b.aus && b.frei != null && b.frei <= H && mon(x.tag) > mon(b.tag)) { dazu(mon(b.tag), b.betrag, null); dazu(mon(x.tag), x.betrag, null); }
+      }
       return {
+        gratismonat: !c.sofort, sofort_moeglich: true, gehalten_cent: geh.reduce((s, b) => s + b.betrag, 0),
+        gehalten: [...gm.values()].sort((x, y) => (x.m < y.m ? -1 : 1)).map((g) => ({ m: g.m, cent: g.cent, frei_ab: g.frei == null ? null : iso(g.frei) + 'T10:00:00+00:00' })),
         id: ids[ci], name: c.name, handle: c.handle, bild: null, code: c.code,
         aktiv: !c.aus, aktiv_seit: iso(H - (c.aus || c.vor)) + 'T09:00:00+00:00', angelegt: iso(H - c.vor) + 'T08:00:00+00:00',
         rabatt: 33, prov_jahr: 25, prov_monat: 15, notiz: c.notiz ? t(c.notiz) : null,
@@ -2171,6 +2372,7 @@ dialog.blatt::backdrop, dialog.cr-dialog::backdrop { background: rgba(11, 9, 10,
       return mit(f, Number.isFinite(b.faellig_cent) ? t('crF_betrag_passt_nicht', { betrag: eur(b.faellig_cent) }) : t('crF_betrag_neu'));
     }
     if (f === 'zeit' || r.status === 504) return mit('zeit', t('crF_zeit'));
+    if (f === 'sofort_ohne_angebot') return mit(f, t('crSofortOhne')); // 174
     if (f && CR_WOERTER.has(f)) return mit(f, t('crF_' + f));
     if (f === 'funktion_fehlt' || r.status === 501) return mit('funktion_fehlt', t('crF_funktion_fehlt'));
     if (f === 'methode' || r.status === 405) return mit('methode', t('crF_deploy'));
@@ -2182,6 +2384,15 @@ dialog.blatt::backdrop, dialog.cr-dialog::backdrop { background: rgba(11, 9, 10,
     const code = typeof b.code === 'string' && b.code ? b.code : (f || 'HTTP ' + r.status);
     return mit(f || 'http', t('crF_sonst', { code: String(code).slice(0, 40) }));
   }
+  // 174: Fehler des Rufs gratismonat (Creator und Aktion). 501 heisst 174 fehlt, 'aktion' heisst Function zu alt.
+  function gratisFehlerWort(r) {
+    if (r.netz) return null;
+    const f = r.rumpf && typeof r.rumpf === 'object' && typeof r.rumpf.fehler === 'string' ? r.rumpf.fehler : null;
+    if (f === 'funktion_fehlt' || r.status === 501) return { wort: 'funktion_fehlt', text: t('crGratisFehlt') };
+    if (f === 'aktion' || f === 'feld' || f === 'methode' || r.status === 405) return { wort: f || 'methode', text: t('crF_deploy') };
+    return null;
+  }
+  const crGratisFehler = (r) => gratisFehlerWort(r) || crFehlerText(r);
 
   // ---------------------------------------------------------------- Creator: Dialoge
   const CR_DIALOGE = ['cr-blatt', 'cr-anlegen', 'cr-auszahlen', 'cr-frage'];
@@ -2302,6 +2513,7 @@ dialog.blatt::backdrop, dialog.cr-dialog::backdrop { background: rgba(11, 9, 10,
           el('span', { id: opt.nameId || null, text: c.name }),
           el('span', { class: 'code', text: c.code }),
           opt.mitAus && c.aktiv !== true ? el('span', { class: 'aus', text: t('crCodeAus') }) : null,
+          c.gratismonat === false ? el('span', { class: 'sofort', text: t('crOhneGratis') }) : null, // 174
         ]),
         neben.length ? el('div', { class: 'cr-neben' }, neben) : null,
       ]),
@@ -2447,13 +2659,14 @@ dialog.blatt::backdrop, dialog.cr-dialog::backdrop { background: rgba(11, 9, 10,
     const aus = d.creator.reduce((x, c) => x + zn(c.ausgezahlt_cent), 0);
     const an = d.creator.filter((c) => c.aktiv === true).length;
     const unbekannt = zn(d.abgelehnt_unbekannt);
+    const gehalten = d.creator.reduce((x, c) => x + zn(c.gehalten_cent), 0); // 174: Teil von offen
     $('cr-kacheln').replaceChildren(
       crKachel(t('crProvision'), eurK(s.provNach),
         [t('crProvTeil', { j: z(s.erst_j), bj: eur(bj), m: z(s.erst_m), bm: eur(bm) }), s.abzug_cent ? t('crAbzug', { x: eur(s.abzug_cent) }) : ''].filter(Boolean).join(' · '),
         crWochenReihe(d.wochen, 'prov_cent', wochen)),
       crKachel(t('crErste'), z(s.erst), t('crErsteTeil', { j: z(s.erst_j), m: z(s.erst_m), w: z(s.weitere) }), crWochenReihe(d.wochen, 'erst', wochen)),
       crKachel(t('crGeholt'), z(s.geholt), t('crGeholtTeil', { n: z(s.neu), i: z(s.ios), a: z(s.android) }), crWochenReihe(d.wochen, 'geholt', wochen)),
-      crKachel(t('crOffen'), eurK(offen), t('crOffenTeil', { x: eurG(aus) })),
+      crKachel(t('crOffen'), eurK(offen), [t('crOffenTeil', { x: eurG(aus) }), gehalten > 0 ? t('crZGehalten', { betrag: eur(gehalten) }) : ''].filter(Boolean).join(' · ')),
       crKachel(t('crAn'), z(an), [t('crAnTeil', { n: z(d.creator.length), m: z(d.creator.length - an) }), unbekannt ? t('crUnbekannt', { n: z(unbekannt) }) : ''].filter(Boolean).join(' · ')),
     );
     $('cr-ueberblick-neben').textContent = t('crUeberblickNeben', { zeit: crZeitText(), plattform: crPlattformText() });
@@ -2483,6 +2696,7 @@ dialog.blatt::backdrop, dialog.cr-dialog::backdrop { background: rgba(11, 9, 10,
           el('div', null, [el('span', { text: t('crProvision') }), el('b', { text: eur(s.provNach) }), el('small', { text: s.abzug_cent ? t('crAbzug', { x: eur(s.abzug_cent) }) : t('crOhneAbzug') })]),
         ]),
         el('div', { class: 'ck-funke' }, [funke(crWochenReihe(crIx.wochen.get(c.id) || [], 'geholt', wochen)), el('span', { text: t('crFunke') })]),
+        ...(zn(c.gehalten_cent) > 0 ? [el('p', { class: 'klein zahl ck-gehalten', text: crGehaltenText(c) })] : []), // 174
         el('div', { class: 'ck-fuss' }, [el('span', { class: 'zahl', text: t('crStandFuss', { o: eur(c.offen_cent), a: eur(c.ausgezahlt_cent) }) }), buchen]),
       );
       return k;
@@ -2601,6 +2815,7 @@ dialog.blatt::backdrop, dialog.cr-dialog::backdrop { background: rgba(11, 9, 10,
       seitText ? el('span', { text: seitText }) : null,
       el('span', { text: '· ' + crPlattformText() }),
       el('span', { text: '· ' + (c.creator_profil === true ? t('crProfilFrei') : c.konto ? t('crProfilNicht') : t('crOhneKonto')) }),
+      zn(c.gehalten_cent) > 0 ? el('span', { class: 'zahl', text: '· ' + crGehaltenText(c) }) : null, // 174
     ]);
     const kacheln = el('div', { class: 'kacheln' }, [
       crKachel(t('crGeholt'), z(s.geholt), t('crGeholtTeil', { n: z(s.neu), i: z(s.ios), a: z(s.android) })),
@@ -2714,6 +2929,13 @@ dialog.blatt::backdrop, dialog.cr-dialog::backdrop { background: rgba(11, 9, 10,
       F.profil = el('input', { id: 'cr-b-profil', type: 'checkbox' });
       teile.push(el('div', { class: 'haken' }, [F.profil, el('label', { for: 'cr-b-profil', text: t('crProfilHaken') })]));
     }
+    if (typeof c.gratismonat === 'boolean') { // 174
+      F.gratis = el('input', { id: 'cr-b-gratis', type: 'checkbox', 'data-cr-gratis': '', 'aria-describedby': 'cr-b-gratis-hinweis' });
+      F.gratis.checked = c.gratismonat !== false;
+      gratisKaestchen(F.gratis, c.rabatt);
+      teile.push(el('div', { class: 'haken' }, [F.gratis, el('label', { for: 'cr-b-gratis', text: t('crGratis') })]),
+        el('p', { class: 'klein', id: 'cr-b-gratis-hinweis', text: t('crGratisHinweis') }));
+    }
     const senden = el('button', { class: 'knopf voll', type: 'submit', text: t('crSpeichern'), 'data-f': 'cr-b-senden' });
     senden.disabled = !crEcht;
     const bsp = el('p', { class: 'hinweis', text: t('crBeispielAus') });
@@ -2730,12 +2952,21 @@ dialog.blatt::backdrop, dialog.cr-dialog::backdrop { background: rgba(11, 9, 10,
       if (!w.geaendert.length) { crMeldung(fehler, t('crNichtsGeaendert')); return; }
       const ja = await frage({ text: t('crFrageSpeichern', { name: c0.name }), neben: w.geaendert.join(' · '), ja: t('crSpeichern') }, senden);
       if (!ja || !b.hasAttribute('open')) return;
+      // 174: mit Kaestchen ein oder zwei Rufe in fester Reihenfolge (gratisSchritte), ohne genau wie 1111
+      const schritte = gratisSchritte(w.rumpf, c0.id, w.gratis);
       crSendet(b, true);
-      const r = await crSenden(w.rumpf);
+      let r = null, rAendern = null, fertig = 0;
+      for (const s of schritte) {
+        r = await crSenden(s);
+        if (!r.ok) break;
+        fertig++;
+        if (s.aktion === 'aendern') rAendern = r;
+      }
       crSendet(b, false);
       if (r.ok) {
-        const neu = r.daten.creator && typeof r.daten.creator === 'object' ? r.daten.creator : {};
-        const p = r.daten.creator_profil;
+        const quelle = (rAendern || r).daten;
+        const neu = quelle.creator && typeof quelle.creator === 'object' ? quelle.creator : {};
+        const p = rAendern ? rAendern.daten.creator_profil : null;
         const text = [t('crGespeichert', { name: typeof neu.name === 'string' ? neu.name : c0.name })];
         if (w.rumpf.creator_profil && p && typeof p === 'object') text.push(t(p.neu === false ? 'crProfilWarFrei' : 'crProfilIstFrei'));
         crErfolg(text.join(' '));
@@ -2743,15 +2974,16 @@ dialog.blatt::backdrop, dialog.cr-dialog::backdrop { background: rgba(11, 9, 10,
         crLaden();
         return;
       }
-      const x = crFehlerText(r);
+      const x = schritte[fertig].aktion === 'gratismonat' ? crGratisFehler(r) : crFehlerText(r);
       crMeldung(fehler, x.text);
       const ziel = {
         name_form: F.name, prov_form: F.provJ, notiz_form: F.notiz, code_form: F.code, code_vergeben: F.code, code_fest: F.code,
         handle_form: F.handle, handle_unbekannt: F.handle, handle_vergeben: F.handle, handle_mehrdeutig: F.handle, handle_eingeloest: F.handle,
-        handle_fest: F.handle, handle_fehlt: F.handle || F.profil,
+        handle_fest: F.handle, handle_fehlt: F.handle || F.profil, sofort_ohne_angebot: F.gratis,
       }[x.wort];
       if (ziel) ziel.focus();
-      if (x.neuLaden) { crBlattNeu = crBlattNeu || 'daten'; crLaden(); }
+      // Erster Ruf geklappt, zweiter nicht: Daten neu, das Formular bleibt (ein neues Speichern schickt nur den Rest)
+      if (x.neuLaden || fertig > 0) { crBlattNeu = crBlattNeu || 'daten'; crLaden(); }
     });
     det.append(el('summary', { text: t('crBearbeiten') }), form);
     return det;
@@ -2789,7 +3021,14 @@ dialog.blatt::backdrop, dialog.cr-dialog::backdrop { background: rgba(11, 9, 10,
       }
     }
     if (F.profil && F.profil.checked) { r.creator_profil = true; g.push(t('crProfilTag')); }
-    return { rumpf: r, geaendert: g };
+    // 174: Kaestchen Gratismonat, null = unveraendert
+    let gratis = null;
+    if (F.gratis && typeof c.gratismonat === 'boolean' && F.gratis.checked !== (c.gratismonat !== false)) {
+      gratis = F.gratis.checked;
+      if (!gratis && !sofortGeht(c.rabatt)) return { fehler: t('crSofortOhne'), feld: F.gratis };
+      g.push(gratisSatz(gratis));
+    }
+    return { rumpf: r, geaendert: g, gratis };
   }
 
   // ---------------------------------------------------------------- Creator: Code an/aus
@@ -2821,7 +3060,9 @@ dialog.blatt::backdrop, dialog.cr-dialog::backdrop { background: rgba(11, 9, 10,
     d: $('cr-anlegen'), form: $('cr-a-form'), name: $('cr-a-name'), handle: $('cr-a-handle'), code: $('cr-a-code'),
     rabatt: $('cr-a-rabatt'), provJ: $('cr-a-prov-jahr'), provM: $('cr-a-prov-monat'), notiz: $('cr-a-notiz'),
     profil: $('cr-a-profil'), profilHinweis: $('cr-a-profil-hinweis'), fehler: $('cr-a-fehler'), beispiel: $('cr-a-beispiel'), senden: $('cr-a-senden'),
+    gratisZeile: $('cr-a-gratis-zeile'), gratis: $('cr-a-gratis'), gratisHinweis: $('cr-a-gratis-hinweis'),
   };
+  A.rabatt.addEventListener('change', () => gratisKaestchen(A.gratis, A.rabatt.value));
   const crGanz = (s) => { const x = String(s == null ? '' : s).trim(); return /^\d{1,3}$/.test(x) ? Number(x) : null; };
   const crCodeNormal = (s) => String(s || '').toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 16);
   A.code.addEventListener('input', () => { const n = crCodeNormal(A.code.value); if (n !== A.code.value) A.code.value = n; });
@@ -2844,6 +3085,10 @@ dialog.blatt::backdrop, dialog.cr-dialog::backdrop { background: rgba(11, 9, 10,
     if (!A.d.hasAttribute('open')) crMeldung(A.fehler, '');
     crRabattOptionen();
     crProfilHaken();
+    const gratis = gratisDa(); // 174
+    A.gratisZeile.hidden = !gratis;
+    crMeldung(A.gratisHinweis, gratis ? t('crGratisHinweis') : '');
+    gratisKaestchen(A.gratis, A.rabatt.value);
     A.senden.disabled = !crEcht;
     crMeldung(A.beispiel, crEcht ? '' : t('crBeispielAus'));
     dlgAuf(A.d, knopf);
@@ -2866,13 +3111,17 @@ dialog.blatt::backdrop, dialog.cr-dialog::backdrop { background: rgba(11, 9, 10,
     if (pm == null || pm > 50) return { fehler: t('crF_prov_form'), feld: A.provM };
     const notiz = A.notiz.value.trim();
     if (notiz.length > 500 || STEUER_OHNE_NL_RE.test(notiz)) return { fehler: t('crF_notiz_form'), feld: A.notiz };
+    // 174: leeres Kaestchen heisst nach dem Anlegen ein zweiter Ruf gratismonat false
+    const gratis = !A.gratisZeile.hidden && !A.gratis.checked ? false : null;
+    if (gratis === false && !sofortGeht(rabatt)) return { fehler: t('crSofortOhne'), feld: A.gratis };
     return { rumpf: {
       aktion: 'anlegen', name, handle: handle || null, code, rabatt, prov_jahr: pj, prov_monat: pm,
       creator_profil: !!handle && A.profil.checked, notiz: notiz || null,
-    } };
+    }, gratis };
   }
   const A_FEHLERFELD = { name_form: 'name', code_form: 'code', code_vergeben: 'code', handle_form: 'handle', handle_unbekannt: 'handle',
-    handle_vergeben: 'handle', handle_mehrdeutig: 'handle', handle_fehlt: 'handle', rabatt_ohne_angebot: 'rabatt', prov_form: 'provJ', notiz_form: 'notiz' };
+    handle_vergeben: 'handle', handle_mehrdeutig: 'handle', handle_fehlt: 'handle', rabatt_ohne_angebot: 'rabatt', prov_form: 'provJ', notiz_form: 'notiz',
+    sofort_ohne_angebot: 'gratis' };
   const A_EINGABEFELD = { name: 'name', handle: 'handle', code: 'code', rabatt: 'rabatt', prov_jahr: 'provJ', prov_monat: 'provM', notiz: 'notiz', creator_profil: 'profil' };
   A.form.addEventListener('submit', async (ev) => {
     ev.preventDefault();
@@ -2882,18 +3131,25 @@ dialog.blatt::backdrop, dialog.cr-dialog::backdrop { background: rgba(11, 9, 10,
     if (w.fehler) { crMeldung(A.fehler, w.fehler); w.feld.focus(); return; }
     const ja = await frage({
       text: t('crFrageAnlegen', { name: w.rumpf.name, code: w.rumpf.code }),
-      neben: w.rumpf.creator_profil ? t('crFrageAnlegenProfil') : '',
+      neben: [w.rumpf.creator_profil ? t('crFrageAnlegenProfil') : '', w.gratis === false ? t('crOhneGratis') + '.' : ''].filter(Boolean).join(' '),
       ja: t('crAnlegenJa'),
     }, A.senden);
     if (!ja || !A.d.hasAttribute('open')) return;
     crSendet(A.d, true);
     const r = await crSenden(w.rumpf);
+    // 174: erst anlegen (Koerper wie 1111), dann bei leerem Kaestchen gratismonat false fuer die neue id
+    let r2 = null;
+    if (r.ok && w.gratis === false) {
+      const id = r.daten.creator && typeof r.daten.creator === 'object' && typeof r.daten.creator.id === 'string' ? r.daten.creator.id : '';
+      r2 = id ? await crSenden({ aktion: 'gratismonat', id, gratismonat: false }) : { ok: false, status: 200, rumpf: null };
+    }
     crSendet(A.d, false);
     if (r.ok) {
       const c = r.daten.creator && typeof r.daten.creator === 'object' ? r.daten.creator : {};
       const p = r.daten.creator_profil;
-      const text = [t('crAngelegt', { name: typeof c.name === 'string' ? c.name : w.rumpf.name, code: typeof c.code === 'string' ? c.code : w.rumpf.code })];
+      let text = [t('crAngelegt', { name: typeof c.name === 'string' ? c.name : w.rumpf.name, code: typeof c.code === 'string' ? c.code : w.rumpf.code })];
       if (p && typeof p === 'object') text.push(t(p.neu === false ? 'crProfilWarFrei' : 'crProfilIstFrei'));
+      if (r2 && !r2.ok) text = [t('crGratisNachher'), crGratisFehler(r2).text];
       A.form.reset();
       crProfilHaken();
       dlgZu(A.d);
@@ -2914,6 +3170,7 @@ dialog.blatt::backdrop, dialog.cr-dialog::backdrop { background: rgba(11, 9, 10,
   const Z = {
     d: $('cr-auszahlen'), form: $('cr-z-form'), creator: $('cr-z-creator'), monat: $('cr-z-monat'), faellig: $('cr-z-faellig'),
     hinweis: $('cr-z-hinweis'), notiz: $('cr-z-notiz'), ok: $('cr-z-ok'), fehler: $('cr-z-fehler'), beispiel: $('cr-z-beispiel'), senden: $('cr-z-senden'),
+    gehalten: $('cr-z-gehalten'),
   };
   let crZId = null;
   function crAuszAuffrischen() {
@@ -2929,6 +3186,8 @@ dialog.blatt::backdrop, dialog.cr-dialog::backdrop { background: rgba(11, 9, 10,
     const bis = Z.monat.value;
     const f = bis ? crFaellig(c.id, bis) : 0;
     Z.faellig.textContent = eur(f);
+    const geh = bis ? crGehaltenBis(c.id, bis) : 0; // 174: nicht in Faellig
+    crMeldung(Z.gehalten, geh > 0 ? t('crZGehalten', { betrag: eur(geh) }) : '');
     const weg = bis && f > 0 ? crWeg(c.id, bis) : 0;
     crMeldung(Z.hinweis, !bis ? t('crKeinMonat') : f > 0 ? (weg > 0 ? t('crWegHinweis', { betrag: eur(weg) }) : '')
       : f === 0 ? t('crNichtsFaellig') : t('crMinusVortrag', { betrag: eur(-f) }));
@@ -2996,6 +3255,7 @@ dialog.blatt::backdrop, dialog.cr-dialog::backdrop { background: rgba(11, 9, 10,
   $('cr-a-prov-monat-label').textContent = t('crProvMonat');
   $('cr-a-notiz-label').textContent = t('crNotizFeld');
   $('cr-a-profil-label').textContent = t('crProfilHaken');
+  $('cr-a-gratis-label').textContent = t('crGratis');
   $('cr-a-senden').textContent = t('crAnlegenSenden');
   $('cr-a-abbrechen').textContent = t('crAbbrechen');
   $('cr-z-titel').textContent = t('crAuszTitel');
@@ -3023,6 +3283,640 @@ dialog.blatt::backdrop, dialog.cr-dialog::backdrop { background: rgba(11, 9, 10,
   });
   renderCreator();
 
+  // ================================================================ Aktionen (162, Black Friday)
+  // Tim, 11.11.2026: Black Friday ueber das Creator-Code-System, die Aktion im
+  // Dashboard anlegen, den Code jederzeit aendern, 50 % aufs Jahresabo.
+  // Eigener Bereich nach dem Creator-Teil mit eigenem Laden (?teil=aktionen),
+  // nicht im 60-s-Takt. Daten nur per textContent und setAttribute mit festen
+  // Namen. Geschrieben wird nur mit Zugang und nach einer Rueckfrage. Ist ein
+  // Aktions-Dialog offen, zeichnet akRender() nicht neu.
+  const AK_TEXTE = {
+    de: {
+      link: 'Aktionen', titel: 'Aktionen', neben: 'Codes ohne Creator, z. B. Black Friday', anlegenKnopf: 'Aktion anlegen',
+      stand: 'Stand {zeit}', leer: 'Noch keine Aktion angelegt.',
+      st_geplant: 'geplant', st_laeuft: 'läuft', st_nachlauf: 'Nachlauf', st_vorbei: 'vorbei', st_aus: 'aus',
+      schalterAus: 'Aktion {name} ausschalten', schalterAn: 'Aktion {name} anschalten', an: 'an', aus: 'aus',
+      vorteil: '{r} % aufs erste Jahr', preis: '{p} statt {v} im ersten Jahr', keinMonat: 'kein Monatsrabatt',
+      zeitraum: '{von} bis {bis}', kaufBis: 'Kaufen bis {bis} (Nachlauf {h} h)', berlin: 'Berliner Zeit',
+      pl_alle: 'iOS und Android', pl_ios: 'nur iOS', pl_android: 'nur Android', zielNeu: 'nur neue Konten', zielAlle: 'für alle',
+      zg_alle: 'Alle', zg_neu: 'Nur neue Konten',
+      kKunden: 'Wer', kKundenTeil: 'neu {n} · zurück {z} · Wechsel {w}', kZurueck: 'Zurück bezahlt', kZurueckTeil: 'ohne Gratismonat, Jahr',
+      kEingeloest: 'Eingelöst', kEingeloestTeil: 'iOS {i} · Android {a}', kProbe: 'Probe läuft', kProbeTeil: 'davon gekündigt {n}',
+      kBezahlt: 'Bezahlt', kBezahltTeil: 'Jahr {j} · Monat {m}', kUmsatz: 'Umsatz netto', kUmsatzTeil: 'ca., erste Zahlungen {n}',
+      kAbgelehnt: 'Abgelehnt', kAbgelehntTeil: 'davon Update {n} · verfallen {v}',
+      wVorratLeer: 'Keine Apple-Codes der Stufe {stufe} frei: iOS nimmt den Code nicht an.',
+      wVorratKnapp: 'Apple-Codes knapp: {n} frei ({stufe}).',
+      wLeck: 'Play-Leck: {n} Käufe von {angebot} ohne passenden Code.',
+      wUpdate: '{n} Android-Versuche brauchten ein App-Update.',
+      bearbeiten: 'Bearbeiten', codeAendern: 'Code ändern',
+      dNeu: 'Aktion anlegen', dBearbeiten: 'Aktion bearbeiten', dCode: 'Code ändern',
+      fName: 'Name', fCode: 'Code', fCodeHinweis: '3 bis 16 Zeichen, A bis Z und 0 bis 9', fRabatt: 'Rabatt aufs erste Jahr',
+      fStart: 'Start (Berliner Zeit)', fEnde: 'Ende (Berliner Zeit)', fNachlauf: 'Nachlauf in Stunden', fNachlaufHinweis: 'Schon Eingelöste dürfen so lange nach dem Ende noch kaufen. 0 = bis zum Ende.',
+      fPlattformen: 'Plattformen', fZielgruppe: 'Zielgruppe',
+      fZiel: 'Nur neue Konten (nie ein Store-Abo). Wer schon einen Creator-Code hat, behält ihn.',
+      fZielAlle: 'Neue Konten 30 Tage gratis, Abgelaufene zahlen den Preis gleich, Monats- und Quartalsabos wechseln aufs Jahr. Jahresabo, Lifetime und geschenktes Pro lesen einen Satz statt eines Kaufs. Wer schon einen Creator-Code hat, behält ihn.',
+      fAktiv: 'Gleich an', fNotiz: 'Notiz (nur für dich)', fCodeNeuHinweis: 'Der alte Code geht danach nicht mehr. Wer ihn schon eingelöst hat, behält den Preis.',
+      senden: 'Weiter', abbrechen: 'Abbrechen', schliessen: 'Schließen',
+      frAnlegen: '{name} mit Code {code} anlegen?', frAnlegenNeben: '{r} % aufs erste Jahr, {von} bis {bis}.', jaAnlegen: 'Anlegen',
+      frSpeichern: 'Änderungen an {name} speichern?', jaSpeichern: 'Speichern',
+      frCode: 'Code {alt} durch {neu} ersetzen?', jaCode: 'Code ändern',
+      frAus: 'Aktion {name} ausschalten?', frAusNeben: 'Der Code wird sofort abgelehnt. Wer ihn schon eingelöst hat, kauft bis zum Ende zum Preis.', jaAus: 'Ausschalten',
+      frAn: 'Aktion {name} wieder anschalten?', jaAn: 'Anschalten',
+      okAngelegt: '{name} angelegt. Code {code}.', okGespeichert: '{name} gespeichert.', okCode: 'Neuer Code: {code}. {alt} geht nicht mehr.',
+      okAus: '{name} ist aus.', okAn: '{name} ist an.', nichts: 'Nichts geändert.',
+      l_name: 'Name', l_code: 'Code', l_rabatt: 'Rabatt', l_start: 'Start', l_ende: 'Ende', l_nachlauf_stunden: 'Nachlauf',
+      l_plattformen: 'Plattformen', l_zielgruppe: 'Zielgruppe', l_aktiv: 'An/Aus', l_notiz: 'Notiz', l_id: 'Aktion',
+      f_name_form: 'Name: 1 bis 60 Zeichen.', f_code_form: 'Code: 3 bis 16 Zeichen, nur A bis Z und 0 bis 9.', f_code_vergeben: 'Diesen Code gibt es schon (Creator oder Aktion).',
+      f_rabatt_ohne_angebot: 'Für diesen Rabatt gibt es kein Store-Angebot.', f_zeit_form: 'Zeit prüfen: Ende muss nach dem Start liegen.',
+      f_dauer_zu_lang: 'Höchstens 92 Tage.', f_nachlauf_form: 'Nachlauf: 0 bis 336 Stunden.', f_zielgruppe_form: 'Zielgruppe gibt es nicht.',
+      f_plattformen_form: 'Plattform gibt es nicht.', f_notiz_form: 'Notiz zu lang.', f_unbekannt: 'Aktion nicht gefunden. Neu laden.',
+      f_nichts: 'Nichts geändert.', f_ist_creator: 'Das ist ein Creator, keine Aktion.', f_eingabe: 'Eingabe prüfen: {feld}.',
+      f_funktion_fehlt: '162 ist noch nicht eingespielt.', f_deploy: 'Die Function kennt Aktionen noch nicht. Erst deployen.',
+      f_zeit: 'Keine Antwort. Neu laden und prüfen, ob es geklappt hat.',
+      ladenFehlt: 'Funktion fehlt', ladenAlt: 'Function ohne Aktionen', ladenAltText: 'Die Function ist noch die alte Fassung. Erst deployen.',
+      wie: 'So läuft eine Aktion',
+      wie1: 'Der Code wird auf der Paywall eingegeben wie ein Creator-Code: 30 Tage gratis, dann der Rabatt aufs erste Jahr. Kein Monatsrabatt.',
+      wie2: 'Zielgruppe Alle: neue Konten mit Gratismonat, Abgelaufene ohne, Monats- und Quartalsabos wechseln aufs Jahr (iOS ab der nächsten Verlängerung, Android sofort mit Restzeit). Nur neue Konten: wie ein Creator-Code. Wer schon einen Creator-Code hat, behält ihn.',
+      wie3: 'Zeiten in Berliner Zeit. Nach dem Ende nimmt fin den Code nicht mehr an; mit Nachlauf dürfen schon Eingelöste noch kaufen.',
+      wie4: 'Den Code kannst du jederzeit ändern. Der alte geht dann nicht mehr, wer ihn schon eingelöst hat, behält den Preis.',
+      wie5: 'iOS braucht freie Apple-Codes der Stufe, Android die Play-Angebote der Stufe (50 %: creator-50, für Alle auch creator-50-sofort; ohne Gratismonat für neue Konten d50-Codes und creator-50-sofort-neu). Android bis 2.7.9 lehnt ab („Hat nicht geklappt“), ohne Gratismonat auch iOS bis 2.7.9 („Geht erst nach einem App-Update“).',
+      wie6: 'Umsatz netto ist geschätzt: Preis ohne {mwst} % MwSt und {store} % Store.',
+      wie7: 'Keine Provision. Aktionen tauchen bei den Creatorn nicht auf.',
+      bspNotiz: 'Story und Push am Freitag 9 Uhr.',
+    },
+    en: {
+      link: 'Campaigns', titel: 'Campaigns', neben: 'codes without a creator, e.g. Black Friday', anlegenKnopf: 'Add campaign',
+      stand: 'As of {zeit}', leer: 'No campaign yet.',
+      st_geplant: 'planned', st_laeuft: 'running', st_nachlauf: 'grace period', st_vorbei: 'over', st_aus: 'off',
+      schalterAus: 'Turn off campaign {name}', schalterAn: 'Turn on campaign {name}', an: 'on', aus: 'off',
+      vorteil: '{r} % off the first year', preis: '{p} instead of {v} in the first year', keinMonat: 'no monthly discount',
+      zeitraum: '{von} to {bis}', kaufBis: 'Buy until {bis} (grace {h} h)', berlin: 'Berlin time',
+      pl_alle: 'iOS and Android', pl_ios: 'iOS only', pl_android: 'Android only', zielNeu: 'new accounts only', zielAlle: 'for everyone',
+      zg_alle: 'Everyone', zg_neu: 'New accounts only',
+      kKunden: 'Who', kKundenTeil: 'new {n} · back {z} · switch {w}', kZurueck: 'Back and paid', kZurueckTeil: 'no free month, year',
+      kEingeloest: 'Redeemed', kEingeloestTeil: 'iOS {i} · Android {a}', kProbe: 'Trial running', kProbeTeil: 'of which cancelled {n}',
+      kBezahlt: 'Paid', kBezahltTeil: 'Year {j} · Month {m}', kUmsatz: 'Net revenue', kUmsatzTeil: 'approx., first payments {n}',
+      kAbgelehnt: 'Rejected', kAbgelehntTeil: 'of which update {n} · expired {v}',
+      wVorratLeer: 'No Apple codes of tier {stufe} left: iOS rejects the code.',
+      wVorratKnapp: 'Apple codes running low: {n} left ({stufe}).',
+      wLeck: 'Play leak: {n} purchases of {angebot} without a matching code.',
+      wUpdate: '{n} Android attempts needed an app update.',
+      bearbeiten: 'Edit', codeAendern: 'Change code',
+      dNeu: 'Add campaign', dBearbeiten: 'Edit campaign', dCode: 'Change code',
+      fName: 'Name', fCode: 'Code', fCodeHinweis: '3 to 16 characters, A to Z and 0 to 9', fRabatt: 'Discount on the first year',
+      fStart: 'Start (Berlin time)', fEnde: 'End (Berlin time)', fNachlauf: 'Grace period in hours', fNachlaufHinweis: 'People who already redeemed may still buy this long after the end. 0 = until the end.',
+      fPlattformen: 'Platforms', fZielgruppe: 'Audience',
+      fZiel: 'New accounts only (never a store subscription). Anyone with a creator code keeps it.',
+      fZielAlle: 'New accounts get 30 days free, expired ones pay the price right away, monthly and quarterly plans switch to yearly. Yearly, lifetime and gifted Pro see a message instead of a purchase. Anyone with a creator code keeps it.',
+      fAktiv: 'On right away', fNotiz: 'Note (only for you)', fCodeNeuHinweis: 'The old code stops working. Anyone who already redeemed it keeps the price.',
+      senden: 'Continue', abbrechen: 'Cancel', schliessen: 'Close',
+      frAnlegen: 'Add {name} with code {code}?', frAnlegenNeben: '{r} % off the first year, {von} to {bis}.', jaAnlegen: 'Add',
+      frSpeichern: 'Save changes to {name}?', jaSpeichern: 'Save',
+      frCode: 'Replace code {alt} with {neu}?', jaCode: 'Change code',
+      frAus: 'Turn off campaign {name}?', frAusNeben: 'The code is rejected right away. Anyone who already redeemed it buys at the price until the end.', jaAus: 'Turn off',
+      frAn: 'Turn campaign {name} back on?', jaAn: 'Turn on',
+      okAngelegt: '{name} added. Code {code}.', okGespeichert: '{name} saved.', okCode: 'New code: {code}. {alt} no longer works.',
+      okAus: '{name} is off.', okAn: '{name} is on.', nichts: 'Nothing changed.',
+      l_name: 'name', l_code: 'code', l_rabatt: 'discount', l_start: 'start', l_ende: 'end', l_nachlauf_stunden: 'grace period',
+      l_plattformen: 'platforms', l_zielgruppe: 'audience', l_aktiv: 'on/off', l_notiz: 'note', l_id: 'campaign',
+      f_name_form: 'Name: 1 to 60 characters.', f_code_form: 'Code: 3 to 16 characters, only A to Z and 0 to 9.', f_code_vergeben: 'This code already exists (creator or campaign).',
+      f_rabatt_ohne_angebot: 'There is no store offer for this discount.', f_zeit_form: 'Check the time: the end must be after the start.',
+      f_dauer_zu_lang: 'At most 92 days.', f_nachlauf_form: 'Grace period: 0 to 336 hours.', f_zielgruppe_form: 'Unknown audience.',
+      f_plattformen_form: 'Unknown platform.', f_notiz_form: 'Note too long.', f_unbekannt: 'Campaign not found. Reload.',
+      f_nichts: 'Nothing changed.', f_ist_creator: 'This is a creator, not a campaign.', f_eingabe: 'Check the input: {feld}.',
+      f_funktion_fehlt: '162 is not applied yet.', f_deploy: 'The function does not know campaigns yet. Deploy first.',
+      f_zeit: 'No answer. Reload and check whether it worked.',
+      ladenFehlt: 'Function missing', ladenAlt: 'Function without campaigns', ladenAltText: 'The function is still the old version. Deploy first.',
+      wie: 'How a campaign works',
+      wie1: 'The code is entered on the paywall like a creator code: 30 days free, then the discount on the first year. No monthly discount.',
+      wie2: 'Audience Everyone: new accounts with a free month, expired ones without, monthly and quarterly plans switch to yearly (iOS at the next renewal, Android right away with the remaining time). New accounts only: like a creator code. Anyone with a creator code keeps it.',
+      wie3: 'Times in Berlin time. After the end fin no longer accepts the code; with a grace period, people who already redeemed may still buy.',
+      wie4: 'You can change the code at any time. The old one stops working, anyone who already redeemed it keeps the price.',
+      wie5: 'iOS needs free Apple codes of the tier, Android the Play offers of the tier (50 %: creator-50, for Everyone also creator-50-sofort; without a free month for new accounts d50 codes and creator-50-sofort-neu). Android up to 2.7.9 rejects it ("Didn’t work"), without a free month iOS up to 2.7.9 too ("Needs an app update").',
+      wie6: 'Net revenue is estimated: price without {mwst} % VAT and {store} % store fee.',
+      wie7: 'No commission. Campaigns do not show up under creators.',
+      bspNotiz: 'Story and push on Friday 9 am.',
+    },
+  };
+  const ak = (k, w) => String(AK_TEXTE[SPRACHE][k] ?? AK_TEXTE.de[k] ?? k).replace(/\{(\w+)\}/g, (_, n) => (w && w[n] != null ? w[n] : ''));
+  const AK_ZEIT_RE = /^(\d{4})-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])T([01]\d|2[0-3]):([0-5]\d)$/;
+  const AK_CODE_RE = /^[A-Za-z0-9]{3,16}$/;
+  const AK_STATUS = ['geplant', 'laeuft', 'nachlauf', 'vorbei', 'aus'];
+  const AK_PLATTFORMEN = ['alle', 'ios', 'android'];
+  const AK_ZIELGRUPPEN = ['alle', 'neu'];
+  const AK_UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
+  const AK_DIALOGE = ['ak-dialog', 'ak-frage'];
+  let akDaten = null;        // letzte gueltige Antwort, ohne Zugang das Beispiel
+  let akEcht = false;
+  let akFehler = null;       // {titel, text, knopf?}
+  let akLaedt = false;
+  let akLaufNr = 0;
+  let akGeladenAm = 0;
+  let akZugang = zugang;
+  let akAusstehend = false;
+  let akErfolgText = '';
+  const akDialogOffen = () => AK_DIALOGE.some((id) => $(id).hasAttribute('open'));
+
+  // ---------------------------------------------------------------- Aktionen: Daten
+  const akListe = (j, k) => (j && Array.isArray(j[k]) ? j[k].filter((x) => x && typeof x === 'object') : []);
+  function akGueltig(j) {
+    return !!j && typeof j === 'object' && !Array.isArray(j) && j.version === 1 && j.teil === 'aktionen' && Array.isArray(j.aktionen)
+      && j.aktionen.every((a) => a && typeof a === 'object' && typeof a.id === 'string' && AK_UUID.test(a.id)
+        && typeof a.code === 'string' && typeof a.name === 'string');
+  }
+  function akPreis(r) {
+    const an = (akDaten && akDaten.annahmen) || {};
+    const p = (Array.isArray(an.preise) ? an.preise : []).find((x) => x && Number(x.rabatt) === Number(r)) || {};
+    return { jahr: zn(p.jahr_cent), nettoJahr: zn(p.netto_jahr_cent), nettoMonat: zn(p.netto_monat_cent), liste: zn(an.liste_jahr_cent) || 4999,
+      mwst: Number.isFinite(Number(an.mwst_prozent)) ? Number(an.mwst_prozent) : 19, store: Number.isFinite(Number(an.store_prozent)) ? Number(an.store_prozent) : 15 };
+  }
+  function akSummen(a) {
+    const sk = akListe(akDaten, 'stand_konten').filter((s) => s.a === a.id);
+    const felder = ['nie', 'ohne', 'probe', 'probe_gekuendigt', 'aktiv', 'gekuendigt', 'beendet', 'erstattet', 'anderes'];
+    const alle = (x) => felder.reduce((s, f) => s + zn(x[f]), 0);
+    const summe = (f) => sk.reduce((s, x) => s + zn(x[f]), 0);
+    const tage = akListe(akDaten, 'tage').filter((x) => x.a === a.id);
+    const tsumme = (f) => tage.reduce((s, x) => s + zn(x[f]), 0);
+    const pr = akPreis(a.rabatt);
+    return {
+      ios: sk.filter((x) => x.p === 'ios').reduce((s, x) => s + alle(x), 0),
+      android: sk.filter((x) => x.p === 'android').reduce((s, x) => s + alle(x), 0),
+      probe: summe('probe') + summe('probe_gekuendigt'), probeGek: summe('probe_gekuendigt'),
+      bezahlt: summe('aktiv') + summe('gekuendigt') + summe('beendet') + summe('erstattet'), jahr: summe('jahr'), monat: summe('monat'),
+      erste: tsumme('erst_j') + tsumme('erst_m'), zurueckJ: tsumme('zurueck_j'),
+      kundeNeu: summe('kunde_neu'), kundeZurueck: summe('kunde_zurueck'), kundeWechsel: summe('kunde_wechsel'),
+      umsatz: tsumme('erst_j') * pr.nettoJahr + tsumme('erst_m') * pr.nettoMonat,
+    };
+  }
+  // 174: traegt eine Aktion gratismonat, ist 174 eingespielt (Schalter auch im Creator-Teil)
+  function akGratisMerken() { akGratisFeld = akListe(akDaten, 'aktionen').some((a) => typeof a.gratismonat === 'boolean'); }
+  function akBeispiel() {
+    const heute = berlinTag(new Date());
+    const id = '00000000-0000-4000-8000-0000000000b1';
+    const sk = (p, x) => ({ a: id, p, ...x });
+    return {
+      version: 1, teil: 'aktionen', stand: new Date().toISOString(), zeitzone: 'Europe/Berlin', heute, rabatte: [33, 50],
+      annahmen: { mwst_prozent: 19, store_prozent: 15, liste_jahr_cent: 4999, liste_monat_cent: 799, preise: [
+        { rabatt: 33, jahr_cent: 3349, monat_cent: 539, netto_jahr_cent: 2392, netto_monat_cent: 385 },
+        { rabatt: 50, jahr_cent: 2499, monat_cent: 799, netto_jahr_cent: 1785, netto_monat_cent: 571 }] },
+      aktionen: [{ id, name: 'Black Friday', code: 'BLACKFRIDAY', rabatt: 50, stufe: 'c50', play_angebot: 'creator-50', aktiv: true,
+        start_ort: tagPlus(heute, -1) + 'T00:00', ende_ort: tagPlus(heute, 3) + 'T00:00', kauf_bis_ort: tagPlus(heute, 3) + 'T00:00',
+        nachlauf_stunden: 0, zielgruppe: 'alle', plattformen: 'alle', notiz: ak('bspNotiz'), status: 'laeuft', play_angebot_sofort: 'creator-50-sofort',
+        eingeloest: 412, verfallen: 9, abgelehnt: 57, abgelehnt_update: 31, gratismonat: true, sofort_moeglich: true }],
+      tage: [{ a: id, t: heute, p: 'ios', eingeloest: 276, probe: 180, erst_j: 55, erst_m: 0, erstattet: 1 },
+        { a: id, t: heute, p: 'android', eingeloest: 145, probe: 96, erst_j: 26, erst_m: 0, erstattet: 0 }],
+      stand_konten: [sk('ios', { nie: 20, ohne: 30, probe: 140, probe_gekuendigt: 25, aktiv: 50, gekuendigt: 4, beendet: 0, erstattet: 1, anderes: 0, jahr: 55, monat: 0 }),
+        sk('android', { nie: 10, ohne: 12, probe: 80, probe_gekuendigt: 14, aktiv: 24, gekuendigt: 2, beendet: 0, erstattet: 0, anderes: 0, jahr: 26, monat: 0 })],
+      vorrat: [{ stufe: 'c50', produkt: 'fin365', gesamt: 3000, frei: 180, vergeben: 2400, eingeloest: 400, abgelaufen: 20, erster_ablauf: '2026-12-15', knapp: true }],
+      play: [{ angebot: 'creator-33', zugeordnet: 0, leck: 0 }, { angebot: 'creator-50', zugeordnet: 160, leck: 2 },
+        { angebot: 'creator-50-sofort', zugeordnet: 41, leck: 0 }],
+    };
+  }
+
+  // ---------------------------------------------------------------- Aktionen: Laden und Senden
+  function akFehlerLaden(status, rumpf) {
+    const f = rumpf && typeof rumpf === 'object' ? rumpf.fehler : null;
+    if (status === 501 || f === 'funktion_fehlt') return { titel: ak('ladenFehlt'), text: ak('f_funktion_fehlt') };
+    if (status === 504 || f === 'zeit') return { titel: t('fZeit'), text: t('crLadenZeit', { s: rumpf && Number.isFinite(rumpf.sekunden) ? rumpf.sekunden : 12 }) };
+    if (status === 400 && f === 'teil') return { titel: ak('ladenAlt'), text: ak('ladenAltText') };
+    return fehlerAus(status, rumpf);
+  }
+  async function akLaden() {
+    if (!zugang) {
+      akLaufNr++;
+      akLaedt = false; akFehler = null; akEcht = false;
+      akDaten = akBeispiel();
+      akGratisMerken();
+      akGeladenAm = Date.now();
+      akRender();
+      return;
+    }
+    const nr = ++akLaufNr;
+    const fuer = zugang;
+    akLaedt = true;
+    akRender();
+    const abbruch = new AbortController();
+    const uhr = setTimeout(() => abbruch.abort(), 20000);
+    try {
+      const adresse = fuer.url + (fuer.url.includes('?') ? '&' : '?') + 'teil=aktionen';
+      const r = await fetch(adresse, {
+        method: 'GET', cache: 'no-store', signal: abbruch.signal,
+        headers: { 'x-dashboard-schluessel': fuer.schluessel },
+      });
+      let rumpf = null;
+      try { rumpf = await r.json(); } catch (_) { rumpf = null; }
+      if (nr !== akLaufNr) return;
+      if (!r.ok) akFehler = akFehlerLaden(r.status, rumpf);
+      else if (akGueltig(rumpf)) { akDaten = rumpf; akGratisMerken(); akEcht = true; akFehler = null; }
+      else if (rumpf && rumpf.version === 1 && Array.isArray(rumpf.tage)) akFehler = { titel: ak('ladenAlt'), text: ak('ladenAltText') };
+      else akFehler = { titel: t('fFormat'), text: t('fFormatText') };
+    } catch (e) {
+      if (nr !== akLaufNr) return;
+      if (e && e.name === 'AbortError') akFehler = { titel: t('fZeit'), text: t('fZeitText') };
+      else if (navigator.onLine === false) akFehler = { titel: t('fOffline'), text: t('fOfflineText') };
+      else akFehler = { titel: t('fNetz'), text: t('fNetzText'), knopf: 'zugang' };
+    } finally {
+      clearTimeout(uhr);
+      if (nr === akLaufNr) { akLaedt = false; akGeladenAm = Date.now(); akRender(); }
+    }
+  }
+  // POST an die Function. Schluessel nur im Kopf, nie in der Adresse.
+  async function akSenden(rumpf) {
+    if (!zugang || !akEcht) return { ok: false, status: 0, rumpf: { fehler: 'beispiel' } };
+    const abbruch = new AbortController();
+    const uhr = setTimeout(() => abbruch.abort(), 20000);
+    try {
+      const r = await fetch(zugang.url, {
+        method: 'POST', cache: 'no-store', signal: abbruch.signal,
+        headers: { 'x-dashboard-schluessel': zugang.schluessel, 'content-type': 'application/json' },
+        body: JSON.stringify(rumpf),
+      });
+      let j = null;
+      try { j = await r.json(); } catch (_) { j = null; }
+      if (r.ok && j && j.ok === true) return { ok: true, daten: j };
+      return { ok: false, status: r.status, rumpf: j };
+    } catch (e) {
+      return { ok: false, status: 0, netz: e && e.name === 'AbortError' ? 'zeit' : 'netz' };
+    } finally {
+      clearTimeout(uhr);
+    }
+  }
+  // Fehlerwort der Function -> Text. Nur feste Woerter, nie eine Meldung der Datenbank.
+  const AK_WOERTER = new Set(['name_form', 'code_form', 'code_vergeben', 'rabatt_ohne_angebot', 'zeit_form', 'dauer_zu_lang', 'nachlauf_form',
+    'zielgruppe_form', 'plattformen_form', 'notiz_form', 'unbekannt', 'nichts', 'ist_creator']);
+  const AK_FELDER = ['name', 'code', 'rabatt', 'start', 'ende', 'nachlauf_stunden', 'plattformen', 'zielgruppe', 'aktiv', 'notiz', 'id'];
+  function akFehlerText(r) {
+    if (r.netz === 'zeit') return ak('f_zeit');
+    if (r.netz) return navigator.onLine === false ? t('fOfflineText') : t('fNetzText');
+    const b = r.rumpf && typeof r.rumpf === 'object' ? r.rumpf : {};
+    const f = typeof b.fehler === 'string' ? b.fehler : null;
+    if (f === 'beispiel') return t('crBeispielAus');
+    if (f === 'zeit' || r.status === 504) return ak('f_zeit');
+    if (f === 'sofort_ohne_angebot') return t('crSofortOhne'); // 174
+    if (f && AK_WOERTER.has(f)) return ak('f_' + f);
+    if (f === 'eingabe') return ak('f_eingabe', { feld: AK_FELDER.includes(b.feld) ? ak('l_' + b.feld) : '?' });
+    if (f === 'funktion_fehlt' || r.status === 501) return ak('f_funktion_fehlt');
+    if (f === 'aktion' || f === 'feld' || f === 'methode' || r.status === 405) return ak('f_deploy');
+    if (f === 'schluessel' || f === 'herkunft' || f === 'nicht_eingerichtet' || [401, 403, 503].includes(r.status) || (r.status === 404 && !f)) {
+      const x = fehlerAus(r.status, b);
+      return x.titel + '. ' + x.text;
+    }
+    if (r.status === 200) return t('fFormatText');
+    const code = typeof b.code === 'string' && b.code ? b.code : (f || 'HTTP ' + r.status);
+    return t('crF_sonst', { code: String(code).slice(0, 40) });
+  }
+  const akGratisFehler = (r) => { const x = gratisFehlerWort(r); return x ? x.text : akFehlerText(r); }; // 174
+
+  // ---------------------------------------------------------------- Aktionen: Format
+  function akZeit(s) {
+    const m = AK_ZEIT_RE.exec(String(s || ''));
+    if (!m) return '-';
+    const d = new Date(Date.UTC(+m[1], +m[2] - 1, +m[3], +m[4], +m[5]));
+    return new Intl.DateTimeFormat(ORT, { timeZone: 'UTC', day: 'numeric', month: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' }).format(d);
+  }
+  const akStatus = (a) => (AK_STATUS.includes(a.status) ? a.status : 'aus');
+
+  // ---------------------------------------------------------------- Aktionen: Rueckfrage
+  let akFrageLoesen = null;
+  function akFrageEnde(wert) { const l = akFrageLoesen; akFrageLoesen = null; if (l) l(wert); }
+  function akFrage(o, ausloeser) {
+    return new Promise((loesen) => {
+      akFrageEnde(false);
+      akFrageLoesen = loesen;
+      $('ak-f-text').textContent = o.text;
+      crMeldung($('ak-f-neben'), o.neben || '');
+      $('ak-f-ja').textContent = o.ja;
+      $('ak-f-ja').disabled = !akEcht;
+      crMeldung($('ak-f-beispiel'), akEcht ? '' : t('crBeispielAus'));
+      dlgAuf($('ak-frage'), ausloeser || document.activeElement);
+      (akEcht ? $('ak-f-ja') : $('ak-f-nein')).focus();
+    });
+  }
+  $('ak-f-form').addEventListener('submit', (ev) => {
+    ev.preventDefault();
+    if (!akEcht || !akFrageLoesen) return;
+    const l = akFrageLoesen;
+    akFrageLoesen = null;
+    dlgZu($('ak-frage'));
+    l(true);
+  });
+  $('ak-f-nein').addEventListener('click', () => dlgZu($('ak-frage')));
+  for (const id of AK_DIALOGE) {
+    const d = $(id);
+    d.addEventListener('close', () => {
+      if (id === 'ak-frage') akFrageEnde(false);
+      if (akAusstehend && !akDialogOffen()) akRender();
+    });
+    d.addEventListener('cancel', (ev) => { if (d.dataset.sendet === '1') ev.preventDefault(); });
+  }
+
+  // ---------------------------------------------------------------- Aktionen: Dialog (anlegen, bearbeiten, Code aendern)
+  const D = {
+    d: $('ak-dialog'), form: $('ak-d-form'), titel: $('ak-d-titel'), mehr: $('ak-d-mehr'), name: $('ak-d-name'), code: $('ak-d-code'),
+    rabatt: $('ak-d-rabatt'), start: $('ak-d-start'), ende: $('ak-d-ende'), nachlauf: $('ak-d-nachlauf'), plattformen: $('ak-d-plattformen'),
+    zielgruppe: $('ak-d-zielgruppe'), zielHinweis: $('ak-d-ziel'),
+    aktivZeile: $('ak-d-aktiv-zeile'), aktiv: $('ak-d-aktiv'), notiz: $('ak-d-notiz'), fehler: $('ak-d-fehler'), beispiel: $('ak-d-beispiel'),
+    codeNeu: $('ak-d-code-neu'), senden: $('ak-d-senden'), art: 'neu', aktion: null,
+    gratisZeile: $('ak-d-gratis-zeile'), gratis: $('ak-d-gratis'), gratisHinweis: $('ak-d-gratis-hinweis'),
+  };
+  D.rabatt.addEventListener('change', () => gratisKaestchen(D.gratis, D.rabatt.value));
+  function akRabatte() {
+    const r = (akDaten && Array.isArray(akDaten.rabatte) ? akDaten.rabatte : [33, 50]).map(Number).filter((x) => Number.isInteger(x) && x > 0 && x < 100);
+    return r.length ? r : [50];
+  }
+  function akOeffnen(art, a, knopf) {
+    D.art = art; D.aktion = a || null;
+    D.titel.textContent = ak(art === 'neu' ? 'dNeu' : art === 'code' ? 'dCode' : 'dBearbeiten');
+    D.mehr.hidden = art === 'code';
+    D.name.closest('.feld').hidden = art === 'code';
+    D.aktivZeile.hidden = art !== 'neu';
+    D.codeNeu.hidden = art === 'neu';
+    const rabatte = akRabatte();
+    D.rabatt.replaceChildren(...rabatte.map((r) => el('option', { value: String(r), text: ak('vorteil', { r }) })));
+    D.plattformen.replaceChildren(...AK_PLATTFORMEN.map((p) => el('option', { value: p, text: ak('pl_' + p) })));
+    D.zielgruppe.replaceChildren(...AK_ZIELGRUPPEN.map((g) => el('option', { value: g, text: ak('zg_' + g) })));
+    // Vorgabe Alle (Tim, 11.11.2026: "fuer alle"); eine Aktion ohne Feld (alte Antwort) gilt als neu.
+    D.zielgruppe.value = a ? (AK_ZIELGRUPPEN.includes(a.zielgruppe) ? a.zielgruppe : 'neu') : 'alle';
+    akZielHinweis();
+    if (a) {
+      D.name.value = a.name || '';
+      D.code.value = a.code || '';
+      D.rabatt.value = String(a.rabatt);
+      D.start.value = AK_ZEIT_RE.test(a.start_ort || '') ? a.start_ort : '';
+      D.ende.value = AK_ZEIT_RE.test(a.ende_ort || '') ? a.ende_ort : '';
+      D.nachlauf.value = String(zn(a.nachlauf_stunden));
+      D.plattformen.value = AK_PLATTFORMEN.includes(a.plattformen) ? a.plattformen : 'alle';
+      D.notiz.value = typeof a.notiz === 'string' ? a.notiz : '';
+    } else {
+      const bfDa = akListe(akDaten, 'aktionen').some((x) => x.code === 'BLACKFRIDAY');
+      const vorBf = berlinTag(new Date()) < '2026-11-27';
+      D.name.value = bfDa ? '' : 'Black Friday';
+      D.code.value = bfDa ? '' : 'BLACKFRIDAY';
+      D.rabatt.value = rabatte.includes(50) ? '50' : String(rabatte[rabatte.length - 1]);
+      D.start.value = !bfDa && vorBf ? '2026-11-27T00:00' : '';
+      D.ende.value = !bfDa && vorBf ? '2026-12-01T00:00' : '';
+      D.nachlauf.value = '0';
+      D.plattformen.value = 'alle';
+      D.aktiv.checked = true;
+      D.notiz.value = '';
+    }
+    // 174: Kaestchen Gratismonat (Vorgabe an), beim Bearbeiten nur, wenn die Aktion das Feld traegt
+    const gratis = art === 'neu' ? gratisDa() : art === 'bearbeiten' && !!a && typeof a.gratismonat === 'boolean';
+    D.gratisZeile.hidden = !gratis;
+    crMeldung(D.gratisHinweis, gratis ? t('crGratisHinweis') : '');
+    D.gratis.checked = !(a && a.gratismonat === false);
+    gratisKaestchen(D.gratis, D.rabatt.value);
+    crMeldung(D.fehler, '');
+    crMeldung(D.beispiel, akEcht ? '' : t('crBeispielAus'));
+    D.senden.disabled = !akEcht;
+    dlgAuf(D.d, knopf);
+    (art === 'code' ? D.code : D.name).focus();
+    if (art === 'code') D.code.select();
+  }
+  function akZielHinweis() { D.zielHinweis.textContent = ak(D.zielgruppe.value === 'alle' ? 'fZielAlle' : 'fZiel'); }
+  D.zielgruppe.addEventListener('change', akZielHinweis);
+  // Werte aus dem Formular: {rumpf} oder {fehler}. Beim Aendern nur, was sich geaendert hat.
+  function akWerte() {
+    const a = D.aktion;
+    const code = D.code.value.trim();
+    if (!AK_CODE_RE.test(code)) return { fehler: ak('f_code_form'), feld: D.code };
+    if (D.art === 'code') {
+      if (code.toUpperCase() === a.code) return { fehler: ak('nichts'), feld: D.code };
+      return { rumpf: { aktion: 'aktion_aendern', id: a.id, code: code.toUpperCase() } };
+    }
+    const name = D.name.value.trim();
+    if (!name || Array.from(name).length > 60 || STEUER_RE.test(name)) return { fehler: ak('f_name_form'), feld: D.name };
+    const start = D.start.value, ende = D.ende.value;
+    if (!AK_ZEIT_RE.test(start)) return { fehler: ak('f_zeit_form'), feld: D.start };
+    if (!AK_ZEIT_RE.test(ende) || ende <= start) return { fehler: ak('f_zeit_form'), feld: D.ende };
+    const nachlauf = Number(D.nachlauf.value);
+    if (!Number.isInteger(nachlauf) || nachlauf < 0 || nachlauf > 336) return { fehler: ak('f_nachlauf_form'), feld: D.nachlauf };
+    const notiz = D.notiz.value.trim();
+    if (Array.from(notiz).length > 500 || STEUER_OHNE_NL_RE.test(notiz)) return { fehler: ak('f_notiz_form'), feld: D.notiz };
+    const rabatt = Number(D.rabatt.value);
+    const plattformen = D.plattformen.value;
+    const zielgruppe = AK_ZIELGRUPPEN.includes(D.zielgruppe.value) ? D.zielgruppe.value : 'alle';
+    // 174: Kaestchen Gratismonat, null = unveraendert (Koerper der Aktionen bleiben wie 1111)
+    let gratis = null;
+    if (!D.gratisZeile.hidden) {
+      if (D.art === 'neu') gratis = D.gratis.checked ? null : false;
+      else if (typeof a.gratismonat === 'boolean' && D.gratis.checked !== (a.gratismonat !== false)) gratis = D.gratis.checked;
+    }
+    if (gratis === false && !sofortGeht(rabatt)) return { fehler: t('crSofortOhne'), feld: D.gratis };
+    if (D.art === 'neu') {
+      return { rumpf: { aktion: 'aktion_anlegen', name, code: code.toUpperCase(), rabatt, start, ende, nachlauf_stunden: nachlauf,
+        zielgruppe, plattformen, aktiv: D.aktiv.checked, notiz: notiz || null }, gratis };
+    }
+    const r = { aktion: 'aktion_aendern', id: a.id };
+    if (name !== a.name) r.name = name;
+    if (code.toUpperCase() !== a.code) r.code = code.toUpperCase();
+    if (rabatt !== Number(a.rabatt)) r.rabatt = rabatt;
+    if (start !== a.start_ort) r.start = start;
+    if (ende !== a.ende_ort) r.ende = ende;
+    if (nachlauf !== zn(a.nachlauf_stunden)) r.nachlauf_stunden = nachlauf;
+    if (plattformen !== a.plattformen) r.plattformen = plattformen;
+    if (zielgruppe !== (AK_ZIELGRUPPEN.includes(a.zielgruppe) ? a.zielgruppe : 'neu')) r.zielgruppe = zielgruppe;
+    if (notiz !== (a.notiz || '')) r.notiz = notiz;
+    if (Object.keys(r).length === 2 && gratis === null) return { fehler: ak('nichts') };
+    return { rumpf: r, gratis };
+  }
+  D.form.addEventListener('submit', async (ev) => {
+    ev.preventDefault();
+    if (!akEcht || D.d.dataset.sendet === '1') return;
+    const w = akWerte();
+    if (w.fehler) { crMeldung(D.fehler, w.fehler); if (w.feld) w.feld.focus(); return; }
+    crMeldung(D.fehler, '');
+    const r0 = w.rumpf;
+    const a = D.aktion;
+    const frage0 = D.art === 'neu'
+      ? { text: ak('frAnlegen', { name: r0.name, code: r0.code }), neben: ak('frAnlegenNeben', { r: r0.rabatt, von: akZeit(r0.start), bis: akZeit(r0.ende) }), ja: ak('jaAnlegen') }
+      : D.art === 'code' || (Object.keys(r0).length === 3 && r0.code)
+        ? { text: ak('frCode', { alt: a.code, neu: r0.code }), neben: ak('fCodeNeuHinweis'), ja: ak('jaCode') }
+        : { text: ak('frSpeichern', { name: a.name }), neben: r0.code ? ak('fCodeNeuHinweis') : '', ja: ak('jaSpeichern') };
+    if (w.gratis != null) frage0.neben = [frage0.neben, gratisSatz(w.gratis) + '.'].filter(Boolean).join(' '); // 174
+    if (!(await akFrage(frage0, D.senden))) return;
+    // 174: Anlegen = aktion_anlegen, bei leerem Kaestchen danach gratismonat false; Aendern in der Reihenfolge von gratisSchritte
+    const schritte = D.art === 'neu' ? [r0] : gratisSchritte(r0, a.id, w.gratis);
+    crSendet(D.d, true);
+    let r = null, rHaupt = null, fertig = 0;
+    for (const s of schritte) {
+      r = await akSenden(s);
+      if (!r.ok) break;
+      fertig++;
+      if (s.aktion !== 'gratismonat') rHaupt = r;
+      const x = r.daten && r.daten.aktion;
+      if (D.art !== 'neu' && x && typeof x === 'object' && x.id === a.id) D.aktion = x; // Grundlage fuer ein neues Speichern
+    }
+    let r2 = null;
+    if (r.ok && D.art === 'neu' && w.gratis === false) {
+      const id = r.daten && r.daten.aktion && typeof r.daten.aktion === 'object' && typeof r.daten.aktion.id === 'string' ? r.daten.aktion.id : '';
+      r2 = id ? await akSenden({ aktion: 'gratismonat', id, gratismonat: false }) : { ok: false, status: 200, rumpf: null };
+    }
+    crSendet(D.d, false);
+    D.senden.disabled = !akEcht;
+    if (r.ok) {
+      const q = (rHaupt || r).daten;
+      const neu = q && q.aktion && typeof q.aktion === 'object' ? q.aktion : {};
+      akErfolgText = D.art === 'neu' ? ak('okAngelegt', { name: neu.name || r0.name, code: neu.code || r0.code })
+        : r0.code && Object.keys(r0).length === 3 ? ak('okCode', { code: neu.code || r0.code, alt: a.code })
+          : ak('okGespeichert', { name: neu.name || a.name });
+      if (r2 && !r2.ok) akErfolgText = t('crGratisNachher') + ' ' + akGratisFehler(r2);
+      dlgZu(D.d);
+      akLaden();
+      return;
+    }
+    crMeldung(D.fehler, schritte[fertig].aktion === 'gratismonat' ? akGratisFehler(r) : akFehlerText(r));
+    if (fertig > 0 || r.netz === 'zeit' || (r.rumpf && r.rumpf.fehler === 'unbekannt')) akLaden();
+  });
+  const akDialogZu = () => { if (D.d.dataset.sendet !== '1') dlgZu(D.d); };
+  $('ak-d-abbrechen').addEventListener('click', akDialogZu);
+  $('ak-d-zu').addEventListener('click', akDialogZu);
+
+  async function akSchalten(a, knopf) {
+    const aus = a.aktiv === true;
+    const ja = await akFrage({ text: ak(aus ? 'frAus' : 'frAn', { name: a.name }), neben: aus ? ak('frAusNeben') : '', ja: ak(aus ? 'jaAus' : 'jaAn') }, knopf);
+    if (!ja) return;
+    knopf.disabled = true;
+    const r = await akSenden({ aktion: 'aktion_aendern', id: a.id, aktiv: !aus });
+    knopf.disabled = false;
+    if (r.ok) { akErfolgText = ak(aus ? 'okAus' : 'okAn', { name: a.name }); akLaden(); return; }
+    akErfolgText = '';
+    akFehler = { titel: t('fNetz'), text: akFehlerText(r) };
+    akRender();
+    akFehler = null;
+  }
+
+  // ---------------------------------------------------------------- Aktionen: Zeichnen
+  function akKopf() {
+    const chip = $('ak-chip');
+    let art = 'beispiel';
+    if (zugang) art = akLaedt ? 'laedt' : akFehler ? (akEcht ? 'alt' : 'fehler') : (akEcht ? 'live' : 'laedt');
+    chip.dataset.art = art;
+    chip.textContent = t({ laedt: 'chipLaedt', alt: 'chipAlt', fehler: 'chipFehler', live: 'chipLive', beispiel: 'chipBeispiel' }[art]);
+    $('ak-stand').textContent = akEcht && akDaten && akDaten.stand ? ak('stand', { zeit: zeit(akDaten.stand) }) : '';
+    $('ak-neu-knopf').disabled = !akDaten || (!!zugang && !akEcht);
+    const m = $('ak-meldung');
+    m.replaceChildren();
+    if (akFehler) {
+      m.append(el('strong', { text: akFehler.titel }), el('p', { text: akFehler.text }));
+      if (akFehler.knopf === 'zugang') {
+        const b = el('button', { class: 'knopf', type: 'button', text: t('zugang') });
+        b.addEventListener('click', () => zugangOeffnen());
+        m.append(el('div', { class: 'knopfreihe' }, b));
+      }
+      m.hidden = false;
+    } else m.hidden = true;
+    crMeldung($('ak-erfolg'), akErfolgText);
+  }
+  function akKarte(a) {
+    const st = akStatus(a);
+    const s = akSummen(a);
+    const pr = akPreis(a.rabatt);
+    const schalter = el('button', { class: 'schalter', type: 'button', 'aria-pressed': a.aktiv === true ? 'true' : 'false',
+      'aria-label': ak(a.aktiv === true ? 'schalterAus' : 'schalterAn', { name: a.name }) }, [el('i'), el('span', { text: ak(a.aktiv === true ? 'an' : 'aus') })]);
+    schalter.addEventListener('click', () => akSchalten(a, schalter));
+    const kopf = el('div', { class: 'ck-kopf' }, [
+      el('div', { class: 'cr-text' }, [
+        el('div', { class: 'cr-name' }, [el('span', { text: a.name }), el('span', { class: 'code', text: a.code }),
+          el('span', { class: st === 'laeuft' ? 'tag' : 'aus', text: ak('st_' + st) }),
+          a.gratismonat === false ? el('span', { class: 'sofort', text: t('crOhneGratis') }) : null]), // 174
+        el('div', { class: 'cr-neben' }, [el('span', { text: ak('pl_' + (AK_PLATTFORMEN.includes(a.plattformen) ? a.plattformen : 'alle')) + ' · ' + ak(a.zielgruppe === 'alle' ? 'zielAlle' : 'zielNeu') })]),
+      ]),
+      schalter,
+    ]);
+    const vorteil = pr.jahr > 0
+      ? ak('vorteil', { r: zn(a.rabatt) }) + ' · ' + ak('preis', { p: eur(pr.jahr), v: eur(pr.liste) }) + ' · ' + ak('keinMonat')
+      : ak('vorteil', { r: zn(a.rabatt) });
+    const zeilen = [el('span', { class: 'modell', text: vorteil }),
+      el('div', { class: 'cr-neben' }, [el('span', { text: ak('zeitraum', { von: akZeit(a.start_ort), bis: akZeit(a.ende_ort) }) + ' · ' + ak('berlin') })])];
+    if (zn(a.nachlauf_stunden) > 0) zeilen.push(el('div', { class: 'cr-neben' }, [el('span', { text: ak('kaufBis', { bis: akZeit(a.kauf_bis_ort), h: zn(a.nachlauf_stunden) }) })]));
+    const zahl3 = (name, wert, teil) => el('div', {}, [el('span', { text: name }), el('b', { text: wert }), el('small', { text: teil })]);
+    const zahlen1 = el('div', { class: 'ck-zahlen' }, [
+      zahl3(ak('kEingeloest'), z(zn(a.eingeloest)), ak('kEingeloestTeil', { i: z(s.ios), a: z(s.android) })),
+      zahl3(ak('kProbe'), z(s.probe), ak('kProbeTeil', { n: z(s.probeGek) })),
+      zahl3(ak('kBezahlt'), z(s.bezahlt), ak('kBezahltTeil', { j: z(s.jahr), m: z(s.monat) })),
+    ]);
+    const zahlen2 = el('div', { class: 'ck-zahlen' }, [
+      zahl3(ak('kUmsatz'), eurK(s.umsatz), ak('kUmsatzTeil', { n: z(s.erste) })),
+      zahl3(ak('kAbgelehnt'), z(zn(a.abgelehnt)), ak('kAbgelehntTeil', { n: z(zn(a.abgelehnt_update)), v: z(zn(a.verfallen)) })),
+    ]);
+    // Zielgruppe Alle (162): wer eingeloest hat, und wer ohne Gratismonat gleich bezahlt hat.
+    const zahlen3 = a.zielgruppe === 'alle' ? el('div', { class: 'ck-zahlen' }, [
+      zahl3(ak('kKunden'), z(s.kundeNeu + s.kundeZurueck + s.kundeWechsel), ak('kKundenTeil', { n: z(s.kundeNeu), z: z(s.kundeZurueck), w: z(s.kundeWechsel) })),
+      zahl3(ak('kZurueck'), z(s.zurueckJ), ak('kZurueckTeil')),
+    ]) : null;
+    const warn = [];
+    if (a.plattformen !== 'android') {
+      const v = akListe(akDaten, 'vorrat').find((x) => x.stufe === a.stufe && x.produkt === 'fin365');
+      if (!v || zn(v.frei) === 0) warn.push(ak('wVorratLeer', { stufe: a.stufe || '?' }));
+      else if (v.knapp === true) warn.push(ak('wVorratKnapp', { n: z(zn(v.frei)), stufe: a.stufe }));
+    }
+    for (const angebot of [a.play_angebot, a.play_angebot_sofort].filter(Boolean)) {
+      const p = akListe(akDaten, 'play').find((x) => x.angebot === angebot);
+      if (p && zn(p.leck) > 0) warn.push(ak('wLeck', { n: z(zn(p.leck)), angebot }));
+    }
+    if (zn(a.abgelehnt_update) > 0 && a.plattformen !== 'ios') warn.push(ak('wUpdate', { n: z(zn(a.abgelehnt_update)) }));
+    const knoepfe = [];
+    const bearb = el('button', { class: 'knopf klein', type: 'button', 'aria-haspopup': 'dialog', text: ak('bearbeiten') });
+    bearb.addEventListener('click', () => akOeffnen('bearbeiten', a, bearb));
+    const codeK = el('button', { class: 'knopf klein', type: 'button', 'aria-haspopup': 'dialog', text: ak('codeAendern') });
+    codeK.addEventListener('click', () => akOeffnen('code', a, codeK));
+    knoepfe.push(bearb, codeK);
+    return el('article', { class: 'ckarte' + (st === 'aus' || st === 'vorbei' ? ' ist-aus' : '') }, [
+      kopf, ...zeilen, zahlen1, zahlen2, zahlen3,
+      ...warn.map((w) => el('p', { class: 'hinweis', text: w })),
+      typeof a.notiz === 'string' && a.notiz ? el('p', { class: 'notiz', text: a.notiz }) : null,
+      el('div', { class: 'ck-fuss' }, [el('div', { class: 'knopfreihe' }, knoepfe)]),
+    ]);
+  }
+  function akRender() {
+    akKopf();
+    if (akDialogOffen()) { akAusstehend = true; return; }
+    akAusstehend = false;
+    const liste = akListe(akDaten, 'aktionen');
+    $('ak-koerper').hidden = !akDaten;
+    $('ak-karten').replaceChildren(...(liste.length ? liste.map(akKarte) : [el('p', { class: 'klein', text: ak('leer') })]));
+    const pr = akPreis(50);
+    $('ak-wie-liste').replaceChildren(...['wie1', 'wie2', 'wie3', 'wie4', 'wie5', 'wie6', 'wie7']
+      .map((k) => el('li', { text: ak(k, { mwst: pr.mwst, store: pr.store }) })));
+  }
+
+  // ---------------------------------------------------------------- Aktionen: Texte und Ausloeser
+  $('aktionen-link').textContent = ak('link');
+  $('h-aktionen').textContent = ak('titel');
+  $('ak-neben').textContent = ak('neben');
+  $('ak-neu-knopf').textContent = ak('anlegenKnopf');
+  $('ak-wie-titel').textContent = ak('wie');
+  $('ak-d-name-label').textContent = ak('fName');
+  $('ak-d-code-label').textContent = ak('fCode');
+  $('ak-d-code-hinweis').textContent = ak('fCodeHinweis');
+  $('ak-d-code-neu').textContent = ak('fCodeNeuHinweis');
+  $('ak-d-rabatt-label').textContent = ak('fRabatt');
+  $('ak-d-start-label').textContent = ak('fStart');
+  $('ak-d-ende-label').textContent = ak('fEnde');
+  $('ak-d-nachlauf-label').textContent = ak('fNachlauf');
+  $('ak-d-nachlauf-hinweis').textContent = ak('fNachlaufHinweis');
+  $('ak-d-plattformen-label').textContent = ak('fPlattformen');
+  $('ak-d-zielgruppe-label').textContent = ak('fZielgruppe');
+  $('ak-d-ziel').textContent = ak('fZielAlle');
+  $('ak-d-aktiv-label').textContent = ak('fAktiv');
+  $('ak-d-gratis-label').textContent = t('crGratis');
+  $('ak-d-notiz-label').textContent = ak('fNotiz');
+  $('ak-d-senden').textContent = ak('senden');
+  $('ak-d-abbrechen').textContent = ak('abbrechen');
+  $('ak-d-zu').setAttribute('aria-label', ak('schliessen'));
+  $('ak-f-nein').textContent = ak('abbrechen');
+  $('ak-neu-knopf').addEventListener('click', () => akOeffnen('neu', null, $('ak-neu-knopf')));
+  $('neu').addEventListener('click', () => akLaden());
+  $('zugang').addEventListener('submit', () => {
+    if (zugang && zugang !== akZugang) { akZugang = zugang; akDaten = null; akGratisFeld = false; akEcht = false; akFehler = null; akLaden(); }
+  });
+  $('vergessen').addEventListener('click', () => { akZugang = null; akDaten = null; akGratisFeld = false; akEcht = false; akFehler = null; akLaden(); });
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible' && zugang && !akLaedt && Date.now() - akGeladenAm > CR_NEU_MS) akLaden();
+  });
+  akRender();
+
   // ---------------------------------------------------------------- Takt
   setInterval(() => {
     standZeigen();
@@ -3040,7 +3934,7 @@ dialog.blatt::backdrop, dialog.cr-dialog::backdrop { background: rgba(11, 9, 10,
   ro.observe($('d1'));
 
   render();
-  if (zugang) laden().finally(crLaden); else { zugangOeffnen(); crLaden(); }
+  if (zugang) laden().finally(() => { crLaden(); akLaden(); }); else { zugangOeffnen(); crLaden(); akLaden(); }
 })();
 </script>
 </body></html>
