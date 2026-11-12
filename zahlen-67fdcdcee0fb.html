@@ -473,6 +473,34 @@ dialog.blatt::backdrop, dialog.cr-dialog::backdrop { background: rgba(11, 9, 10,
   table.cr-tabelle th, table.cr-tabelle td { padding: 7px 6px; }
   table.cr-tabelle th:first-child, table.cr-tabelle td:first-child { padding-left: 0; }
 }
+
+/* ================================================================ Kosten (175)
+   Eigener Bereich nach den Aktionen: drei Kacheln, KI je Funktion, feste
+   Kosten mit Eingabe in der Zeile, je Nutzer. */
+.ko-tabelle td { vertical-align: middle; }
+.ko-tabelle th.links, .ko-tabelle td.links { text-align: left; }
+.ko-name { display: grid; gap: 1px; min-width: 0; white-space: normal; max-width: 34ch; }
+.ko-name b { font-weight: 650; }
+.ko-name small { font-size: 12px; color: var(--tinte-3); overflow-wrap: anywhere; }
+.ko-tabelle tr.ist-aus td { color: var(--tinte-3); }
+.ko-tabelle tr.ist-aus .ko-name b { font-weight: 500; }
+.ko-eingabe {
+  width: 92px; padding: 5px 8px; border-radius: 8px; border: 1px solid var(--linie); background: var(--bg);
+  font: inherit; font-size: 14px; text-align: right; font-variant-numeric: tabular-nums; color: inherit;
+}
+.ko-eingabe.kurz { width: 56px; }
+.ko-eingabe.lang { width: 150px; text-align: left; }
+.ko-eingabe.datum { width: 140px; text-align: left; }
+.ko-tabelle tr.ko-neu td { font-weight: 400; }
+.ko-eingabe:disabled { opacity: .6; }
+.ko-eingabe[aria-invalid="true"] { border-color: var(--schlecht); }
+.ko-einheit { margin-left: 4px; color: var(--tinte-3); font-size: 12.5px; }
+.ko-funke { width: 96px; }
+.ko-funke .funke { height: 22px; }
+.ko-reihe { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; font-size: 13.5px; color: var(--tinte-2); }
+.ko-reihe label { font-weight: 600; }
+.ko-knoepfe { display: inline-flex; gap: 6px; }
+.karte > .klein + .tabelle-huelle, .karte > .tabelle-huelle + .klein { margin-top: 2px; }
 </style>
 
 <div class="seite">
@@ -488,6 +516,7 @@ dialog.blatt::backdrop, dialog.cr-dialog::backdrop { background: rgba(11, 9, 10,
       <button class="knopf" id="zugang-knopf" type="button"></button>
       <a class="knopf" id="creator-link" href="#h-creator"></a>
       <a class="knopf" id="aktionen-link" href="#h-aktionen"></a>
+      <a class="knopf" id="kosten-link" href="#h-kosten"></a>
     </div>
   </header>
 
@@ -623,6 +652,68 @@ dialog.blatt::backdrop, dialog.cr-dialog::backdrop { background: rgba(11, 9, 10,
       <details class="wie">
         <summary id="ak-wie-titel"></summary>
         <ul id="ak-wie-liste"></ul>
+      </details>
+    </div>
+  </section>
+
+  <!-- Kosten (175). Wie die Aktionen: eigenes Laden (?teil=kosten), bleibt, auch wenn die Tageszahlen scheitern. -->
+  <section class="creator" id="ko-bereich" aria-labelledby="h-kosten">
+    <div class="cr-kopfzeile">
+      <div class="cr-titelzeile">
+        <h2 class="titel" id="h-kosten"></h2>
+        <span class="chip" id="ko-chip" data-art="beispiel"></span>
+        <span class="nebenbei" id="ko-neben"></span>
+        <span class="stand zahl" id="ko-stand"></span>
+      </div>
+      <button class="knopf voll" id="ko-neu-knopf" type="button" aria-haspopup="dialog"></button>
+    </div>
+    <div class="meldung" id="ko-meldung" role="alert" hidden></div>
+    <div class="meldung erfolg" id="ko-erfolg" role="status" hidden></div>
+    <div class="cr-koerper" id="ko-koerper" hidden>
+      <div class="kacheln" id="ko-kacheln"></div>
+      <section aria-labelledby="h-ko-ki">
+        <div class="abschnitt-kopf">
+          <h3 class="titel" id="h-ko-ki"></h3>
+          <span class="nebenbei" id="ko-ki-neben"></span>
+        </div>
+        <p class="hinweis" id="ko-ki-hinweis" hidden></p>
+        <div class="karte">
+          <div class="tabelle-huelle" id="ko-ki"></div>
+          <p class="klein" id="ko-ki-fuss"></p>
+        </div>
+        <details class="wie" id="ko-preise-klappe">
+          <summary id="ko-preise-titel"></summary>
+          <div class="tabelle-huelle" id="ko-preise"></div>
+        </details>
+      </section>
+      <section aria-labelledby="h-ko-fest">
+        <div class="abschnitt-kopf">
+          <h3 class="titel" id="h-ko-fest"></h3>
+          <span class="nebenbei" id="ko-fest-neben"></span>
+        </div>
+        <div class="karte">
+          <div class="tabelle-huelle" id="ko-fest"></div>
+          <form class="ko-reihe" id="ko-kurs-form" novalidate>
+            <label for="ko-kurs" id="ko-kurs-label"></label>
+            <input class="ko-eingabe kurz" id="ko-kurs" type="text" inputmode="decimal" autocomplete="off">
+            <button class="knopf klein" id="ko-kurs-knopf" type="submit"></button>
+            <span class="klein" id="ko-kurs-stand"></span>
+          </form>
+        </div>
+      </section>
+      <section aria-labelledby="h-ko-nutzer">
+        <div class="abschnitt-kopf">
+          <h3 class="titel" id="h-ko-nutzer"></h3>
+          <span class="nebenbei" id="ko-nutzer-neben"></span>
+        </div>
+        <div class="karte">
+          <ul class="liste" id="ko-nutzer"></ul>
+          <p class="klein" id="ko-rechnung"></p>
+        </div>
+      </section>
+      <details class="wie">
+        <summary id="ko-wie-titel"></summary>
+        <ul id="ko-wie-liste"></ul>
       </details>
     </div>
   </section>
@@ -808,6 +899,63 @@ dialog.blatt::backdrop, dialog.cr-dialog::backdrop { background: rgba(11, 9, 10,
     <div class="knopfreihe">
       <button class="knopf voll" id="ak-f-ja" type="submit"></button>
       <button class="knopf" id="ak-f-nein" type="button"></button>
+    </div>
+  </form>
+</dialog>
+
+<dialog class="cr-dialog" id="ko-dialog" aria-labelledby="ko-d-titel">
+  <form class="cr-form" id="ko-d-form" novalidate>
+    <div class="dialog-kopf">
+      <h2 id="ko-d-titel"></h2>
+      <button class="zu" id="ko-d-zu" type="button">×</button>
+    </div>
+    <div class="feld">
+      <label for="ko-d-name" id="ko-d-name-label"></label>
+      <input id="ko-d-name" type="text" maxlength="60" autocomplete="off" spellcheck="false">
+    </div>
+    <div class="feld-paar">
+      <div class="feld">
+        <label for="ko-d-anbieter" id="ko-d-anbieter-label"></label>
+        <input id="ko-d-anbieter" type="text" maxlength="60" autocomplete="off" spellcheck="false">
+      </div>
+      <div class="feld">
+        <label for="ko-d-kategorie" id="ko-d-kategorie-label"></label>
+        <select id="ko-d-kategorie"></select>
+      </div>
+    </div>
+    <div class="feld-paar">
+      <div class="feld">
+        <label for="ko-d-art" id="ko-d-art-label"></label>
+        <select id="ko-d-art"></select>
+      </div>
+      <div class="feld">
+        <label for="ko-d-waehrung" id="ko-d-waehrung-label"></label>
+        <select id="ko-d-waehrung"></select>
+      </div>
+    </div>
+    <div class="feld-paar">
+      <div class="feld">
+        <label for="ko-d-betrag" id="ko-d-betrag-label"></label>
+        <input id="ko-d-betrag" type="text" inputmode="decimal" autocomplete="off">
+      </div>
+      <div class="feld">
+        <label for="ko-d-anzahl" id="ko-d-anzahl-label"></label>
+        <input id="ko-d-anzahl" type="number" min="1" max="1000" step="1" inputmode="numeric">
+      </div>
+    </div>
+    <div class="haken" id="ko-d-aktiv-zeile">
+      <input id="ko-d-aktiv" type="checkbox" checked>
+      <label for="ko-d-aktiv" id="ko-d-aktiv-label"></label>
+    </div>
+    <div class="feld">
+      <label for="ko-d-notiz" id="ko-d-notiz-label"></label>
+      <textarea id="ko-d-notiz" rows="2" maxlength="500"></textarea>
+    </div>
+    <p class="hinweis" id="ko-d-fehler" role="alert" hidden></p>
+    <p class="hinweis" id="ko-d-beispiel" hidden></p>
+    <div class="knopfreihe">
+      <button class="knopf voll" id="ko-d-senden" type="submit"></button>
+      <button class="knopf" id="ko-d-abbrechen" type="button"></button>
     </div>
   </form>
 </dialog>
@@ -3917,6 +4065,830 @@ dialog.blatt::backdrop, dialog.cr-dialog::backdrop { background: rgba(11, 9, 10,
   });
   akRender();
 
+  // ================================================================ Kosten (175)
+  // Tim, 12.11.2026: "was welches KI feature kostet und wie viel was genutzt
+  // wird", "kostenuebersicht ... inkl 2 ultra claude abos und alles was wir
+  // sonst so haben", "wie viel mich ein user durchschnittlich kostet".
+  // Eigener Bereich nach den Aktionen mit eigenem Laden (?teil=kosten), nicht
+  // im 60-s-Takt. Daten nur per textContent. Geschrieben wird nur mit Zugang;
+  // Betraege direkt in der Zeile, Speichern je Zeile. Ist der Posten-Dialog
+  // offen, zeichnet koRender() nicht neu.
+  const KO_TEXTE = {
+    de: {
+      link: 'Kosten', titel: 'Kosten', neben: 'KI, feste Kosten, je Nutzer', anlegenKnopf: 'Posten anlegen',
+      stand: 'Stand {zeit}',
+      kGesamt: 'Kosten im Monat', kGesamtTeil: 'fest {f} · KI {k}', kHoch: 'KI hochgerechnet aus {n} Tagen', kKiFehlt: 'KI ab Einspielen',
+      kHochStd: 'KI hochgerechnet aus {n} Stunden', kKiWenig: 'KI ab 1 Tag Daten', kUnvollstaendig: 'KI unvollständig',
+      kAktiv: 'Je aktivem Nutzer', kAktivTeil: '{n} aktiv in 30 Tagen', kPro: 'Je Pro-Nutzer', kProTeil: '{n} mit Pro', kOhne: 'noch keine Zahl',
+      hKi: 'KI je Funktion', kiNeben: '30 Tage, in $', kiNebenAlt: 'gezählt je Topf',
+      kiLeer: 'Kosten ab Einspielen von 175 und dem Deploy von essen-deuten und ziel-planen. Bis dahin nur die Zählung.',
+      kiOhnePreis: '{n} Aufrufe ohne Preis. Modell unten bei den Preisen hinzufügen.',
+      kiOhnePreisModelle: '{n} Aufrufe ohne Preis ({m}). Unten bei den Preisen hinzufügen.',
+      kiFuss: 'Gezählt in 30 Tagen: {n} Aufrufe von {u} Nutzern (alle Töpfe, auch abgelehnte).',
+      kiFussEuro: 'KI in 30 Tagen: {usd} = {eur}.',
+      sFunktion: 'Funktion', sHeute: 'Heute', s7: '7 Tage', s30: '30 Tage', sFehler: 'Fehler', sKosten: 'Kosten', sJe: 'Je Aufruf',
+      sVerlauf: 'Verlauf', sNutzer: 'Nutzer', sSumme: 'Summe',
+      f_bild: 'Foto', f_etikett: 'Etikett', f_satz: 'Satz', f_produkt: 'Produkt (Websuche)', f_rezept: 'Rezept (TikTok)',
+      f_karte: 'Speisekarte', f_plan: 'fin Skill Plan', f_umplanen: 'fin Skill Umplanen',
+      a_bild: 'Foto und Etikett', a_satz: 'Satz', a_web: 'Produkt (Websuche)', a_rezept: 'Rezept, davon fertig', a_rezept_versuch: 'Rezept (TikTok)',
+      a_karte: 'Speisekarte', a_ziel: 'fin Skill Plan', a_ziel_umplanen: 'fin Skill Umplanen',
+      hPreise: 'Preise je 1 Mio. Tokens', pModell: 'Modell', pAb: 'ab', pEin: 'Eingabe $', pCache: 'Cache $', pAus: 'Ausgabe $', pWeb: 'Suche $',
+      pQuelle: 'Quelle', pHinweis: 'Fast mal {fast}, EU mal {eu}. Speichern rechnet die letzten 31 Tage neu.',
+      pNeu: 'Neues Modell', pHinzu: 'Hinzufügen',
+      hFest: 'Feste Kosten', festNeben: '1 $ = {k} €, Stand {d}',
+      sPosten: 'Posten', sArt: 'Art', sBetrag: 'Betrag', sAnzahl: 'Anzahl', sMonat: 'Im Monat', sAn: 'An',
+      art_monat: 'Monat', art_jahr: 'Jahr', art_einmal: 'einmalig', art_umsatz_prozent: '% Umsatz',
+      nichtDrin: 'nicht eingerechnet', einmalWert: 'einmal {b}', summeMonat: 'Im Monat', summeEinmal: 'Einmalig, nicht im Monat',
+      betragFehlt: 'Betrag fehlt', speichern: 'Speichern', bearbeiten: 'Bearbeiten', an: 'an', aus: 'aus',
+      schalterAus: '{name} ausschalten', schalterAn: '{name} anschalten', kurs: '1 $ in €', kursSpeichern: 'Kurs speichern', kursStand: 'Stand {d}',
+      hNutzer: 'Je Nutzer', nutzerSpeicher: 'Nutzer aus dem Dashboard, {zeit}', nutzerDirekt: 'Nutzer direkt gezählt, ohne Pro',
+      nAktiv: 'Aktiv in 30 Tagen', nPro: 'Mit Pro', nZahlende: 'Zahlende Abos', nKi: 'KI genutzt in 30 Tagen',
+      jAktiv: 'Je aktivem Nutzer', jPro: 'Je Pro-Nutzer', jZahlend: 'Je zahlendem Nutzer', jKi: 'KI je KI-Nutzer', jTeil: 'fest {f} · KI {k}',
+      rechnung: 'Rechnung: {g} im Monat / {n} aktive Nutzer = {j} je Nutzer.', rechnungOhne: 'Noch keine aktiven Nutzer gezählt.',
+      dNeu: 'Posten anlegen', dBearbeiten: 'Posten bearbeiten',
+      fName: 'Name', fAnbieter: 'Anbieter', fKategorie: 'Kategorie', fArt: 'Art', fWaehrung: 'Währung', fBetrag: 'Betrag je Stück',
+      fBetragProzent: 'Prozent vom Umsatz', fAnzahl: 'Anzahl', fAktiv: 'An (zählt mit)', fNotiz: 'Notiz (nur für dich)',
+      kat_server: 'Server', kat_entwicklung: 'Entwicklung', kat_store: 'Store', kat_marketing: 'Marketing', kat_dienste: 'Dienste', kat_sonstiges: 'Sonstiges',
+      senden: 'Speichern', abbrechen: 'Abbrechen', schliessen: 'Schließen',
+      okAngelegt: '{name} angelegt.', okGespeichert: '{name} gespeichert.', okAus: '{name} ist aus.', okAn: '{name} ist an.',
+      okKurs: 'Kurs gespeichert.', okPreis: 'Preis {modell} gespeichert, {n} Aufrufe neu gerechnet.', nichts: 'Nichts geändert.',
+      l_name: 'Name', l_anbieter: 'Anbieter', l_kategorie: 'Kategorie', l_art: 'Art', l_betrag_cent: 'Betrag', l_waehrung: 'Währung',
+      l_anzahl: 'Anzahl', l_aktiv: 'An/Aus', l_notiz: 'Notiz', l_id: 'Posten', l_modell: 'Modell', l_gilt_ab: 'ab', l_eingabe: 'Eingabe',
+      l_zwischengespeichert: 'Cache', l_ausgabe: 'Ausgabe', l_websuche: 'Suche', l_quelle: 'Quelle', l_usd_eur: 'Kurs', l_stand: 'Stand',
+      f_name_form: 'Name: 1 bis 60 Zeichen.', f_anbieter_form: 'Anbieter: höchstens 60 Zeichen.', f_kategorie_form: 'Kategorie gibt es nicht.',
+      f_art_form: 'Art gibt es nicht.', f_betrag_form: 'Betrag prüfen.', f_waehrung_form: 'Währung: EUR oder USD.', f_anzahl_form: 'Anzahl: 1 bis 1000.',
+      f_notiz_form: 'Notiz zu lang.', f_unbekannt: 'Posten nicht gefunden. Neu laden.', f_nichts: 'Nichts geändert.',
+      f_modell_form: 'Modellname prüfen.', f_preis_form: 'Preis: 0 bis 1000 $ je 1 Mio. Tokens.', f_datum_form: 'Datum prüfen.',
+      f_kurs_form: 'Kurs: 0,1 bis 5.', f_quelle_form: 'Quelle zu lang.', f_preis_fehlt: 'Neues Modell: alle drei Preise eintragen.',
+      f_eingabe: 'Eingabe prüfen: {feld}.', f_funktion_fehlt: 'SQL 175 fehlt. Erst einspielen.',
+      f_deploy: 'Die Function kennt die Kosten noch nicht. Erst deployen.', f_zeit: 'Keine Antwort. Neu laden und prüfen, ob es geklappt hat.',
+      ladenFehlt: 'SQL 175 fehlt', ladenFehltText: '175_ki_kosten.sql im SQL-Editor einspielen, dann neu laden.',
+      ladenAlt: 'Function ohne Kosten', ladenAltText: 'Die Function ist noch die alte Fassung. Erst deployen.',
+      wie: 'So wird gerechnet',
+      wie1: 'KI: jeder Aufruf an OpenAI als eine Zeile, nur Zahlen, ohne Nutzer. Kosten aus den Preisen je Modell.',
+      wie2: 'Im Monat: feste Kosten (Jahr durch 12) plus KI der letzten 30 Tage, bei weniger Daten hochgerechnet. Einmaliges und Provisionen zählen nicht mit.',
+      wie3: 'Je Nutzer: Kosten im Monat geteilt durch aktive Nutzer der letzten 30 Tage, ebenso je Pro und je Zahlendem.',
+      wie4: 'Dollar in Euro zum Kurs unter den festen Kosten. Store-Provision nicht drin, das Dashboard kennt den Umsatz noch nicht.',
+    },
+    en: {
+      link: 'Costs', titel: 'Costs', neben: 'AI, fixed costs, per user', anlegenKnopf: 'Add item',
+      stand: 'As of {zeit}',
+      kGesamt: 'Costs per month', kGesamtTeil: 'fixed {f} · AI {k}', kHoch: 'AI projected from {n} days', kKiFehlt: 'AI once applied',
+      kHochStd: 'AI projected from {n} hours', kKiWenig: 'AI after 1 day of data', kUnvollstaendig: 'AI incomplete',
+      kAktiv: 'Per active user', kAktivTeil: '{n} active in 30 days', kPro: 'Per Pro user', kProTeil: '{n} with Pro', kOhne: 'no number yet',
+      hKi: 'AI per feature', kiNeben: '30 days, in $', kiNebenAlt: 'counted per pot',
+      kiLeer: 'Costs once 175 is applied and essen-deuten and ziel-planen are deployed. Until then only the count.',
+      kiOhnePreis: '{n} calls without a price. Add the model under prices below.',
+      kiOhnePreisModelle: '{n} calls without a price ({m}). Add it under prices below.',
+      kiFuss: 'Counted in 30 days: {n} calls from {u} users (all pots, rejected ones too).',
+      kiFussEuro: 'AI in 30 days: {usd} = {eur}.',
+      sFunktion: 'Feature', sHeute: 'Today', s7: '7 days', s30: '30 days', sFehler: 'Errors', sKosten: 'Cost', sJe: 'Per call',
+      sVerlauf: 'Trend', sNutzer: 'Users', sSumme: 'Total',
+      f_bild: 'Photo', f_etikett: 'Label', f_satz: 'Sentence', f_produkt: 'Product (web search)', f_rezept: 'Recipe (TikTok)',
+      f_karte: 'Menu', f_plan: 'fin Skill plan', f_umplanen: 'fin Skill replan',
+      a_bild: 'Photo and label', a_satz: 'Sentence', a_web: 'Product (web search)', a_rezept: 'Recipe, of which done', a_rezept_versuch: 'Recipe (TikTok)',
+      a_karte: 'Menu', a_ziel: 'fin Skill plan', a_ziel_umplanen: 'fin Skill replan',
+      hPreise: 'Prices per 1M tokens', pModell: 'Model', pAb: 'from', pEin: 'Input $', pCache: 'Cache $', pAus: 'Output $', pWeb: 'Search $',
+      pQuelle: 'Source', pHinweis: 'Fast times {fast}, EU times {eu}. Saving recalculates the last 31 days.',
+      pNeu: 'New model', pHinzu: 'Add',
+      hFest: 'Fixed costs', festNeben: '$1 = €{k}, as of {d}',
+      sPosten: 'Item', sArt: 'Type', sBetrag: 'Amount', sAnzahl: 'Count', sMonat: 'Per month', sAn: 'On',
+      art_monat: 'Month', art_jahr: 'Year', art_einmal: 'one-off', art_umsatz_prozent: '% revenue',
+      nichtDrin: 'not included', einmalWert: 'once {b}', summeMonat: 'Per month', summeEinmal: 'One-off, not per month',
+      betragFehlt: 'Amount missing', speichern: 'Save', bearbeiten: 'Edit', an: 'on', aus: 'off',
+      schalterAus: 'Turn off {name}', schalterAn: 'Turn on {name}', kurs: '$1 in €', kursSpeichern: 'Save rate', kursStand: 'as of {d}',
+      hNutzer: 'Per user', nutzerSpeicher: 'Users from the dashboard, {zeit}', nutzerDirekt: 'Users counted directly, without Pro',
+      nAktiv: 'Active in 30 days', nPro: 'With Pro', nZahlende: 'Paying subscriptions', nKi: 'Used AI in 30 days',
+      jAktiv: 'Per active user', jPro: 'Per Pro user', jZahlend: 'Per paying user', jKi: 'AI per AI user', jTeil: 'fixed {f} · AI {k}',
+      rechnung: 'Calculation: {g} per month / {n} active users = {j} per user.', rechnungOhne: 'No active users counted yet.',
+      dNeu: 'Add item', dBearbeiten: 'Edit item',
+      fName: 'Name', fAnbieter: 'Provider', fKategorie: 'Category', fArt: 'Type', fWaehrung: 'Currency', fBetrag: 'Amount each',
+      fBetragProzent: 'Percent of revenue', fAnzahl: 'Count', fAktiv: 'On (counts)', fNotiz: 'Note (only for you)',
+      kat_server: 'Server', kat_entwicklung: 'Development', kat_store: 'Store', kat_marketing: 'Marketing', kat_dienste: 'Services', kat_sonstiges: 'Other',
+      senden: 'Save', abbrechen: 'Cancel', schliessen: 'Close',
+      okAngelegt: '{name} added.', okGespeichert: '{name} saved.', okAus: '{name} is off.', okAn: '{name} is on.',
+      okKurs: 'Rate saved.', okPreis: 'Price {modell} saved, {n} calls recalculated.', nichts: 'Nothing changed.',
+      l_name: 'name', l_anbieter: 'provider', l_kategorie: 'category', l_art: 'type', l_betrag_cent: 'amount', l_waehrung: 'currency',
+      l_anzahl: 'count', l_aktiv: 'on/off', l_notiz: 'note', l_id: 'item', l_modell: 'model', l_gilt_ab: 'from', l_eingabe: 'input',
+      l_zwischengespeichert: 'cache', l_ausgabe: 'output', l_websuche: 'search', l_quelle: 'source', l_usd_eur: 'rate', l_stand: 'date',
+      f_name_form: 'Name: 1 to 60 characters.', f_anbieter_form: 'Provider: at most 60 characters.', f_kategorie_form: 'Unknown category.',
+      f_art_form: 'Unknown type.', f_betrag_form: 'Check the amount.', f_waehrung_form: 'Currency: EUR or USD.', f_anzahl_form: 'Count: 1 to 1000.',
+      f_notiz_form: 'Note too long.', f_unbekannt: 'Item not found. Reload.', f_nichts: 'Nothing changed.',
+      f_modell_form: 'Check the model name.', f_preis_form: 'Price: 0 to 1000 $ per 1M tokens.', f_datum_form: 'Check the date.',
+      f_kurs_form: 'Rate: 0.1 to 5.', f_quelle_form: 'Source too long.', f_preis_fehlt: 'New model: enter all three prices.',
+      f_eingabe: 'Check the input: {feld}.', f_funktion_fehlt: 'SQL 175 is missing. Apply it first.',
+      f_deploy: 'The function does not know costs yet. Deploy first.', f_zeit: 'No answer. Reload and check whether it worked.',
+      ladenFehlt: 'SQL 175 missing', ladenFehltText: 'Run 175_ki_kosten.sql in the SQL editor, then reload.',
+      ladenAlt: 'Function without costs', ladenAltText: 'The function is still the old version. Deploy first.',
+      wie: 'How it is calculated',
+      wie1: 'AI: every call to OpenAI as one row, numbers only, no user. Cost from the prices per model.',
+      wie2: 'Per month: fixed costs (yearly divided by 12) plus AI of the last 30 days, projected with less data. One-off items and commissions are not included.',
+      wie3: 'Per user: monthly costs divided by active users of the last 30 days, likewise per Pro and per paying user.',
+      wie4: 'Dollars in euros at the rate below the fixed costs. Store fees not included, the dashboard does not know revenue yet.',
+    },
+  };
+  const ko = (k, w) => String(KO_TEXTE[SPRACHE][k] ?? KO_TEXTE.de[k] ?? k).replace(/\{(\w+)\}/g, (_, n) => (w && w[n] != null ? w[n] : ''));
+  const KO_UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
+  const KO_TAG = /^\d{4}-\d{2}-\d{2}$/;
+  const KO_KATEGORIEN = ['server', 'entwicklung', 'store', 'marketing', 'dienste', 'sonstiges'];
+  const KO_ARTEN = ['monat', 'jahr', 'einmal', 'umsatz_prozent'];
+  const KO_WAEHRUNGEN = ['EUR', 'USD'];
+  const KO_FUNKTIONEN = ['bild', 'etikett', 'satz', 'produkt', 'rezept', 'karte', 'plan', 'umplanen'];
+  const KO_TOEPFE = ['bild', 'satz', 'web', 'rezept', 'rezept_versuch', 'karte', 'ziel', 'ziel_umplanen'];
+  const KO_DIALOGE = ['ko-dialog'];
+  let koDaten = null;        // letzte gueltige Antwort, ohne Zugang das Beispiel
+  let koEcht = false;
+  let koFehler = null;       // {titel, text, knopf?}
+  let koLaedt = false;
+  let koLaufNr = 0;
+  let koGeladenAm = 0;
+  let koZugang = zugang;
+  let koAusstehend = false;
+  let koErfolgText = '';
+  let koZurueck = null;
+  const koDialogOffen = () => KO_DIALOGE.some((id) => $(id).hasAttribute('open'));
+
+  // ---------------------------------------------------------------- Kosten: Format
+  const usdFmt = new Intl.NumberFormat(ORT, { style: 'currency', currency: 'USD' });
+  const usdFeinFmt = new Intl.NumberFormat(ORT, { style: 'currency', currency: 'USD', minimumFractionDigits: 2, maximumFractionDigits: 4 });
+  const euroFeinFmt = new Intl.NumberFormat(ORT, { style: 'currency', currency: 'EUR', minimumFractionDigits: 2, maximumFractionDigits: 3 });
+  const eingabeFmt = (min, max) => new Intl.NumberFormat(ORT, { minimumFractionDigits: min, maximumFractionDigits: max, useGrouping: false });
+  const betragFmt = eingabeFmt(2, 2);
+  const preisFmt = eingabeFmt(2, 4);
+  const kursFmt = eingabeFmt(2, 5);
+  const usd = (x) => usdFmt.format(zn(x));
+  const usdFein = (x) => usdFeinFmt.format(zn(x));
+  const eurFein = (c) => (c == null ? '-' : euroFeinFmt.format(zn(c) / 100));
+  // Zahl aus einem Eingabefeld: "1.234,56", "1234.56", "200" und "200 €".
+  function koZahlLesen(s) {
+    let x = String(s == null ? '' : s).replace(/[\s€$%]/g, '');
+    if (!x) return null;
+    if (x.includes(',') && x.includes('.')) x = x.replace(/\./g, '').replace(',', '.');
+    else x = x.replace(',', '.');
+    if (!/^\d{1,9}(\.\d{1,6})?$/.test(x)) return null;
+    return Number(x);
+  }
+  const koListe = (j, k) => (j && Array.isArray(j[k]) ? j[k].filter((x) => x && typeof x === 'object') : []);
+  const koObj = (x) => (x && typeof x === 'object' && !Array.isArray(x) ? x : {});
+  const koFunktionName = (f) => (KO_FUNKTIONEN.includes(f) ? ko('f_' + f) : String(f || '?'));
+  const koTopfName = (f) => (KO_TOEPFE.includes(f) ? ko('a_' + f) : String(f || '?'));
+  const koDatum = (s) => (typeof s === 'string' && KO_TAG.test(s.slice(0, 10)) ? datumKurz(s.slice(0, 10)) : '-');
+
+  // ---------------------------------------------------------------- Kosten: Daten
+  function koGueltig(j) {
+    return !!j && typeof j === 'object' && !Array.isArray(j) && j.version === 1 && j.teil === 'kosten'
+      && !!j.ki && typeof j.ki === 'object' && Array.isArray(j.ki.funktionen) && Array.isArray(j.posten)
+      && !!j.summe_monat && typeof j.summe_monat === 'object' && !!j.nutzer && typeof j.nutzer === 'object'
+      && !!j.je_nutzer && typeof j.je_nutzer === 'object'
+      && j.posten.every((p) => p && typeof p === 'object' && typeof p.id === 'string' && KO_UUID.test(p.id) && typeof p.name === 'string');
+  }
+  // Monatlich wie kosten_monatlich (175): Jahr / 12, einmal 0, Prozent nichts.
+  function koPostenRechnen(p, kurs) {
+    const f = p.waehrung === 'USD' ? kurs : 1;
+    const m = p.art === 'monat' ? p.betrag_cent * p.anzahl : p.art === 'jahr' ? Math.round(p.betrag_cent * p.anzahl / 12 * 100) / 100 : p.art === 'einmal' ? 0 : null;
+    return { ...p, monatlich_cent: m, monatlich_eur_cent: m == null ? null : Math.round(m * f * 100) / 100,
+      gesamt_eur_cent: p.art === 'umsatz_prozent' ? null : p.betrag_cent * p.anzahl * f, prozent: p.art === 'umsatz_prozent' ? p.betrag_cent / 100 : null };
+  }
+  function koBeispiel() {
+    const heute = berlinTag(new Date());
+    const kurs = 0.92;
+    const tage = Array.from({ length: 30 }, (_, i) => tagPlus(heute, i - 29));
+    // [funktion, Aufrufe je Tag, $ je Aufruf, Modell]
+    const basis = [['bild', 420, 0.047, 'gpt-5.6-sol'], ['satz', 640, 0.017, 'gpt-5.6-sol'], ['etikett', 95, 0.031, 'gpt-5.6-sol'],
+      ['karte', 22, 0.14, 'gpt-5.6-sol'], ['rezept', 30, 0.021, 'gpt-5.6-sol'], ['plan', 12, 0.106, 'gpt-5.6-sol'], ['umplanen', 7, 0.012, 'gpt-5.6-sol']];
+    const funktionen = basis.map(([f, n, je, m], k) => {
+      const reihe = tage.map((_, i) => Math.round(n * (0.75 + ((i * 7 + k * 3) % 10) / 20)));
+      const s = (a) => reihe.slice(30 - a).reduce((x, y) => x + y, 0);
+      const kosten = (a) => Math.round(s(a) * je * 10000) / 10000;
+      return { funktion: f, aufrufe: { heute: s(1), d7: s(7), d30: s(30) }, fehler_d30: Math.round(s(30) * 0.004), ohne_preis_d30: 0,
+        tokens_d30: {}, websuchen_d30: 0, kosten_usd: { heute: kosten(1), d7: kosten(7), d30: kosten(30) }, modell: m,
+        modelle: [{ modell: m, aufrufe: s(30) }], reihe };
+    }).sort((a, b) => b.kosten_usd.d30 - a.kosten_usd.d30);
+    const summe = (a) => funktionen.reduce((x, f) => x + f.kosten_usd[a], 0);
+    const aufrufe = (a) => funktionen.reduce((x, f) => x + f.aufrufe[a], 0);
+    // Die Zaehlung je Topf (essen_deutungen): Foto und Etikett teilen sich einen.
+    const TOPF = { bild: 'bild', etikett: 'bild', satz: 'satz', karte: 'karte', rezept: 'rezept_versuch', plan: 'ziel', umplanen: 'ziel_umplanen' };
+    const arten = Object.values(funktionen.reduce((m, f) => {
+      const a = TOPF[f.funktion];
+      const x = m[a] || (m[a] = { art: a, heute: 0, d7: 0, d30: 0, nutzer_d30: 0 });
+      x.heute += f.aufrufe.heute; x.d7 += f.aufrufe.d7; x.d30 += f.aufrufe.d30; x.nutzer_d30 += Math.round(f.aufrufe.d30 / 9);
+      return m;
+    }, {}));
+    const P = (kennung, name, anbieter, kategorie, art, betrag_cent, waehrung, anzahl, aktiv, notiz, nr) => koPostenRechnen({
+      id: '00000000-0000-4000-8000-0000000001' + String(nr).padStart(2, '0'), kennung, name, anbieter, kategorie, art, betrag_cent, waehrung,
+      anzahl, aktiv, notiz }, kurs);
+    const posten = [
+      P('supabase_pro', 'Supabase Pro', 'Supabase', 'server', 'monat', 2500, 'USD', 1, true, null, 1),
+      P('supabase_compute', 'Supabase Compute Medium', 'Supabase', 'server', 'monat', 5124, 'USD', 1, true, null, 2),
+      P('supabase_mehr', 'Supabase Mehrverbrauch', 'Supabase', 'server', 'monat', 200, 'USD', 1, true, null, 3),
+      P('resend', 'Resend Pro', 'Resend', 'server', 'monat', 2000, 'USD', 1, true, null, 4),
+      P('claude_ultra', 'Claude Ultra', 'Anthropic', 'entwicklung', 'monat', 20000, 'USD', 2, true, null, 5),
+      P('github', 'GitHub', 'GitHub', 'entwicklung', 'monat', 0, 'USD', 1, true, null, 6),
+      P('apple_developer', 'Apple Developer Program', 'Apple', 'store', 'jahr', 9900, 'EUR', 1, true, null, 7),
+      P('play_console', 'Google Play Console', 'Google', 'store', 'einmal', 2500, 'USD', 1, true, null, 8),
+      P('apple_provision', 'Store-Provision Apple', 'Apple', 'store', 'umsatz_prozent', 1500, 'EUR', 1, true, null, 9),
+      P('strava', 'Strava-Abo', 'Strava', 'dienste', 'jahr', 7500, 'EUR', 1, true, null, 10),
+      P('supabase_logs', 'Supabase Logs ab 2027', 'Supabase', 'server', 'monat', 10956, 'USD', 1, false, null, 11),
+    ];
+    const fest = posten.filter((p) => p.aktiv && (p.art === 'monat' || p.art === 'jahr')).reduce((x, p) => x + p.monatlich_eur_cent, 0);
+    const einmal = posten.filter((p) => p.aktiv && p.art === 'einmal').reduce((x, p) => x + p.gesamt_eur_cent, 0);
+    const ki = Math.round(summe('d30') * kurs * 10000) / 100;
+    const gesamt = fest + ki;
+    const nutzer = { quelle: 'speicher', stand: new Date().toISOString(), konten: 31200, aktiv_heute: 4300, aktiv_7_tage: 9900, aktiv_30_tage: 16400,
+      pro: 2150, zahlende: 1320, ki_nutzer_d30: 1950 };
+    const je = (x, n) => (n ? Math.round(x / n * 1000) / 1000 : null);
+    return {
+      version: 1, teil: 'kosten', stand: new Date().toISOString(), zeitzone: 'Europe/Berlin', heute, tage: 30,
+      kurs: { usd_eur: kurs, stand: '2026-11-12' },
+      ki: { ab: tagPlus(heute, -40) + 'T08:00:00Z', tage_mit_daten: 30, funktionen,
+        summe: { aufrufe: { heute: aufrufe('heute'), d7: aufrufe('d7'), d30: aufrufe('d30') }, fehler_d30: 0, ohne_preis_d30: 0,
+          kosten_usd: { heute: summe('heute'), d7: summe('d7'), d30: summe('d30') } },
+        reihe: tage.map((tag, i) => ({ tag, aufrufe: funktionen.reduce((x, f) => x + f.reihe[i], 0), kosten_usd: 0 })),
+        preise: [
+          { modell: 'gpt-5.6-luna', gilt_ab: '2026-01-01', eingabe_usd_mio: 0.2, zwischengespeichert_usd_mio: 0.02, ausgabe_usd_mio: 1.2, websuche_usd: 0.01, fast_faktor: 2, eu_faktor: 1.1, quelle: 'OpenAI Preisseite 12.11.2026' },
+          { modell: 'gpt-5.6-sol', gilt_ab: '2026-01-01', eingabe_usd_mio: 4, zwischengespeichert_usd_mio: 0.4, ausgabe_usd_mio: 20, websuche_usd: 0.01, fast_faktor: 2, eu_faktor: 1.1, quelle: 'OpenAI Preisseite 12.11.2026, Aktionspreis bis 30.11.2026' },
+          { modell: 'gpt-5.6-sol', gilt_ab: '2026-12-01', eingabe_usd_mio: 5, zwischengespeichert_usd_mio: 0.5, ausgabe_usd_mio: 30, websuche_usd: 0.01, fast_faktor: 2, eu_faktor: 1.1, quelle: 'Nach der Aktion laut Kundenmail, unbestaetigt' },
+          { modell: 'gpt-5.6-terra', gilt_ab: '2026-01-01', eingabe_usd_mio: 2, zwischengespeichert_usd_mio: 0.2, ausgabe_usd_mio: 12, websuche_usd: 0.01, fast_faktor: 2, eu_faktor: 1.1, quelle: 'OpenAI Preisseite 12.11.2026' }] },
+      ki_aufrufe_alt: { arten, summe: { nutzer_heute: 900, nutzer_d7: 1500, nutzer_d30: nutzer.ki_nutzer_d30 }, tag: 'utc' },
+      posten,
+      summe_monat: { fest_eur_cent: fest, ki_eur_cent: ki, ki_art: 'gemessen', gesamt_eur_cent: gesamt, einmal_eur_cent: einmal },
+      nutzer,
+      je_nutzer: { je_aktivem_eur_cent: je(gesamt, nutzer.aktiv_30_tage), je_pro_eur_cent: je(gesamt, nutzer.pro), je_zahlendem_eur_cent: je(gesamt, nutzer.zahlende),
+        fest_je_aktivem_eur_cent: je(fest, nutzer.aktiv_30_tage), ki_je_aktivem_eur_cent: je(ki, nutzer.aktiv_30_tage), ki_je_ki_nutzer_eur_cent: je(ki, nutzer.ki_nutzer_d30) },
+    };
+  }
+
+  // ---------------------------------------------------------------- Kosten: Laden und Senden
+  function koFehlerLaden(status, rumpf) {
+    const f = rumpf && typeof rumpf === 'object' ? rumpf.fehler : null;
+    if (status === 501 || f === 'funktion_fehlt') return { titel: ko('ladenFehlt'), text: ko('ladenFehltText') };
+    if (status === 504 || f === 'zeit') return { titel: t('fZeit'), text: t('crLadenZeit', { s: rumpf && Number.isFinite(rumpf.sekunden) ? rumpf.sekunden : 12 }) };
+    if (status === 400 && f === 'teil') return { titel: ko('ladenAlt'), text: ko('ladenAltText') };
+    return fehlerAus(status, rumpf);
+  }
+  async function koLaden() {
+    if (!zugang) {
+      koLaufNr++;
+      koLaedt = false; koFehler = null; koEcht = false;
+      koDaten = koBeispiel();
+      koGeladenAm = Date.now();
+      koRender();
+      return;
+    }
+    const nr = ++koLaufNr;
+    const fuer = zugang;
+    koLaedt = true;
+    koRender();
+    const abbruch = new AbortController();
+    const uhr = setTimeout(() => abbruch.abort(), 20000);
+    try {
+      const adresse = fuer.url + (fuer.url.includes('?') ? '&' : '?') + 'teil=kosten';
+      const r = await fetch(adresse, {
+        method: 'GET', cache: 'no-store', signal: abbruch.signal,
+        headers: { 'x-dashboard-schluessel': fuer.schluessel },
+      });
+      let rumpf = null;
+      try { rumpf = await r.json(); } catch (_) { rumpf = null; }
+      if (nr !== koLaufNr) return;
+      if (!r.ok) koFehler = koFehlerLaden(r.status, rumpf);
+      else if (koGueltig(rumpf)) { koDaten = rumpf; koEcht = true; koFehler = null; }
+      else if (rumpf && rumpf.version === 1 && Array.isArray(rumpf.tage)) koFehler = { titel: ko('ladenAlt'), text: ko('ladenAltText') };
+      else koFehler = { titel: t('fFormat'), text: t('fFormatText') };
+    } catch (e) {
+      if (nr !== koLaufNr) return;
+      if (e && e.name === 'AbortError') koFehler = { titel: t('fZeit'), text: t('fZeitText') };
+      else if (navigator.onLine === false) koFehler = { titel: t('fOffline'), text: t('fOfflineText') };
+      else koFehler = { titel: t('fNetz'), text: t('fNetzText'), knopf: 'zugang' };
+    } finally {
+      clearTimeout(uhr);
+      if (nr === koLaufNr) { koLaedt = false; koGeladenAm = Date.now(); koRender(); }
+    }
+  }
+  // POST an die Function. Schluessel nur im Kopf, nie in der Adresse.
+  async function koSenden(rumpf) {
+    if (!zugang || !koEcht) return { ok: false, status: 0, rumpf: { fehler: 'beispiel' } };
+    const abbruch = new AbortController();
+    const uhr = setTimeout(() => abbruch.abort(), 20000);
+    try {
+      const r = await fetch(zugang.url, {
+        method: 'POST', cache: 'no-store', signal: abbruch.signal,
+        headers: { 'x-dashboard-schluessel': zugang.schluessel, 'content-type': 'application/json' },
+        body: JSON.stringify(rumpf),
+      });
+      let j = null;
+      try { j = await r.json(); } catch (_) { j = null; }
+      if (r.ok && j && j.ok === true) return { ok: true, daten: j };
+      return { ok: false, status: r.status, rumpf: j };
+    } catch (e) {
+      return { ok: false, status: 0, netz: e && e.name === 'AbortError' ? 'zeit' : 'netz' };
+    } finally {
+      clearTimeout(uhr);
+    }
+  }
+  // Fehlerwort der Function -> Text. Nur feste Woerter, nie eine Meldung der Datenbank.
+  const KO_WOERTER = new Set(['name_form', 'anbieter_form', 'kategorie_form', 'art_form', 'betrag_form', 'waehrung_form', 'anzahl_form',
+    'notiz_form', 'unbekannt', 'nichts', 'modell_form', 'preis_form', 'datum_form', 'kurs_form', 'quelle_form', 'preis_fehlt']);
+  const KO_FELDER = ['name', 'anbieter', 'kategorie', 'art', 'betrag_cent', 'waehrung', 'anzahl', 'aktiv', 'notiz', 'id', 'modell', 'gilt_ab',
+    'eingabe', 'zwischengespeichert', 'ausgabe', 'websuche', 'quelle', 'usd_eur', 'stand'];
+  function koFehlerText(r) {
+    if (r.netz === 'zeit') return ko('f_zeit');
+    if (r.netz) return navigator.onLine === false ? t('fOfflineText') : t('fNetzText');
+    const b = r.rumpf && typeof r.rumpf === 'object' ? r.rumpf : {};
+    const f = typeof b.fehler === 'string' ? b.fehler : null;
+    if (f === 'beispiel') return t('crBeispielAus');
+    if (f === 'zeit' || r.status === 504) return ko('f_zeit');
+    if (f && KO_WOERTER.has(f)) return ko('f_' + f);
+    if (f === 'eingabe') return ko('f_eingabe', { feld: KO_FELDER.includes(b.feld) ? ko('l_' + b.feld) : '?' });
+    if (f === 'funktion_fehlt' || r.status === 501) return ko('f_funktion_fehlt');
+    if (f === 'aktion' || f === 'feld' || f === 'methode' || r.status === 405) return ko('f_deploy');
+    if (f === 'schluessel' || f === 'herkunft' || f === 'nicht_eingerichtet' || [401, 403, 503].includes(r.status) || (r.status === 404 && !f)) {
+      const x = fehlerAus(r.status, b);
+      return x.titel + '. ' + x.text;
+    }
+    if (r.status === 200) return t('fFormatText');
+    const code = typeof b.code === 'string' && b.code ? b.code : (f || 'HTTP ' + r.status);
+    return t('crF_sonst', { code: String(code).slice(0, 40) });
+  }
+  // Fehler beim Schreiben aus einer Zeile: oben in der Meldung, die Eingaben bleiben stehen.
+  function koSchreibFehler(text) {
+    const m = $('ko-meldung');
+    m.replaceChildren(el('p', { text }));
+    m.hidden = false;
+    crMeldung($('ko-erfolg'), '');
+  }
+  async function koSchreiben(rumpf, knopf, erfolg) {
+    if (!koEcht) { koSchreibFehler(t('crBeispielAus')); return false; }
+    if (knopf) knopf.disabled = true;
+    const r = await koSenden(rumpf);
+    if (knopf) knopf.disabled = false;
+    if (r.ok) { koErfolgText = typeof erfolg === 'function' ? erfolg(r.daten) : erfolg; koLaden(); return true; }
+    koErfolgText = '';
+    koSchreibFehler(koFehlerText(r));
+    if (r.netz === 'zeit' || (r.rumpf && r.rumpf.fehler === 'unbekannt')) koLaden();
+    return false;
+  }
+
+  // ---------------------------------------------------------------- Kosten: Dialog (anlegen, bearbeiten)
+  const KD = {
+    d: $('ko-dialog'), form: $('ko-d-form'), titel: $('ko-d-titel'), name: $('ko-d-name'), anbieter: $('ko-d-anbieter'),
+    kategorie: $('ko-d-kategorie'), art: $('ko-d-art'), waehrung: $('ko-d-waehrung'), betrag: $('ko-d-betrag'), betragLabel: $('ko-d-betrag-label'),
+    anzahl: $('ko-d-anzahl'), aktivZeile: $('ko-d-aktiv-zeile'), aktiv: $('ko-d-aktiv'), notiz: $('ko-d-notiz'), fehler: $('ko-d-fehler'),
+    beispiel: $('ko-d-beispiel'), senden: $('ko-d-senden'), posten: null,
+  };
+  function koArtGeaendert() {
+    const prozent = KD.art.value === 'umsatz_prozent';
+    KD.betragLabel.textContent = ko(prozent ? 'fBetragProzent' : 'fBetrag');
+    KD.waehrung.disabled = prozent;
+    KD.anzahl.disabled = prozent;
+  }
+  KD.art.addEventListener('change', koArtGeaendert);
+  function koOeffnen(p, knopf) {
+    KD.posten = p || null;
+    KD.titel.textContent = ko(p ? 'dBearbeiten' : 'dNeu');
+    KD.kategorie.replaceChildren(...KO_KATEGORIEN.map((k) => el('option', { value: k, text: ko('kat_' + k) })));
+    KD.art.replaceChildren(...KO_ARTEN.map((a) => el('option', { value: a, text: ko('art_' + a) })));
+    KD.waehrung.replaceChildren(...KO_WAEHRUNGEN.map((w) => el('option', { value: w, text: w })));
+    KD.name.value = p ? p.name : '';
+    KD.anbieter.value = p && typeof p.anbieter === 'string' ? p.anbieter : '';
+    KD.kategorie.value = p && KO_KATEGORIEN.includes(p.kategorie) ? p.kategorie : 'sonstiges';
+    KD.art.value = p && KO_ARTEN.includes(p.art) ? p.art : 'monat';
+    KD.waehrung.value = p && KO_WAEHRUNGEN.includes(p.waehrung) ? p.waehrung : 'EUR';
+    KD.betrag.value = p ? betragFmt.format(zn(p.betrag_cent) / 100) : '';
+    KD.anzahl.value = String(p ? zn(p.anzahl) || 1 : 1);
+    KD.aktivZeile.hidden = !!p;
+    KD.aktiv.checked = true;
+    KD.notiz.value = p && typeof p.notiz === 'string' ? p.notiz : '';
+    koArtGeaendert();
+    crMeldung(KD.fehler, '');
+    crMeldung(KD.beispiel, koEcht ? '' : t('crBeispielAus'));
+    KD.senden.disabled = !koEcht;
+    koZurueck = knopf || null;
+    dlgAuf(KD.d, knopf);
+    KD.name.focus();
+  }
+  // Werte aus dem Formular: {rumpf} oder {fehler, feld}. Beim Aendern nur, was sich geaendert hat.
+  function koWerte() {
+    const p = KD.posten;
+    const name = KD.name.value.trim();
+    if (!name || Array.from(name).length > 60 || STEUER_RE.test(name)) return { fehler: ko('f_name_form'), feld: KD.name };
+    const anbieter = KD.anbieter.value.trim();
+    if (Array.from(anbieter).length > 60 || STEUER_RE.test(anbieter)) return { fehler: ko('f_anbieter_form'), feld: KD.anbieter };
+    const art = KD.art.value;
+    const prozent = art === 'umsatz_prozent';
+    const x = koZahlLesen(KD.betrag.value);
+    const betrag = x == null ? null : Math.round(x * 100);
+    if (betrag == null || betrag > (prozent ? 10000 : 100000000)) return { fehler: ko('f_betrag_form'), feld: KD.betrag };
+    const anzahl = prozent ? 1 : Number(KD.anzahl.value);
+    if (!Number.isInteger(anzahl) || anzahl < 1 || anzahl > 1000) return { fehler: ko('f_anzahl_form'), feld: KD.anzahl };
+    const notiz = KD.notiz.value.trim();
+    if (Array.from(notiz).length > 500 || STEUER_OHNE_NL_RE.test(notiz)) return { fehler: ko('f_notiz_form'), feld: KD.notiz };
+    const kategorie = KD.kategorie.value;
+    const waehrung = prozent ? 'EUR' : KD.waehrung.value;
+    if (!p) {
+      return { rumpf: { aktion: 'kosten_anlegen', name, anbieter: anbieter || null, kategorie, art, betrag_cent: betrag, waehrung, anzahl,
+        aktiv: KD.aktiv.checked, notiz: notiz || null } };
+    }
+    const r = { aktion: 'kosten_aendern', id: p.id };
+    if (name !== p.name) r.name = name;
+    if (anbieter !== (p.anbieter || '')) r.anbieter = anbieter;
+    if (kategorie !== p.kategorie) r.kategorie = kategorie;
+    if (art !== p.art) r.art = art;
+    if (betrag !== zn(p.betrag_cent)) r.betrag_cent = betrag;
+    if (waehrung !== p.waehrung) r.waehrung = waehrung;
+    if (anzahl !== zn(p.anzahl)) r.anzahl = anzahl;
+    if (notiz !== (p.notiz || '')) r.notiz = notiz;
+    if (Object.keys(r).length === 2) return { fehler: ko('nichts') };
+    return { rumpf: r };
+  }
+  KD.form.addEventListener('submit', async (ev) => {
+    ev.preventDefault();
+    if (!koEcht || KD.d.dataset.sendet === '1') return;
+    const w = koWerte();
+    if (w.fehler) { crMeldung(KD.fehler, w.fehler); if (w.feld) w.feld.focus(); return; }
+    crMeldung(KD.fehler, '');
+    crSendet(KD.d, true);
+    const r = await koSenden(w.rumpf);
+    crSendet(KD.d, false);
+    KD.senden.disabled = !koEcht;
+    if (r.ok) {
+      const neu = r.daten && r.daten.posten && typeof r.daten.posten === 'object' ? r.daten.posten : {};
+      koErfolgText = ko(KD.posten ? 'okGespeichert' : 'okAngelegt', { name: neu.name || w.rumpf.name || (KD.posten && KD.posten.name) || '' });
+      dlgZu(KD.d);
+      koLaden();
+      return;
+    }
+    crMeldung(KD.fehler, koFehlerText(r));
+    if (r.netz === 'zeit' || (r.rumpf && r.rumpf.fehler === 'unbekannt')) koLaden();
+  });
+  const koDialogZu = () => { if (KD.d.dataset.sendet !== '1') dlgZu(KD.d); };
+  $('ko-d-abbrechen').addEventListener('click', koDialogZu);
+  $('ko-d-zu').addEventListener('click', koDialogZu);
+  for (const id of KO_DIALOGE) {
+    const d = $(id);
+    d.addEventListener('close', () => {
+      if (koAusstehend && !koDialogOffen()) koRender();
+      const z0 = koZurueck;
+      koZurueck = null;
+      if (z0 && z0.isConnected && typeof z0.focus === 'function') z0.focus();
+    });
+    d.addEventListener('cancel', (ev) => { if (d.dataset.sendet === '1') ev.preventDefault(); });
+  }
+
+  // ---------------------------------------------------------------- Kosten: Zeichnen
+  function koKopf() {
+    const chip = $('ko-chip');
+    let art = 'beispiel';
+    if (zugang) art = koLaedt ? 'laedt' : koFehler ? (koEcht ? 'alt' : 'fehler') : (koEcht ? 'live' : 'laedt');
+    chip.dataset.art = art;
+    chip.textContent = t({ laedt: 'chipLaedt', alt: 'chipAlt', fehler: 'chipFehler', live: 'chipLive', beispiel: 'chipBeispiel' }[art]);
+    $('ko-stand').textContent = koEcht && koDaten && koDaten.stand ? ko('stand', { zeit: zeit(koDaten.stand) }) : '';
+    $('ko-neu-knopf').disabled = !koDaten || (!!zugang && !koEcht);
+    const m = $('ko-meldung');
+    m.replaceChildren();
+    if (koFehler) {
+      m.append(el('strong', { text: koFehler.titel }), el('p', { text: koFehler.text }));
+      if (koFehler.knopf === 'zugang') {
+        const b = el('button', { class: 'knopf', type: 'button', text: t('zugang') });
+        b.addEventListener('click', () => zugangOeffnen());
+        m.append(el('div', { class: 'knopfreihe' }, b));
+      }
+      m.hidden = false;
+    } else m.hidden = true;
+    crMeldung($('ko-erfolg'), koErfolgText);
+  }
+  function koKachel(name, wert, teil) {
+    return el('article', { class: 'kachel' }, [
+      el('div', { class: 'name', text: name }),
+      el('div', { class: 'wert zahl', text: wert }),
+      el('div', { class: 'teil zahl', text: teil || '' }),
+    ]);
+  }
+  function koKacheln(d) {
+    const s = koObj(d.summe_monat), n = koObj(d.nutzer), j = koObj(d.je_nutzer), ki = koObj(d.ki);
+    const kiText = s.ki_art === 'zu_wenig' ? ko('kKiWenig') : s.ki_art === 'fehlt' || s.ki_eur_cent == null ? ko('kKiFehlt') : eurK(s.ki_eur_cent);
+    // Hochgerechnet aus der echten Dauer (175): unter 2 Tagen in Stunden.
+    const tage = zn(ki.tage_mit_daten);
+    const hoch = s.ki_art !== 'hochgerechnet' ? '' : tage < 2 ? ko('kHochStd', { n: z(Math.round(tage * 24)) }) : ko('kHoch', { n: kommaFmt.format(tage) });
+    const teil1 = [ko('kGesamtTeil', { f: eurK(s.fest_eur_cent), k: kiText }), hoch,
+      zn(koObj(ki.summe).ohne_preis_d30) > 0 ? ko('kUnvollstaendig') : ''].filter(Boolean).join(' · ');
+    $('ko-kacheln').replaceChildren(
+      koKachel(ko('kGesamt'), eurK(s.gesamt_eur_cent), teil1),
+      koKachel(ko('kAktiv'), eurFein(j.je_aktivem_eur_cent), j.je_aktivem_eur_cent == null ? ko('kOhne') : ko('kAktivTeil', { n: z(n.aktiv_30_tage) })),
+      koKachel(ko('kPro'), eurFein(j.je_pro_eur_cent), j.je_pro_eur_cent == null ? ko('kOhne') : ko('kProTeil', { n: z(n.pro) })),
+    );
+  }
+  function koKopfzeile(spalten) {
+    return el('thead', {}, el('tr', {}, spalten.map(([text, links]) => el('th', { class: links ? 'links' : null, scope: 'col', text }))));
+  }
+  function koKi(d) {
+    const ki = koObj(d.ki);
+    const funktionen = koListe(ki, 'funktionen');
+    const alt = koObj(d.ki_aufrufe_alt);
+    const altSumme = koObj(alt.summe);
+    const ohneDaten = !ki.ab || !funktionen.length;
+    const hinweis = $('ko-ki-hinweis');
+    const ohnePreis = ohneDaten ? 0 : zn(koObj(ki.summe).ohne_preis_d30);
+    const fehlend = ohnePreis > 0 ? koOhnePreisModelle(ki) : [];
+    let tabelle;
+    if (ohneDaten) {
+      // Ohne Zeilen in ki_verbrauch: die Zaehlung je Topf aus essen_deutungen.
+      $('ko-ki-neben').textContent = ko('kiNebenAlt');
+      crMeldung(hinweis, ko('kiLeer'));
+      const arten = koListe(alt, 'arten');
+      tabelle = el('table', { class: 'cr-tabelle ko-tabelle' }, [
+        koKopfzeile([[ko('sFunktion'), true], [ko('sHeute')], [ko('s7')], [ko('s30')], [ko('sNutzer')], [ko('sKosten')]]),
+        el('tbody', {}, arten.length ? arten.map((a) => el('tr', {}, [
+          el('td', { class: 'links', text: koTopfName(a.art) }), el('td', { text: z(zn(a.heute)) }), el('td', { text: z(zn(a.d7)) }),
+          el('td', { text: z(zn(a.d30)) }), el('td', { text: z(zn(a.nutzer_d30)) }), el('td', { class: 'leise', text: ko('kKiFehlt') }),
+        ])) : [el('tr', { class: 'leer' }, el('td', { colspan: '6', text: '-' }))]),
+      ]);
+      $('ko-ki-fuss').textContent = '';
+    } else {
+      $('ko-ki-neben').textContent = ko('kiNeben');
+      // Aufrufe ohne Preis: Hinweis mit den Modellen, Preise aufklappen, das
+      // erste Modell steht schon in der Zeile "Neues Modell".
+      crMeldung(hinweis, ohnePreis <= 0 ? '' : fehlend.length ? ko('kiOhnePreisModelle', { n: z(ohnePreis), m: fehlend.slice(0, 3).join(', ') })
+        : ko('kiOhnePreis', { n: z(ohnePreis) }));
+      if (ohnePreis > 0) $('ko-preise-klappe').open = true;
+      const sm = koObj(ki.summe), sa = koObj(sm.aufrufe), sk = koObj(sm.kosten_usd);
+      const zeile = (name, neben, a, k, fehler, reihe, summe) => el('tr', { class: summe ? 'summe' : null }, [
+        el('td', { class: 'links' }, el('div', { class: 'ko-name' }, [el('b', { text: name }), neben ? el('small', { text: neben }) : null])),
+        el('td', { text: z(zn(a.heute)) }), el('td', { text: z(zn(a.d7)) }), el('td', { text: z(zn(a.d30)) }),
+        el('td', { class: zn(fehler) ? null : 'leise', text: z(zn(fehler)) }),
+        el('td', { class: 'fett', text: usd(k.d30) }),
+        el('td', { text: zn(a.d30) ? usdFein(zn(k.d30) / zn(a.d30)) : '-' }),
+        el('td', {}, reihe ? el('div', { class: 'ko-funke' }, funke(reihe.map(zn))) : null),
+      ]);
+      tabelle = el('table', { class: 'cr-tabelle ko-tabelle' }, [
+        koKopfzeile([[ko('sFunktion'), true], [ko('sHeute')], [ko('s7')], [ko('s30')], [ko('sFehler')], [ko('sKosten')], [ko('sJe')], [ko('sVerlauf')]]),
+        el('tbody', {}, funktionen.map((f) => zeile(koFunktionName(f.funktion), typeof f.modell === 'string' ? f.modell : '', koObj(f.aufrufe),
+          koObj(f.kosten_usd), f.fehler_d30, Array.isArray(f.reihe) ? f.reihe : null, false))),
+        el('tfoot', {}, zeile(ko('sSumme'), '', sa, sk, sm.fehler_d30, null, true)),
+      ]);
+      const kurs = zn(koObj(d.kurs).usd_eur) || 0.92;
+      // Ohne den Topf rezept: jedes fertige Rezept steckt schon als Aufruf in
+      // rezept_versuch (essen-deuten zaehlt es in beiden).
+      const gezaehlt = koListe(alt, 'arten').filter((a) => a.art !== 'rezept').reduce((x, a) => x + zn(a.d30), 0);
+      $('ko-ki-fuss').textContent = [ko('kiFussEuro', { usd: usd(sk.d30), eur: eur(zn(sk.d30) * kurs * 100) }),
+        altSumme.nutzer_d30 != null ? ko('kiFuss', { n: z(gezaehlt), u: z(zn(altSumme.nutzer_d30)) }) : ''].filter(Boolean).join(' ');
+    }
+    $('ko-ki').replaceChildren(tabelle);
+    koPreise(ki, fehlend[0] || '');
+  }
+  // Modelle der letzten 30 Tage, zu denen kein Preis passt (genauer Name oder
+  // Praefix wie in ki_kosten_rechnen).
+  function koOhnePreisModelle(ki) {
+    const preise = koListe(ki, 'preise').map((p) => (typeof p.modell === 'string' ? p.modell : '')).filter(Boolean);
+    const fehlt = new Set();
+    for (const f of koListe(ki, 'funktionen')) {
+      for (const m of koListe(f, 'modelle')) {
+        const n = typeof m.modell === 'string' ? m.modell : '';
+        if (n && !preise.some((p) => n === p || n.startsWith(p + '-'))) fehlt.add(n);
+      }
+    }
+    return [...fehlt].sort();
+  }
+  // Preise je Modell: die drei Tokenpreise in der Zeile aenderbar, darunter
+  // eine Zeile fuer ein neues Modell (oder einen Preis ab einem Datum).
+  function koPreise(ki, vorschlag) {
+    const preise = koListe(ki, 'preise');
+    const erster = preise[0] || {};
+    $('ko-preise-titel').textContent = ko('hPreise');
+    const zeilen = preise.map((p) => {
+      const felder = [['eingabe', p.eingabe_usd_mio], ['zwischengespeichert', p.zwischengespeichert_usd_mio], ['ausgabe', p.ausgabe_usd_mio]]
+        .map(([k, v]) => {
+          const i = el('input', { class: 'ko-eingabe kurz', type: 'text', inputmode: 'decimal', autocomplete: 'off', 'aria-label': p.modell + ' ' + ko('l_' + k) });
+          i.value = preisFmt.format(zn(v));
+          i.disabled = !koEcht;
+          return [k, v, i];
+        });
+      const knopf = el('button', { class: 'knopf klein', type: 'button', text: ko('speichern') });
+      knopf.disabled = !koEcht;
+      knopf.addEventListener('click', () => {
+        const r = { aktion: 'ki_preis_aendern', modell: p.modell, gilt_ab: String(p.gilt_ab || '').slice(0, 10) };
+        for (const [k, v, i] of felder) {
+          const x = koZahlLesen(i.value);
+          i.setAttribute('aria-invalid', x == null || x > 1000 ? 'true' : 'false');
+          if (x == null || x > 1000) { koSchreibFehler(ko('f_preis_form')); i.focus(); return; }
+          if (Math.abs(x - zn(v)) > 1e-9) r[k] = Math.round(x * 10000) / 10000;
+        }
+        if (Object.keys(r).length === 3) { koSchreibFehler(ko('nichts')); return; }
+        koSchreiben(r, knopf, (j) => ko('okPreis', { modell: p.modell, n: z(zn(j && j.neu_gerechnet)) }));
+      });
+      return el('tr', {}, [
+        el('td', { class: 'links', text: p.modell }), el('td', { text: koDatum(p.gilt_ab) }),
+        ...felder.map(([, , i]) => el('td', {}, i)),
+        el('td', { text: usdFein(p.websuche_usd) }),
+        el('td', { class: 'links' }, el('div', { class: 'ko-name' }, el('small', { text: p.quelle || '' }))),
+        el('td', {}, knopf),
+      ]);
+    });
+    // Neues Modell: alle drei Tokenpreise. "ab" steht 31 Tage zurueck, damit
+    // die Aufrufe ohne Preis (die letzten 31 Tage) gleich mitgerechnet werden.
+    const nf = (id, klasse, feld, extra) => {
+      const i = el('input', { id, class: 'ko-eingabe ' + klasse, type: 'text', autocomplete: 'off', 'aria-label': ko('pNeu') + ' ' + ko('l_' + feld), ...extra });
+      i.disabled = !koEcht;
+      return i;
+    };
+    const nModell = nf('ko-pn-modell', 'lang', 'modell', { spellcheck: 'false', maxlength: '64', placeholder: ko('pNeu') });
+    nModell.value = vorschlag || '';
+    const nAb = nf('ko-pn-ab', 'datum', 'gilt_ab', { type: 'date', min: '2024-01-01', max: '2030-12-31' });
+    nAb.value = tagPlus(berlinTag(new Date()), -31);
+    const nPreise = [['eingabe', 'ko-pn-eingabe'], ['zwischengespeichert', 'ko-pn-cache'], ['ausgabe', 'ko-pn-ausgabe']]
+      .map(([k, id]) => [k, nf(id, 'kurz', k, { inputmode: 'decimal' })]);
+    const nWeb = nf('ko-pn-suche', 'kurz', 'websuche', { inputmode: 'decimal' });
+    nWeb.value = preisFmt.format(0.01);
+    const nQuelle = nf('ko-pn-quelle', 'lang', 'quelle', { maxlength: '300' });
+    const nKnopf = el('button', { id: 'ko-pn-knopf', class: 'knopf klein', type: 'button', text: ko('pHinzu') });
+    nKnopf.disabled = !koEcht;
+    const nAlle = [nModell, nAb, ...nPreise.map(([, i]) => i), nWeb, nQuelle];
+    const falsch = (i, text) => { i.setAttribute('aria-invalid', 'true'); koSchreibFehler(text); i.focus(); };
+    const nSenden = () => {
+      for (const i of nAlle) i.setAttribute('aria-invalid', 'false');
+      const modell = nModell.value.trim().toLowerCase();
+      if (!/^[a-z0-9][a-z0-9.-]{0,63}$/.test(modell)) return falsch(nModell, ko('f_modell_form'));
+      const ab = nAb.value;
+      if (!KO_TAG.test(ab) || ab < '2024-01-01' || ab > '2030-12-31') return falsch(nAb, ko('f_datum_form'));
+      const r = { aktion: 'ki_preis_aendern', modell, gilt_ab: ab };
+      for (const [k, i] of nPreise) {
+        if (!i.value.trim()) return falsch(i, ko('f_preis_fehlt'));
+        const x = koZahlLesen(i.value);
+        if (x == null || x > 1000) return falsch(i, ko('f_preis_form'));
+        r[k] = Math.round(x * 10000) / 10000;
+      }
+      if (nWeb.value.trim()) {
+        const x = koZahlLesen(nWeb.value);
+        if (x == null || x > 10) return falsch(nWeb, ko('f_preis_form'));
+        r.websuche = Math.round(x * 100000) / 100000;
+      }
+      const quelle = nQuelle.value.trim();
+      if (Array.from(quelle).length > 300 || STEUER_RE.test(quelle)) return falsch(nQuelle, ko('f_quelle_form'));
+      if (quelle) r.quelle = quelle;
+      koSchreiben(r, nKnopf, (j) => ko('okPreis', { modell, n: z(zn(j && j.neu_gerechnet)) }));
+    };
+    nKnopf.addEventListener('click', nSenden);
+    for (const i of nAlle) i.addEventListener('keydown', (ev) => { if (ev.key === 'Enter') { ev.preventDefault(); if (!nKnopf.disabled) nSenden(); } });
+    const neu = el('tr', { class: 'ko-neu' }, [
+      el('td', { class: 'links' }, nModell), el('td', {}, nAb), ...nPreise.map(([, i]) => el('td', {}, i)), el('td', {}, nWeb),
+      el('td', { class: 'links' }, nQuelle), el('td', {}, nKnopf),
+    ]);
+    $('ko-preise').replaceChildren(
+      el('p', { class: 'klein', text: ko('pHinweis', { fast: kommaFmt.format(zn(erster.fast_faktor) || 2), eu: kommaFmt.format(zn(erster.eu_faktor) || 1.1) }) }),
+      el('table', { class: 'cr-tabelle ko-tabelle' }, [
+        koKopfzeile([[ko('pModell'), true], [ko('pAb')], [ko('pEin')], [ko('pCache')], [ko('pAus')], [ko('pWeb')], [ko('pQuelle'), true], ['']]),
+        el('tbody', {}, zeilen.length ? zeilen : [el('tr', { class: 'leer' }, el('td', { colspan: '8', text: '-' }))]),
+        el('tfoot', {}, neu),
+      ]));
+  }
+  function koPostenZeile(p) {
+    const prozent = p.art === 'umsatz_prozent';
+    const einheit = prozent ? '%' : p.waehrung === 'USD' ? '$' : '€';
+    const betrag = el('input', { class: 'ko-eingabe', type: 'text', inputmode: 'decimal', autocomplete: 'off', 'aria-label': p.name + ' ' + ko('l_betrag_cent') });
+    betrag.value = betragFmt.format(zn(p.betrag_cent) / 100);
+    betrag.disabled = !koEcht;
+    const anzahl = prozent ? null : el('input', { class: 'ko-eingabe kurz', type: 'number', min: '1', max: '1000', step: '1', inputmode: 'numeric',
+      'aria-label': p.name + ' ' + ko('l_anzahl') });
+    if (anzahl) { anzahl.value = String(zn(p.anzahl) || 1); anzahl.disabled = !koEcht; }
+    const speichern = el('button', { class: 'knopf klein', type: 'button', text: ko('speichern') });
+    speichern.disabled = true;
+    const geaendert = () => {
+      const x = koZahlLesen(betrag.value);
+      const neu = x == null ? null : Math.round(x * 100);
+      const a = anzahl ? Number(anzahl.value) : zn(p.anzahl);
+      speichern.disabled = !koEcht || (neu === zn(p.betrag_cent) && a === zn(p.anzahl));
+    };
+    betrag.addEventListener('input', geaendert);
+    if (anzahl) anzahl.addEventListener('input', geaendert);
+    const senden = () => {
+      const x = koZahlLesen(betrag.value);
+      const neu = x == null ? null : Math.round(x * 100);
+      if (neu == null || neu > (prozent ? 10000 : 100000000)) { betrag.setAttribute('aria-invalid', 'true'); koSchreibFehler(ko('f_betrag_form')); betrag.focus(); return; }
+      betrag.setAttribute('aria-invalid', 'false');
+      const a = anzahl ? Number(anzahl.value) : zn(p.anzahl);
+      if (!Number.isInteger(a) || a < 1 || a > 1000) { koSchreibFehler(ko('f_anzahl_form')); if (anzahl) anzahl.focus(); return; }
+      const r = { aktion: 'kosten_aendern', id: p.id };
+      if (neu !== zn(p.betrag_cent)) r.betrag_cent = neu;
+      if (a !== zn(p.anzahl)) r.anzahl = a;
+      if (Object.keys(r).length === 2) { koSchreibFehler(ko('nichts')); return; }
+      koSchreiben(r, speichern, ko('okGespeichert', { name: p.name }));
+    };
+    speichern.addEventListener('click', senden);
+    for (const i of [betrag, anzahl].filter(Boolean)) i.addEventListener('keydown', (ev) => { if (ev.key === 'Enter') { ev.preventDefault(); if (!speichern.disabled) senden(); } });
+    const schalter = el('button', { class: 'schalter', type: 'button', 'aria-pressed': p.aktiv === true ? 'true' : 'false',
+      'aria-label': ko(p.aktiv === true ? 'schalterAus' : 'schalterAn', { name: p.name }) }, [el('i'), el('span', { text: ko(p.aktiv === true ? 'an' : 'aus') })]);
+    schalter.disabled = !koEcht;
+    schalter.addEventListener('click', () => koSchreiben({ aktion: 'kosten_aendern', id: p.id, aktiv: p.aktiv !== true }, schalter,
+      ko(p.aktiv === true ? 'okAus' : 'okAn', { name: p.name })));
+    const bearb = el('button', { class: 'knopf klein', type: 'button', 'aria-haspopup': 'dialog', text: ko('bearbeiten') });
+    bearb.addEventListener('click', () => koOeffnen(p, bearb));
+    const neben = [p.anbieter, p.notiz].filter((x) => typeof x === 'string' && x).join(' · ');
+    const monat = prozent ? ko('nichtDrin') : p.art === 'einmal' ? ko('einmalWert', { b: eur(p.gesamt_eur_cent) })
+      : zn(p.betrag_cent) === 0 ? ko('betragFehlt') : eur(p.monatlich_eur_cent);
+    return el('tr', { class: p.aktiv === true ? null : 'ist-aus' }, [
+      el('td', { class: 'links' }, el('div', { class: 'ko-name' }, [el('b', { text: p.name }), neben ? el('small', { text: neben }) : null])),
+      el('td', { text: KO_ARTEN.includes(p.art) ? ko('art_' + p.art) : String(p.art || '') }),
+      el('td', {}, [betrag, el('span', { class: 'ko-einheit', text: einheit })]),
+      el('td', {}, anzahl),
+      el('td', { class: prozent || p.art === 'einmal' || zn(p.betrag_cent) === 0 ? 'leise' : 'fett', text: monat }),
+      el('td', {}, schalter),
+      el('td', {}, el('div', { class: 'ko-knoepfe' }, [speichern, bearb])),
+    ]);
+  }
+  function koFest(d) {
+    const kurs = koObj(d.kurs);
+    const s = koObj(d.summe_monat);
+    $('ko-fest-neben').textContent = ko('festNeben', { k: kursFmt.format(zn(kurs.usd_eur) || 0.92), d: koDatum(kurs.stand) });
+    const posten = koListe(d, 'posten');
+    $('ko-fest').replaceChildren(el('table', { class: 'cr-tabelle ko-tabelle' }, [
+      koKopfzeile([[ko('sPosten'), true], [ko('sArt')], [ko('sBetrag')], [ko('sAnzahl')], [ko('sMonat')], [ko('sAn')], ['']]),
+      el('tbody', {}, posten.length ? posten.map(koPostenZeile) : [el('tr', { class: 'leer' }, el('td', { colspan: '7', text: '-' }))]),
+      el('tfoot', {}, [
+        el('tr', {}, [el('th', { class: 'links', scope: 'row', colspan: '4', text: ko('summeMonat') }), el('td', { text: eur(s.fest_eur_cent) }), el('td', { colspan: '2' })]),
+        zn(s.einmal_eur_cent) > 0 ? el('tr', {}, [el('th', { class: 'links', scope: 'row', colspan: '4', text: ko('summeEinmal') }),
+          el('td', { class: 'leise', text: eur(s.einmal_eur_cent) }), el('td', { colspan: '2' })]) : null,
+      ]),
+    ]));
+    if (document.activeElement !== $('ko-kurs')) $('ko-kurs').value = kursFmt.format(zn(kurs.usd_eur) || 0.92);
+    $('ko-kurs').disabled = !koEcht;
+    $('ko-kurs-knopf').disabled = !koEcht;
+    $('ko-kurs-stand').textContent = ko('kursStand', { d: koDatum(kurs.stand) });
+  }
+  function koNutzer(d) {
+    const n = koObj(d.nutzer), j = koObj(d.je_nutzer), s = koObj(d.summe_monat);
+    $('ko-nutzer-neben').textContent = n.quelle === 'speicher' ? ko('nutzerSpeicher', { zeit: zeit(n.stand) }) : ko('nutzerDirekt');
+    const zeile = (name, wert) => el('li', {}, [el('span', { text: name }), el('span', { text: wert })]);
+    const teil = (fest, ki) => ko('jTeil', { f: eurFein(fest), k: ki == null ? '-' : eurFein(ki) });
+    $('ko-nutzer').replaceChildren(
+      zeile(ko('nAktiv'), z(n.aktiv_30_tage)),
+      zeile(ko('nPro'), z(n.pro)),
+      zeile(ko('nZahlende'), z(n.zahlende)),
+      zeile(ko('nKi'), z(n.ki_nutzer_d30)),
+      zeile(ko('jAktiv'), eurFein(j.je_aktivem_eur_cent)),
+      el('li', {}, [el('span', { class: 'klein', text: teil(j.fest_je_aktivem_eur_cent, j.ki_je_aktivem_eur_cent) }), el('span')]),
+      zeile(ko('jPro'), eurFein(j.je_pro_eur_cent)),
+      zeile(ko('jZahlend'), eurFein(j.je_zahlendem_eur_cent)),
+      zeile(ko('jKi'), eurFein(j.ki_je_ki_nutzer_eur_cent)),
+    );
+    $('ko-rechnung').textContent = j.je_aktivem_eur_cent == null ? ko('rechnungOhne')
+      : ko('rechnung', { g: eur(s.gesamt_eur_cent), n: z(n.aktiv_30_tage), j: eurFein(j.je_aktivem_eur_cent) });
+  }
+  function koRender() {
+    koKopf();
+    if (koDialogOffen()) { koAusstehend = true; return; }
+    koAusstehend = false;
+    const d = koDaten;
+    $('ko-koerper').hidden = !d;
+    if (!d) return;
+    koKacheln(d);
+    koKi(d);
+    koFest(d);
+    koNutzer(d);
+    $('ko-wie-liste').replaceChildren(...['wie1', 'wie2', 'wie3', 'wie4'].map((k) => el('li', { text: ko(k) })));
+  }
+
+  // ---------------------------------------------------------------- Kosten: Texte und Ausloeser
+  $('kosten-link').textContent = ko('link');
+  $('h-kosten').textContent = ko('titel');
+  $('ko-neben').textContent = ko('neben');
+  $('ko-neu-knopf').textContent = ko('anlegenKnopf');
+  $('h-ko-ki').textContent = ko('hKi');
+  $('h-ko-fest').textContent = ko('hFest');
+  $('h-ko-nutzer').textContent = ko('hNutzer');
+  $('ko-wie-titel').textContent = ko('wie');
+  $('ko-kurs-label').textContent = ko('kurs');
+  $('ko-kurs-knopf').textContent = ko('kursSpeichern');
+  $('ko-d-name-label').textContent = ko('fName');
+  $('ko-d-anbieter-label').textContent = ko('fAnbieter');
+  $('ko-d-kategorie-label').textContent = ko('fKategorie');
+  $('ko-d-art-label').textContent = ko('fArt');
+  $('ko-d-waehrung-label').textContent = ko('fWaehrung');
+  $('ko-d-betrag-label').textContent = ko('fBetrag');
+  $('ko-d-anzahl-label').textContent = ko('fAnzahl');
+  $('ko-d-aktiv-label').textContent = ko('fAktiv');
+  $('ko-d-notiz-label').textContent = ko('fNotiz');
+  $('ko-d-senden').textContent = ko('senden');
+  $('ko-d-abbrechen').textContent = ko('abbrechen');
+  $('ko-d-zu').setAttribute('aria-label', ko('schliessen'));
+  $('ko-neu-knopf').addEventListener('click', () => koOeffnen(null, $('ko-neu-knopf')));
+  $('ko-kurs-form').addEventListener('submit', (ev) => {
+    ev.preventDefault();
+    const x = koZahlLesen($('ko-kurs').value);
+    if (x == null || x < 0.1 || x > 5) { $('ko-kurs').setAttribute('aria-invalid', 'true'); koSchreibFehler(ko('f_kurs_form')); $('ko-kurs').focus(); return; }
+    $('ko-kurs').setAttribute('aria-invalid', 'false');
+    const kurs = Math.round(x * 100000) / 100000;
+    if (koDaten && Math.abs(kurs - zn(koObj(koDaten.kurs).usd_eur)) < 1e-9) { koSchreibFehler(ko('nichts')); return; }
+    koSchreiben({ aktion: 'kurs_aendern', usd_eur: kurs }, $('ko-kurs-knopf'), ko('okKurs'));
+  });
+  $('neu').addEventListener('click', () => koLaden());
+  $('zugang').addEventListener('submit', () => {
+    if (zugang && zugang !== koZugang) { koZugang = zugang; koDaten = null; koEcht = false; koFehler = null; koLaden(); }
+  });
+  $('vergessen').addEventListener('click', () => { koZugang = null; koDaten = null; koEcht = false; koFehler = null; koLaden(); });
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible' && zugang && !koLaedt && Date.now() - koGeladenAm > CR_NEU_MS) koLaden();
+  });
+  koRender();
+
   // ---------------------------------------------------------------- Takt
   setInterval(() => {
     standZeigen();
@@ -3934,7 +4906,7 @@ dialog.blatt::backdrop, dialog.cr-dialog::backdrop { background: rgba(11, 9, 10,
   ro.observe($('d1'));
 
   render();
-  if (zugang) laden().finally(() => { crLaden(); akLaden(); }); else { zugangOeffnen(); crLaden(); akLaden(); }
+  if (zugang) laden().finally(() => { crLaden(); akLaden(); koLaden(); }); else { zugangOeffnen(); crLaden(); akLaden(); koLaden(); }
 })();
 </script>
 </body></html>
